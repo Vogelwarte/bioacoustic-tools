@@ -1,7 +1,6 @@
 #=============================================================================#
 # SHINY_APP_RAREFACTION.R
 # Acoustic Sampling Rarefaction — Shiny Application
-# Author: Amandine SERRURIER 
 #
 # Tabs:
 #   1. Data import      – load & filter BirdNET output files
