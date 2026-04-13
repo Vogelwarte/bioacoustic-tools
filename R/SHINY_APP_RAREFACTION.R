@@ -505,8 +505,9 @@ ui <- fluidPage(
           div(
             class = "guide-important",
             p(strong("Important")),
-            p("If path parsing is not applied, the same coordinates are used for the whole dataset. This is suitable when all recordings come from the same area, but it may reduce the accuracy of solar-event calculations if recorders are far apart.")
-          )
+            p("If path parsing is not applied, the same coordinates are used for the whole dataset. This is suitable when all recordings come from the same area, but it may reduce the accuracy of solar-event calculations if recorders are far apart."),
+            p("If path parsing is applied, recorder- or site-specific coordinates must be provided in a multiple-coordinate file. Conversely, if path parsing is not applied, a single pair of coordinates must be used for the whole dataset.")
+            )
         ),
         
         ###User guide TAB2 ----

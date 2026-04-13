@@ -91,15 +91,32 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 ### How to proceed
 
 1.  Browse one or several BirdNET files.
+
 2.  Click **`IMPORT AND PREVIEW`**.
+
 3.  Optional: use the path preview to identify where site and recorder names are stored in the file path. Assign the position of your information (e.g. `V1 = site`).
+
 4.  Select the corresponding path columns and click **`Parse path`**.
+
 5.  Apply the desired filters.
+
 6.  Assign one pair of coordinates for the whole dataset, or upload recorder-specific coordinates. Recorder-specific coordinates must be in a `csv`, `txt`, or `xlsx` file, and the location name must exactly match the name defined during path parsing.
+
 7.  Select the timezone. Coordinates and timezone are used to calculate solar events (`dawn`, `sunrise`, `sunset`, `dusk`).
 
-> **Important**\
-> If path parsing is not applied, the same coordinates are used for the whole dataset. This is suitable when all recordings come from the same area, but it may reduce the accuracy of solar-event calculations if recorders are far apart.
+    <div>
+
+    > **Important**\
+    >
+    > -   If path parsing is not applied, the same coordinates are used for the whole dataset. This is suitable when all recordings come from the same area, but it may reduce the accuracy of solar-event calculations if recorders are far apart.
+    >
+    > -   <div>
+    >
+    >     If path parsing is applied, recorder- or site-specific coordinates must be provided in a multiple-coordinate file. Conversely, if path parsing is not applied, a single pair of coordinates must be used for the whole dataset.
+    >
+    >     </div>
+
+    </div>
 
 <img src="R/www/TAB1.png" alt="TAB1" width="600"/>
 
