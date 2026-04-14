@@ -40,6 +40,10 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 **Required columns** (BirdNET Raven format defaults, auto-standardised with `make.names()`):
 
+::: {#comment .text style="color: darkred;"}
+Add also the non standardised name (like Begin.Time..s.) in the table.
+:::
+
 | Column           | Description                                      |
 |------------------|--------------------------------------------------|
 | `Begin.Path`     | Full path to the source audio file               |
