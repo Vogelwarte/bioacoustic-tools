@@ -2028,6 +2028,16 @@ server <- function(input, output, session) {
               sp_dt  <- as.data.table(res$species)
               sp_col <- if ("species" %in% names(sp_dt)) "species" else
                 names(sp_dt)[which(sapply(sp_dt, function(x) is.character(x) || is.factor(x)))[1]]
+             
+            #   if (!is.null(sp_col) && "date" %in% names(sp_dt)) {
+            #     n_species_detected <- round(
+            #       mean(
+            #         sp_dt[, .(n = uniqueN(get(sp_col))), by = date]$n
+            #       ), 1)
+            #   } else if (!is.null(sp_col)) {
+            #     n_species_detected <- length(unique(sp_dt[[sp_col]]))
+            #   }
+            # }
               if (!is.null(sp_col)) n_species_detected <- length(unique(sp_dt[[sp_col]]))
             }
             
