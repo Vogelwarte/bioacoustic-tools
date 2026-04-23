@@ -68,7 +68,7 @@ split_path_matrix_preview <- function(x, sep = "/", n_preview = 20L) {
   split_path_matrix(x, sep = sep)
 }
 
-
+#Erase filters
 
 # ---- Time-window utilities ----
 
@@ -438,3 +438,4 @@ compute_richness <- function(dt, schedule,
   
   return(resultat)
 }
+

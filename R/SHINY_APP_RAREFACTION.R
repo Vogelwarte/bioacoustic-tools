@@ -117,15 +117,27 @@ ui <- fluidPage(
           actionButton("apply_parsing", "Parse path"),
           
           hr(),
+          h4("Date filter"),
+          dateRangeInput(
+            "date_subset",
+            "Select time window"
+          ),
+          fluidRow(
+            column(6, actionButton("apply_date_filter", "Filter dates")),
+            column(6, actionButton("reset_date_filter", "Reset dates"))
+          ),
+          
+          hr(),
           
           h4("Filter data"),
           numericInput("min_conf", "Min confidence", value = 0, min = 0, max = 1, step = 0.01),
-          dateRangeInput(
-            "date_subset",
-            "Select time window",
-            start = "2024-06-01",
-            end   = "2024-06-09"
-          ),
+          # dateRangeInput(
+          #   "date_subset",
+          #   "Select time window"
+          #   # ,
+          #   # start = "2024-06-01",
+          #   # end   = "2024-06-09"
+          # ),
           uiOutput("site_ui"),
           uiOutput("rec_ui"),
           uiOutput("year_ui"),
@@ -702,7 +714,15 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   message(Sys.time(), " session launched")
-  
+  rv_filters <- reactiveValues(
+    date_active = FALSE,
+    date_range  = NULL,
+    min_conf    = 0,
+    site        = NULL,
+    recorder    = NULL,
+    year        = NULL,
+    species     = NULL
+  )
   # Store values between tabs----
   values <- reactiveValues(
     summary_richness    = NULL,
@@ -764,6 +784,16 @@ server <- function(input, output, session) {
     updateSelectInput(session, "rec_col",  selected = "None")
   })
   
+  observeEvent(input$apply_date_filter, {
+    req(input$date_subset)
+    rv_filters$date_active <- TRUE
+    rv_filters$date_range  <- input$date_subset
+  })
+  
+  observeEvent(input$reset_date_filter, {
+    rv_filters$date_active <- FALSE
+    rv_filters$date_range  <- NULL
+  })
   ## Extract metadata and standardise column names ----
   dt_parsed <- reactive({
     req(bn_tables())
@@ -869,10 +899,35 @@ server <- function(input, output, session) {
   })
   
   dt_filtered <- reactiveVal(NULL)
+
+
+  recompute_filters <- function() {
+    req(dt_for_app())
+    dt <- copy(dt_for_app())
+    
+    if (isTRUE(rv_filters$date_active) &&
+        !is.null(rv_filters$date_range) &&
+        length(rv_filters$date_range) == 2) {
+      dt <- dt[
+        as.Date(date) >= rv_filters$date_range[1] &
+          as.Date(date) <= rv_filters$date_range[2]
+      ]
+    }
+    
+    if (!is.null(rv_filters$min_conf)) dt <- dt[conf >= rv_filters$min_conf]
+    if (!is.null(rv_filters$site))     dt <- dt[site %in% rv_filters$site]
+    if (!is.null(rv_filters$recorder)) dt <- dt[recorder %in% rv_filters$recorder]
+    if (!is.null(rv_filters$year))     dt <- dt[year %in% rv_filters$year]
+    if (!is.null(rv_filters$species))  dt <- dt[species %in% rv_filters$species]
+    
+    dt_filtered(dt)
+  }
   
-## Reset filtered dataset when new data is loaded ----
+  
+  
+# ## Reset filtered dataset when new data is loaded ----
   observeEvent(input$load_data, { dt_filtered(NULL) })
-  
+
   ## Current working dataset (filtered if applied) ----
   dt_raw <- reactive({
     req(dt_for_app())
@@ -881,36 +936,59 @@ server <- function(input, output, session) {
     filtered
   })
   
-  ## Apply filters ----
-  observeEvent(input$apply_filters, {
-    req(dt_for_app())
-    withProgress(message = "Filtering data...", value = 0, {
+  
+  observeEvent(input$apply_date_filter, {
+    req(input$date_subset)
+    
+    withProgress(message = "Filtering dates...", value = 0, {
       
-      dt <- copy(dt_for_app())
+      rv_filters$date_active <- TRUE
+      rv_filters$date_range  <- input$date_subset
       
-      incProgress(0.2, detail = "Filtering by date")
-      if (!is.null(input$date_subset) && length(input$date_subset) == 2) {
-        dt <- dt[as.Date(date) >= input$date_subset[1] & as.Date(date) <= input$date_subset[2]]
-      }
-      
-      incProgress(0.1, detail = "Filtering by confidence")
-      if (!is.null(input$min_conf)) dt <- dt[conf >= input$min_conf]
-      
-      incProgress(0.1, detail = "Filtering by site / recorder")
-      if (!is.null(input$site))     dt <- dt[site     %in% input$site]
-      if (!is.null(input$recorder)) dt <- dt[recorder %in% input$recorder]
-      
-      incProgress(0.2, detail = "Filtering by year")
-      if (!is.null(input$year)) dt <- dt[year %in% input$year]
-      
-      incProgress(0.2, detail = "Filtering by species")
-      if (!is.null(input$species)) dt <- dt[species %in% input$species]
-      
-      incProgress(0.2, detail = "Done")
-      dt_filtered(dt)
+      incProgress(1, detail = "Done")
+      recompute_filters()
     })
   })
-  
+  observeEvent(input$apply_filters, {
+    withProgress(message = "Filtering data...", value = 0, {
+      
+      rv_filters$min_conf <- input$min_conf
+      rv_filters$site     <- input$site
+      rv_filters$recorder <- input$recorder
+      rv_filters$year     <- input$year
+      rv_filters$species  <- input$species
+      
+      incProgress(1, detail = "Done")
+      recompute_filters()
+    })
+  })
+  # observeEvent(input$apply_date_filter, {
+
+  # observeEvent(input$apply_filters, {
+  #   req(dt_for_app())
+  #   withProgress(message = "Filtering data...", value = 0, {
+  #     
+  #     dt <- copy(dt_for_app())
+  #     
+  #     incProgress(0.2, detail = "Filtering by confidence")
+  #     if (!is.null(input$min_conf)) dt <- dt[conf >= input$min_conf]
+  #     
+  #     incProgress(0.2, detail = "Filtering by site / recorder")
+  #     if (!is.null(input$site))     dt <- dt[site     %in% input$site]
+  #     if (!is.null(input$recorder)) dt <- dt[recorder %in% input$recorder]
+  #     
+  #     incProgress(0.2, detail = "Filtering by year")
+  #     if (!is.null(input$year)) dt <- dt[year %in% input$year]
+  #     
+  #     incProgress(0.2, detail = "Filtering by species")
+  #     if (!is.null(input$species)) dt <- dt[species %in% input$species]
+  #     
+  #     incProgress(0.2, detail = "Done")
+  #     dt_filtered(dt)
+  #   })
+  # })
+
+ 
   ### Filter selector UIs ----
   output$site_ui    <- renderUI({ req(dt_for_app()); selectInput("site",     "Site",    unique(dt_for_app()$site),             multiple = TRUE) })
   output$rec_ui     <- renderUI({ req(dt_for_app()); selectInput("recorder", "Recorder",unique(dt_for_app()$recorder),         multiple = TRUE) })
