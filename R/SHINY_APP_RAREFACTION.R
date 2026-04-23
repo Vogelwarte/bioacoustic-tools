@@ -123,8 +123,8 @@ ui <- fluidPage(
             "Select time window"
           ),
           fluidRow(
-            column(6, actionButton("apply_date_filter", "Filter dates")),
-            column(6, actionButton("reset_date_filter", "Reset dates"))
+            column(6, actionButton("apply_date_filter", "Filter dates"))
+            
           ),
           
           hr(),
