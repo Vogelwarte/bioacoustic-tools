@@ -1,6 +1,6 @@
 # Bioacoustic tool(s)
 
-This repository hosts Shiny web applications for analyzing and visualizing bird detection results from BirdNET. **Acoustic Sampling Rarefaction** is a Shiny application designed to evaluate and optimize passive acoustic sampling designs from BirdNET detections.
+This repository hosts Shiny web applications for analyzing and visualizing bird detection results from BirdNET. **SCORE** is a Shiny application designed to evaluate and optimize passive acoustic sampling designs from BirdNET detections.
 
 The app uses an existing BirdNET dataset to simulate how different recording schedules would perform on the same data. It helps users compare sampling effort and species richness under alternative recording schedules. The goal is to support practical decisions on recording protocols while retaining a high proportion of species richness.
 
@@ -270,4 +270,4 @@ Add also the non standardised name (like Begin.Time..s.) in the table.
 
 This application is designed to work with output from [BirdNET](https://github.com/kahst/BirdNET-Analyzer), a powerful AI-based bird sound identification system developed by the K. Lisa Yang Center for Conservation Bioacoustics at the Cornell Lab of Ornithology.
 
-Based on the manuscript blabla journal avian biology. contributors JNP , Urs Chris Sch, Chris Sahli, Gabriel Alain stéphane.
+Associated manuscript in preparation. Contribution from Amandine Serrurier, Christian Schano, Jean-Nicolas Pradervand, Gabriel Marcacci, Christophe Sahli, Stéphane Aubert, Alain Jacot, Urs G. Kormann
