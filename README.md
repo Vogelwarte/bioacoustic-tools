@@ -1,6 +1,6 @@
 # Bioacoustic tool(s)
 
-This repository hosts Shiny web applications for analyzing and visualizing bird detection results from BirdNET. **SCORE** is a Shiny application designed to evaluate and optimize passive acoustic sampling designs from BirdNET detections.
+This repository hosts Shiny web applications for analyzing and visualizing bird detection results from BirdNET. **`SCORE`** is a Shiny application designed to evaluate and optimize passive acoustic sampling designs from BirdNET detections.
 
 The app uses an existing BirdNET dataset to simulate how different recording schedules would perform on the same data. It helps users compare sampling effort and species richness under alternative recording schedules. The goal is to support practical decisions on recording protocols while retaining a high proportion of species richness.
 
