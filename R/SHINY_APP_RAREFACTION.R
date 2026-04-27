@@ -186,7 +186,6 @@ ui <- fluidPage(
         )
       )
     ),
-    
     ## TAB2: UI Duty cycle ----
     tabPanel(
       "2. Duty cycle",
@@ -194,40 +193,208 @@ ui <- fluidPage(
         column(
           width = 3,
           sidebarPanel(
-            checkboxInput("record_24h", "Continuous 24h recording", FALSE),
-            selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
-            selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
-            numericInput("length_morning",  "Fixed duration (h)",    0, min = 0),
-            numericInput("extend_before",   "Extend before (h)",     1),
-            numericInput("extend_after",    "Extend after (h)",      0),
             
-            checkboxInput("use_window2", "Add second daily window", FALSE),
+            ## Recording schedule ----
+            ## 24h recording option ----
+            checkboxInput("record_24h", "Continuous 24h recording", FALSE),
+            
+            ## Recording schedule ----
             conditionalPanel(
-              condition = "input.use_window2 == true",
-              selectInput("start_event2",    "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
-              selectInput("end_event2",      "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
-              numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
-              numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
-              numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
+              condition = "input.record_24h == false",
+              
+              tags$details(
+                open = TRUE,
+                tags$summary(
+                  tags$b("Recording schedule"),
+                  style = "cursor: pointer; margin-bottom: 10px;"
+                ),
+                
+                ## Main daily window ----
+                tags$div(
+                  tags$b("Main daily window"),
+                  style = "display: block; margin-bottom: 8px; color: #555;"
+                ),
+                
+                selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
+                selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
+                numericInput("length_morning", "Fixed duration (h)", 0, min = 0),
+                numericInput("extend_before",  "Extend before (h)",  1),
+                numericInput("extend_after",   "Extend after (h)",   0),
+                
+                tags$hr(style = "margin-top: 15px; margin-bottom: 15px;"),
+                
+                ## Second daily window ----
+                tags$div(
+                  tags$b("Second daily window"),
+                  style = "display: block; margin-bottom: 8px; color: #555;"
+                ),
+                
+                checkboxInput("use_window2", "Add second daily window", FALSE),
+                
+                conditionalPanel(
+                  condition = "input.use_window2 == true",
+                  selectInput("start_event2",     "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
+                  selectInput("end_event2",       "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
+                  numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
+                  numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
+                  numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
+                )
+              ),
+              
+              br()
+            ),
+            ## 24h recording option ----
+            # checkboxInput("record_24h", "Continuous 24h recording", FALSE),
+            # 
+            # ## Recording schedule ----
+            # conditionalPanel(
+            #   condition = "input.record_24h == false",
+            #   
+            #   tags$details(
+            #     open = TRUE,
+            #     tags$summary(
+            #       tags$b("Recording schedule"),
+            #       style = "cursor: pointer; margin-bottom: 10px;"
+            #     ),
+            #     
+            #     selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
+            #     selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
+            #     numericInput("length_morning",  "Fixed duration (h)", 0, min = 0),
+            #     numericInput("extend_before",   "Extend before (h)",  1),
+            #     numericInput("extend_after",    "Extend after (h)",   0)
+            #   ),
+            #   
+            #   br()
+            # ),
+            # 
+            # ## Second daily window ----
+            # conditionalPanel(
+            #   condition = "input.record_24h == false",
+            #   
+            #   tags$details(
+            #     open = FALSE,
+            #     tags$summary(
+            #       tags$b("Second daily window"),
+            #       style = "cursor: pointer; margin-bottom: 10px;"
+            #     ),
+            #     
+            #     checkboxInput("use_window2", "Add second daily window", FALSE),
+            #     
+            #     conditionalPanel(
+            #       condition = "input.use_window2 == true",
+            #       selectInput("start_event2",     "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
+            #       selectInput("end_event2",       "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
+            #       numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
+            #       numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
+            #       numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
+            #     )
+            #   ),
+            #   
+            #   br()
+            # ),
+            # checkboxInput("record_24h", "Continuous 24h recording", FALSE),
+            # 
+            # conditionalPanel(
+            #   condition = "input.record_24h == false",
+            #   
+            #   tags$details(
+            #     open = TRUE,
+            #     tags$summary(
+            #       tags$b("Recording schedule"),
+            #       style = "cursor: pointer; margin-bottom: 10px;"
+            #     ),
+            #     
+            #     selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
+            #     selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
+            #     numericInput("length_morning",  "Fixed duration (h)", 0, min = 0),
+            #     numericInput("extend_before",   "Extend before (h)",  1),
+            #     numericInput("extend_after",    "Extend after (h)",   0)
+            #   ),
+            #   
+            #   br()
+            # ),
+            # tags$details(
+            #   open = TRUE,
+            #   tags$summary(
+            #     tags$b("Recording schedule"),
+            #     style = "cursor: pointer; margin-bottom: 10px;"
+            #   ),
+            #   
+            #   checkboxInput("record_24h", "Continuous 24h recording", FALSE),
+            #   selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
+            #   selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
+            #   numericInput("length_morning",  "Fixed duration (h)",    0, min = 0),
+            #   numericInput("extend_before",   "Extend before (h)",     1),
+            #   numericInput("extend_after",    "Extend after (h)",      0)
+            # ),
+            # 
+            # br(),
+            
+            ## Second daily window ----
+            # tags$details(
+            #   open = FALSE,
+            #   tags$summary(
+            #     tags$b("Second daily window"),
+            #     style = "cursor: pointer; margin-bottom: 10px;"
+            #   ),
+            #   
+            #   checkboxInput("use_window2", "Add second daily window", FALSE),
+            #   conditionalPanel(
+            #     condition = "input.use_window2 == true",
+            #     selectInput("start_event2",    "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
+            #     selectInput("end_event2",      "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
+            #     numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
+            #     numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
+            #     numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
+            #   )
+            # ),
+            # 
+            # br(),
+            
+            ## Duty cycle parameters ----
+            tags$details(
+              open = TRUE,
+              tags$summary(
+                tags$b("Duty cycle parameters"),
+                style = "cursor: pointer; margin-bottom: 10px;"
+              ),
+              
+              numericInput("period_min",      "Min period (min)",    1),
+              numericInput("period_max",      "Max period (min)",   30),
+              numericInput("period_step",     "Step (min)",          5),
+              numericInput("duty_duration",   "Duty duration (min)", 1)
             ),
             
-            numericInput("period_min",      "Min period (min)",   1),
-            numericInput("period_max",      "Max period (min)",  30),
-            numericInput("period_step",     "Step (min)",         5),
-            numericInput("duty_duration",   "Duty duration (min)", 1),
+            br(),
+            
+            ## Other parameters ----
             numericInput("B_temporal",      "Bootstrap",  value = 5, min = 1, step = 1),
             checkboxInput("show_summary",   "Show average + CI", TRUE),
             
-            actionButton("run_temporal",          "Run analysis"),
-            actionButton("return_raref",          "Return rarefaction plot",
-                         style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
-            actionButton("return_heatmap_miss",   "Return missed species plot",
-                         style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
-            actionButton("return_duty_data",      "Return duty cycle data",
-                         style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
+            actionButton("run_temporal", "Run analysis"),
+            
+            actionButton(
+              "return_raref",
+              "Return rarefaction plot",
+              style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"
+            ),
+            
+            actionButton(
+              "return_heatmap_miss",
+              "Return missed species plot",
+              style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"
+            ),
+            
+            actionButton(
+              "return_duty_data",
+              "Return duty cycle data",
+              style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"
+            ),
+            
             width = 12
           )
         ),
+        
         column(
           width = 9,
           fluidRow(
@@ -236,11 +403,65 @@ ui <- fluidPage(
             column(6, plotOutput("duty_plot", height = "150px"))
           ),
           br(),
-          plotlyOutput("plot_temporal",           height = "600px", width = "100%"),
-          plotlyOutput("heatmap_missed_species",  height = "900px", width = "100%")
+          plotlyOutput("plot_temporal",          height = "600px", width = "100%"),
+          plotlyOutput("heatmap_missed_species", height = "900px", width = "100%")
         )
       )
     ),
+    # ## TAB2: UI Duty cycle ----
+    # tabPanel(
+    #   "2. Duty cycle",
+    #   fluidRow(
+    #     column(
+    #       width = 3,
+    #       sidebarPanel(
+    #         checkboxInput("record_24h", "Continuous 24h recording", FALSE),
+    #         selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
+    #         selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
+    #         numericInput("length_morning",  "Fixed duration (h)",    0, min = 0),
+    #         numericInput("extend_before",   "Extend before (h)",     1),
+    #         numericInput("extend_after",    "Extend after (h)",      0),
+    #         
+    #         checkboxInput("use_window2", "Add second daily window", FALSE),
+    #         conditionalPanel(
+    #           condition = "input.use_window2 == true",
+    #           selectInput("start_event2",    "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
+    #           selectInput("end_event2",      "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
+    #           numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
+    #           numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
+    #           numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
+    #         ),
+    #         
+    #         numericInput("period_min",      "Min period (min)",   1),
+    #         numericInput("period_max",      "Max period (min)",  30),
+    #         numericInput("period_step",     "Step (min)",         5),
+    #         numericInput("duty_duration",   "Duty duration (min)", 1),
+    #         numericInput("B_temporal",      "Bootstrap",  value = 5, min = 1, step = 1),
+    #         checkboxInput("show_summary",   "Show average + CI", TRUE),
+    #         
+    #         actionButton("run_temporal",          "Run analysis"),
+    #         actionButton("return_raref",          "Return rarefaction plot",
+    #                      style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
+    #         actionButton("return_heatmap_miss",   "Return missed species plot",
+    #                      style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
+    #         actionButton("return_duty_data",      "Return duty cycle data",
+    #                      style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
+    #         width = 12
+    #       )
+    #     ),
+    #     column(
+    #       width = 9,
+    #       fluidRow(
+    #         column(12, h4("Schedule preview")),
+    #         column(6, plotOutput("sun_plot",  height = "150px")),
+    #         column(6, plotOutput("duty_plot", height = "150px"))
+    #       ),
+    #       br(),
+    #       plotlyOutput("plot_temporal",           height = "600px", width = "100%"),
+    #       plotlyOutput("heatmap_missed_species",  height = "900px", width = "100%")
+    #     )
+    #   )
+    # ),
     
     ## TAB3: UI Time window ----
     tabPanel(
@@ -375,6 +596,7 @@ ui <- fluidPage(
       "User Guide",
       fluidPage(
         tags$head(
+          
           ##User guide CSS styles ----
           tags$style(HTML("
             .guide-main {
@@ -424,7 +646,7 @@ ui <- fluidPage(
             }
           "))
         ),
-        ##User guide Application overview ----
+        ##Application overview ----
         h2("Application overview"),
         
         div(
@@ -486,7 +708,7 @@ ui <- fluidPage(
         
         ##User guide by tab ----
         h2("Guide by tab", tags$span("(click to expand)", style = "font-size: 16px; font-weight: normal;")),
-        ###User guide TAB1 ----
+        ### TAB1 ----
         tags$details(
           tags$summary("1. Data import"),
           p(class = "guide-subtitle", "Purpose of the tab"),
@@ -522,7 +744,7 @@ ui <- fluidPage(
             )
         ),
         
-        ###User guide TAB2 ----
+        ###TAB2 ----
         tags$details(
           tags$summary("2. Duty cycle"),
           p(class = "guide-subtitle", "What is a duty cycle?"),
@@ -571,7 +793,7 @@ ui <- fluidPage(
             )
           )
         ),
-        ###User guide TAB3 ----
+        ###TAB3 ----
         tags$details(
           tags$summary("3. Time window"),
           p(class = "guide-subtitle", "Purpose of the tab"),
@@ -626,7 +848,7 @@ ui <- fluidPage(
             )
           )
         ),
-        ###User guide TAB4 ----
+        ###TAB4 ----
         tags$details(
           tags$summary("4. Multi optimum"),
           p(class = "guide-subtitle", "Purpose"),
@@ -660,7 +882,7 @@ ui <- fluidPage(
             )
           )
         ),
-        ###User guide TAB5 ----
+        ###TAB5 ----
         tags$details(
           tags$summary("5. Target species activity"),
           p(class = "guide-subtitle", "Purpose of the tab"),
@@ -849,7 +1071,7 @@ server <- function(input, output, session) {
     head(preview, 6)
   })
   
-  ## path parser electors ----
+  ## path parser selectors ----
   output$path_parser_ui <- renderUI({
     req(bn_tables())
     dt <- bn_tables()
@@ -900,7 +1122,7 @@ server <- function(input, output, session) {
   
   dt_filtered <- reactiveVal(NULL)
 
-
+#function to accumulate filters together
   recompute_filters <- function() {
     req(dt_for_app())
     dt <- copy(dt_for_app())
@@ -1177,7 +1399,7 @@ server <- function(input, output, session) {
   })
   
   
-  # TAB2: Duty-cycle  ----
+  # TAB2: computation  ----
   
   temporal_results <- eventReactive(input$run_temporal, {
     
@@ -1410,7 +1632,7 @@ server <- function(input, output, session) {
   })
   
   
-  # TAB 2 PLOTS ----
+  # TAB 2 plots ----
   ##bootstrap plot ----
   gg_raref <- reactive({
     req(temporal_results())
@@ -1578,7 +1800,7 @@ server <- function(input, output, session) {
   })
   
   
-  ## Time-window computation ----
+  ## TAB 3 computation ----
   
   grid_results <- eventReactive(input$run_grid, {
     
@@ -1778,7 +2000,7 @@ server <- function(input, output, session) {
   })
   
   
-  # TAB 3 PLOTS ----
+  # TAB 3 plots ----
   ## heatmap W1 ----
   gg_plot_w1 <- reactive({
     res <- grid_results()
@@ -2164,7 +2386,7 @@ server <- function(input, output, session) {
   })
   
   
-  # TAB 4 PLOTS----
+  # TAB 4 plots----
   
   gg_optimum <- reactive({
     dt <- multi_combo()
