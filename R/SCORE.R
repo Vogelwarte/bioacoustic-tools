@@ -142,6 +142,13 @@ ui <- fluidPage(
           uiOutput("rec_ui"),
           uiOutput("year_ui"),
           uiOutput("species_ui"),
+          fileInput(
+            inputId = "species_file",
+            label = "Upload species list",
+            accept = c(".xlsx", ".xls", ".csv")
+          ),
+          
+          helpText("The file must contain one column named: species"), 
           actionButton("apply_filters", "Apply filters"),
           
           hr(),
@@ -726,6 +733,7 @@ ui <- fluidPage(
             tags$li("Optional: use the path preview to identify where site and recorder names are stored in the file path. Assign the position of your information (e.g. V1 = site)."),
             tags$li("Select the corresponding path columns and click ", strong("Parse path"), "."),
             tags$li("Apply the desired filters."),
+            tags$li("The species list selector can be used to select a specific bird community from an external species list. Users can upload an Excel or CSV file containing the species to keep in the analysis.The file must contain a column named exactly `species`. This column should contain the species names, with one species per row. The file may contain additional columns, but these will be ignored by the application.Accepted file formats are `.xlsx`, `.xls`, and `.csv`."),
             tags$li("Assign one pair of coordinates for the whole dataset, or upload recorder-specific coordinates. Recorder-specific coordinates must be in a csv, txt, or xlsx file, and the location name must exactly match the name defined during path parsing."),
             tags$li("Select the timezone. Coordinates and timezone are used to calculate solar events (dawn, sunrise, sunset, dusk).")
           ),
@@ -1145,8 +1153,35 @@ server <- function(input, output, session) {
     dt_filtered(dt)
   }
   
-  
-  
+  ## upload species file  ----
+  observeEvent(input$species_file, {
+    
+    req(input$species_file)
+    
+    ext <- tools::file_ext(input$species_file$name)
+    
+    species_table <- if (ext %in% c("xlsx", "xls")) {
+      readxl::read_excel(input$species_file$datapath)
+    } else {
+      read.csv(input$species_file$datapath)
+    }
+    
+    validate(
+      need("species" %in% names(species_table),
+           "The uploaded file must contain a column named 'species'.")
+    )
+    
+    species_to_select <- species_table$species
+    species_to_select <- trimws(as.character(species_to_select))
+    species_to_select <- unique(species_to_select)
+    species_to_select <- species_to_select[species_to_select != ""]
+    
+    updateSelectizeInput(
+      session,
+      inputId = "species",
+      selected = species_to_select
+    )
+  })
 # ## Reset filtered dataset when new data is loaded ----
   observeEvent(input$load_data, { dt_filtered(NULL) })
 
@@ -1212,6 +1247,7 @@ server <- function(input, output, session) {
 
  
   ### Filter selector UIs ----
+  
   output$site_ui    <- renderUI({ req(dt_for_app()); selectInput("site",     "Site",    unique(dt_for_app()$site),             multiple = TRUE) })
   output$rec_ui     <- renderUI({ req(dt_for_app()); selectInput("recorder", "Recorder",unique(dt_for_app()$recorder),         multiple = TRUE) })
   output$year_ui    <- renderUI({ req(dt_for_app()); selectInput("year",     "Year",    unique(dt_for_app()$year),             multiple = TRUE) })

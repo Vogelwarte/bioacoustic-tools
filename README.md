@@ -103,6 +103,7 @@ Add also the non standardised name (like Begin.Time..s.) in the table.
 4.  Select the corresponding path columns and click **`Parse path`**.
 
 5.  Apply the desired filters.
+The **`species list selector`** can be used to select a specific bird community from an external species list. Users can upload an Excel or CSV file containing the species to keep in the analysis.The file must contain a column named exactly `species`. This column should contain the species names, with one species per row. The file may contain additional columns, but these will be ignored by the application.Accepted file formats are `.xlsx`, `.xls`, and `.csv`.
 
 6.  Assign one pair of coordinates for the whole dataset, or upload recorder-specific coordinates. Recorder-specific coordinates must be in a `csv`, `txt`, or `xlsx` file, and the location name must exactly match the name defined during path parsing.
 
