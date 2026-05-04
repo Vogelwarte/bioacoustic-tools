@@ -1969,11 +1969,22 @@ server <- function(input, output, session) {
         grid_all2[, start_off_h := start_offset_min / 60]
         grid_all2[, duration_h  := duration / 60]
         
-        grid_w2 <- grid_all2[, .(
+        grid_daily2 <- grid_all2[, .(
+          richness = length(unique(unlist(species_w2))),
+          effort   = mean(effort, na.rm = TRUE),
+          species_union = list(unique(unlist(species_w2)))
+        ), by = .(date, start_off_h, duration_h)]
+        
+        grid_w2 <- grid_daily2[, .(
           richness           = mean(richness, na.rm = TRUE),
           effort             = mean(effort,   na.rm = TRUE),
-          n_species_detected = length(unique(unlist(species_w2)))
+          n_species_detected = length(unique(unlist(species_union)))
         ), by = .(start_off_h, duration_h)]
+        # grid_w2 <- grid_all2[, .(
+        #   richness           = mean(richness, na.rm = TRUE),
+        #   effort             = mean(effort,   na.rm = TRUE),
+        #   n_species_detected = length(unique(unlist(species_w2)))
+        # ), by = .(start_off_h, duration_h)]
         
         incProgress(0.7, detail = "Summarising W2...")
         
@@ -2008,26 +2019,63 @@ server <- function(input, output, session) {
                                species_w1, species_w2, SIMPLIFY = TRUE),
           effort      = dur_w1 + dur_w2
         )]
+        grid_comb_daily <- grid_all_comb[, .(
+          richness = length(unique(c(unlist(species_w1), unlist(species_w2)))),
+          richness_w1 = length(unique(unlist(species_w1))),
+          richness_w2 = length(unique(unlist(species_w2))),
+          effort = mean(effort, na.rm = TRUE),
+          species_union = list(unique(c(unlist(species_w1), unlist(species_w2))))
+        ), by = .(date, start_off_h, duration_h, start_off_h2, duration_h2)]
         
-        grid_combined <- grid_all_comb[, .(
-          richness            = mean(richness,    na.rm = TRUE),
-          richness_w1         = mean(richness_w1, na.rm = TRUE),
-          richness_w2         = mean(richness_w2, na.rm = TRUE),
-          effort              = mean(effort,       na.rm = TRUE),
-          n_species_detected  = length(unique(c(unlist(species_w1), unlist(species_w2))))
+        grid_combined <- grid_comb_daily[, .(
+          richness           = mean(richness,    na.rm = TRUE),
+          richness_w1        = mean(richness_w1, na.rm = TRUE),
+          richness_w2        = mean(richness_w2, na.rm = TRUE),
+          effort             = mean(effort,      na.rm = TRUE),
+          n_species_detected = length(unique(unlist(species_union)))
         ), by = .(start_off_h, duration_h, start_off_h2, duration_h2)]
+        # grid_combined <- grid_all_comb[, .(
+        #   richness            = mean(richness,    na.rm = TRUE),
+        #   richness_w1         = mean(richness_w1, na.rm = TRUE),
+        #   richness_w2         = mean(richness_w2, na.rm = TRUE),
+        #   effort              = mean(effort,       na.rm = TRUE),
+        #   n_species_detected  = length(unique(c(unlist(species_w1), unlist(species_w2))))
+        # ), by = .(start_off_h, duration_h, start_off_h2, duration_h2)]
         
         # Clean up large list columns ----
         grid_all_comb[, c("species_w1","species_w2") := NULL]
         
         ### Common normalisation W1, W2, Combined ----
-        max_global <- max(c(grid_w1$richness, grid_w2$richness, grid_combined$richness), na.rm = TRUE)
-        grid_w1[,       richness_pct    := 100 * richness    / max_global]
-        grid_w2[,       richness_pct    := 100 * richness    / max_global]
+        max_global <- max(
+          c(grid_w1$richness, grid_w2$richness, grid_combined$richness),
+          na.rm = TRUE
+        )
+        
+        grid_w1[, richness_pct := 100 * richness / max_global]
+        grid_w2[, richness_pct := 100 * richness / max_global]
+        
         grid_combined[, richness_pct    := 100 * richness    / max_global]
         grid_combined[, richness_w1_pct := 100 * richness_w1 / max_global]
         grid_combined[, richness_w2_pct := 100 * richness_w2 / max_global]
-        
+        # Normalisation W1 et W2 : relative au meilleur des deux
+        # max_w1_w2 <- max(c(grid_w1$richness, grid_w2$richness), na.rm = TRUE)
+        # 
+        # grid_w1[, richness_pct := 100 * richness / max_w1_w2]
+        # grid_w2[, richness_pct := 100 * richness / max_w1_w2]
+        # 
+        # # Normalisation combined : relative au meilleur combined
+        # max_comb <- max(grid_combined$richness, na.rm = TRUE)
+        # 
+        # grid_combined[, richness_pct    := 100 * richness    / max_comb]
+        # grid_combined[, richness_w1_pct := 100 * richness_w1 / max_comb]
+        # grid_combined[, richness_w2_pct := 100 * richness_w2 / max_comb]
+        # max_global <- max(c(grid_w1$richness, grid_w2$richness, grid_combined$richness), na.rm = TRUE)
+        # grid_w1[,       richness_pct    := 100 * richness    / max_global]
+        # grid_w2[,       richness_pct    := 100 * richness    / max_global]
+        # grid_combined[, richness_pct    := 100 * richness    / max_global]
+        # grid_combined[, richness_w1_pct := 100 * richness_w1 / max_global]
+        # grid_combined[, richness_w2_pct := 100 * richness_w2 / max_global]
+        # 
       } else {
         #### W1 only ----
         grid_w1[, richness_pct := 100 * richness / max(grid_w1$richness, na.rm = TRUE)]
@@ -2065,7 +2113,8 @@ server <- function(input, output, session) {
       "<b>Window 1</b>",
       "<br>Start offset: ", round(start_off_h, 2), " h",
       "<br>Duration: ",     round(duration_h,  2), " h",
-      "<br>Richness: ",     round(richness_pct, 1), " %",
+      "<br>Relative Richness: ",     round(richness_pct, 1), " %",
+      "<br>Mean daily richness: ", round(richness, 2),
       "<br>Species: ",      n_species_detected)]
     
     p <- ggplot(df, aes(x = start_off_h, y = duration_h)) +
@@ -2125,6 +2174,7 @@ server <- function(input, output, session) {
       "<br>Start offset: ", round(start_off_h, 2), " h",
       "<br>Duration: ",     round(duration_h,  2), " h",
       "<br>Richness: ",     round(richness_pct, 1), " %",
+      "<br>Mean daily richness: ", round(richness, 2),
       "<br>Species: ",      n_species_detected)]
     
     p <- ggplot(df, aes(x = start_off_h, y = duration_h)) +
@@ -2360,11 +2410,18 @@ server <- function(input, output, session) {
               error = function(e) NULL
             )
             
-            richness_val       <- 0
+            richness_val <- 0
             n_species_detected <- 0L
             
+            all_days_dt <- unique(as.data.table(sched_filt)[, .(date = as.Date(date))])
+            
             if (!is.null(res) && !is.null(res$richness) && nrow(res$richness) > 0) {
-              richness_val <- mean(res$richness$richness, na.rm = TRUE)
+              r_dt <- as.data.table(res$richness)[, .(date = as.Date(date), richness)]
+              r_merged <- merge(all_days_dt, r_dt, by = "date", all.x = TRUE)
+              r_merged[is.na(richness), richness := 0]
+              richness_val <- mean(r_merged$richness, na.rm = TRUE)
+            } else {
+              richness_val <- 0
             }
             if (!is.null(res) && !is.null(res$species) && nrow(res$species) > 0) {
               sp_dt  <- as.data.table(res$species)
@@ -2455,25 +2512,50 @@ server <- function(input, output, session) {
       paste0("<br><br><b>Full battery sets needed:</b><br>",
              paste0(codes, ": ", round((eff_min / 60) / durations, 2), collapse = "<br>"))
     }
-    
     make_tooltip <- function(row, is_pareto = FALSE) {
       base <- paste0(
         if (is_pareto) "Local optimum<br>" else "",
-        "Richness: ",        round(row$richness_pct, 1), "%<br>",
+        "Relative richness: ", round(row$richness_pct, 1), "%<br>",
+        "Mean daily richness: ", round(row$richness, 2), "<br>",
         "Species detected: ", row$n_species_detected, "<br>",
-        "<b>Type:</b> ",      row$window_type, "<br>",
-        "Effort: ",           row$effort, " min — ", round(row$effort / 60, 2), " h<br>"
+        "<b>Type:</b> ", row$window_type, "<br>",
+        "Effort: ", row$effort, " min — ", round(row$effort / 60, 2), " h<br>"
       )
+      
       w1_info <- if (!is.na(row$start1_hour))
-        paste0("<b>Window 1</b><br>Start: ", round(row$start1_hour, 2), " h  Dur: ", round(row$dur1_h, 2), " h<br>")
+        paste0("<b>Window 1</b><br>Start: ", round(row$start1_hour, 2),
+               " h  Dur: ", round(row$dur1_h, 2), " h<br>")
+      
       w2_info <- if (!is.na(row$start2_hour))
-        paste0("<b>Window 2</b><br>Start: ", round(row$start2_hour, 2), " h  Dur: ", round(row$dur2_h, 2), " h<br>")
-      paste0(base,
-             if (!is.na(row$start1_hour)) w1_info else "",
-             if (!is.na(row$start2_hour)) w2_info else "",
-             "Period: ", row$duty_period,
-             if (is_pareto) battery_tooltip(row$effort) else "")
+        paste0("<b>Window 2</b><br>Start: ", round(row$start2_hour, 2),
+               " h  Dur: ", round(row$dur2_h, 2), " h<br>")
+      
+      paste0(
+        base,
+        if (!is.na(row$start1_hour)) w1_info else "",
+        if (!is.na(row$start2_hour)) w2_info else "",
+        "Period: ", row$duty_period,
+        if (is_pareto) battery_tooltip(row$effort) else ""
+      )
     }
+    # make_tooltip <- function(row, is_pareto = FALSE) {
+    #   base <- paste0(
+    #     if (is_pareto) "Local optimum<br>" else "",
+    #     "Richness: ",        round(row$richness_pct, 1), "%<br>",
+    #     "Species detected: ", row$n_species_detected, "<br>",
+    #     "<b>Type:</b> ",      row$window_type, "<br>",
+    #     "Effort: ",           row$effort, " min — ", round(row$effort / 60, 2), " h<br>"
+    #   )
+    #   w1_info <- if (!is.na(row$start1_hour))
+    #     paste0("<b>Window 1</b><br>Start: ", round(row$start1_hour, 2), " h  Dur: ", round(row$dur1_h, 2), " h<br>")
+    #   w2_info <- if (!is.na(row$start2_hour))
+    #     paste0("<b>Window 2</b><br>Start: ", round(row$start2_hour, 2), " h  Dur: ", round(row$dur2_h, 2), " h<br>")
+    #   paste0(base,
+    #          if (!is.na(row$start1_hour)) w1_info else "",
+    #          if (!is.na(row$start2_hour)) w2_info else "",
+    #          "Period: ", row$duty_period,
+    #          if (is_pareto) battery_tooltip(row$effort) else "")
+    # }
     
     dt[,           tooltip        := mapply(make_tooltip, split(dt,           seq_len(nrow(dt))),           FALSE)]
     pareto_front[, tooltip_pareto := mapply(make_tooltip, split(pareto_front, seq_len(nrow(pareto_front))), TRUE)]
