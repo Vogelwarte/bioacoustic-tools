@@ -148,7 +148,7 @@ ui <- fluidPage(
             accept = c(".xlsx", ".xls", ".csv")
           ),
           
-          helpText("The file must contain one column named: species"), 
+          helpText("The file must contain a column named: 'species'"), 
           actionButton("apply_filters", "Apply filters"),
           
           hr(),
@@ -366,8 +366,8 @@ ui <- fluidPage(
                 style = "cursor: pointer; margin-bottom: 10px;"
               ),
               
-              numericInput("period_min",      "Min period (min)",    1),
-              numericInput("period_max",      "Max period (min)",   30),
+              numericInput("period_min",      "Min cycle (min)",    1),
+              numericInput("period_max",      "Max cycle (min)",   30),
               numericInput("period_step",     "Step (min)",          5),
               numericInput("duty_duration",   "Duty duration (min)", 1)
             ),
@@ -574,11 +574,11 @@ ui <- fluidPage(
         sidebarPanel(
           width = 2,
           selectizeInput("target_species", "Target species", choices = NULL, multiple = TRUE),
-          numericInput("target_period_min",      "Period min",             1,  min = 1),
-          numericInput("target_period_max",      "Period max",            60,  min = 1),
-          numericInput("target_period_step",     "Period step",            5,  min = 1),
+          numericInput("target_period_min",      "Cycle min",             1,  min = 1),
+          numericInput("target_period_max",      "Cycle max",            60,  min = 1),
+          numericInput("target_period_step",     "Cycle step",            5,  min = 1),
           numericInput("target_duty_duration",   "Duty duration (min)",    1,  min = 1),
-          numericInput("target_nb_duty",         "Number of duty per period", 1, min = 1),
+          numericInput("target_nb_duty",         "Number of duty per cycle", 1, min = 1),
           selectInput(
             "time_resolution",
             "Time resolution plot",
@@ -762,7 +762,7 @@ ui <- fluidPage(
           p(class = "guide-subtitle", "Purpose of the tab"),
           tags$ul(
             tags$li("Evaluate how species richness changes under different duty-cycle schedules within the same fixed daily recording window."),
-            tags$li("The user defines a range of duty-cycle values to test, from a minimum to a maximum period."),
+            tags$li("The user defines a range of duty-cycle values to test, from a minimum to a maximum cycle."),
             tags$li("Compare duty-cycle designs by visualising richness retention and recording effort."),
             tags$li("Identify which species are most likely to be missed under reduced effort.")
           ),
@@ -772,9 +772,9 @@ ui <- fluidPage(
             tags$li(strong("Extend before / after: "), "shift the window earlier or later relative to the selected solar events."),
             tags$li(strong("Fixed duration: "), "if used, the window ends after a fixed number of hours rather than at the end event."),
             tags$li(strong("Second daily window: "), "optionally add a second recording window with its own settings."),
-            tags$li(strong("Min / Max period (min): "), "the smallest and largest recording interval to test."),
-            tags$li(strong("Step (min): "), "the increment between tested period values."),
-            tags$li(strong("Duty duration (min): "), "the duration of each individual recording block within a period."),
+            tags$li(strong("Min / Max cycle (min): "), "the smallest and largest recording interval to test."),
+            tags$li(strong("Step (min): "), "the increment between tested cycle values."),
+            tags$li(strong("Duty duration (min): "), "the duration of each individual recording block within a cycle."),
             tags$li(strong("Bootstrap: "), "number of bootstrap replicates used to assess variability across survey days."),
             tags$li(strong("Show average + CI: "), "overlay the mean richness-effort curve and its 95% bootstrap confidence band."),
             div(style = "color: #A3B3FF; margin-top: 8px; margin-bottom: 8px;",
@@ -848,7 +848,7 @@ ui <- fluidPage(
               of all Window 1 and Window 2 candidates.") ,
               div(style = "color: #A3B3FF; margin-top: 8px; margin-bottom: 8px;","for example 12 start offsets × 12 durations per
                   window produces 144 × 144 = 20 736 combined designs, each of which must be evaluated for
-                  every duty-cycle period in Tab 4. A value of 3 reduces the combined set by more
+                  every duty-cycle in Tab 4. A value of 3 reduces the combined set by more
                   than 94% while preserving the designs most likely to appear on the Pareto frontier, since a
                   poorly-performing window is unlikely to produce an optimal combined design regardless of what
                   it is paired with"
@@ -901,12 +901,12 @@ ui <- fluidPage(
           p(class = "guide-subtitle", "User inputs"),
           tags$ul(
             tags$li("Select one or several target species."),
-            tags$li("Choose a range of duty-cycle periods to test (same parameters as Tab 2)."),
+            tags$li("Choose a range of duty-cycle to test (same parameters as Tab 2)."),
             tags$li("Choose the time resolution at which detections are aggregated for display.")
           ),
           p(class = "guide-subtitle", "Main calculations"),
           tags$ul(
-            tags$li("For each tested duty-cycle period, the app simulates subsampling of the focal species detections."),
+            tags$li("For each tested duty-cycle, the app simulates subsampling of the focal species detections."),
             tags$li("Detections falling into successive time bins across dates are counted.")
           ),
           p(class = "guide-subtitle", "Outputs"),
@@ -1430,7 +1430,7 @@ server <- function(input, output, session) {
       ) +
       scale_x_continuous(limits = c(0, 720), breaks = seq(0, 720, by = 60),
                          labels = function(x) sprintf("%02d:00", x / 60)) +
-      scale_y_discrete(name = "Period (min)", labels = function(x) paste(x, "min")) +
+      scale_y_discrete(name = "cycle (min)", labels = function(x) paste(x, "min")) +
       base_theme
   })
   
@@ -1451,12 +1451,13 @@ server <- function(input, output, session) {
     
     ## Build schedules ----
     withProgress(message = "Creating schedules...", value = 0, {
+      message(Sys.time(), " temporal rarefaction: start-enter")
       
       recs     <- unique(local_dt$recorder)
       solar_dt <- setDT(solar_table())
       
       schedules <- lapply(seq_len(nrow(param_grid)), function(i) {
-        
+        message(Sys.time(), " temporal rarefaction: going")
         p <- param_grid[i]
         
         sched_rec_list <- lapply(recs, function(r) {
@@ -1497,7 +1498,7 @@ server <- function(input, output, session) {
           sched_r[, recorder := r]
           sched_r
         })
-        
+        message(Sys.time(), " temporal rarefaction: finish")
         sched <- rbindlist(sched_rec_list)
         setattr(sched, "period",        p$period)
         setattr(sched, "duty_duration", p$duty_duration)
@@ -1509,6 +1510,7 @@ server <- function(input, output, session) {
     
     ## Store experimental design metadata for Tab 4 ----
     values$experimental_domain <- list(
+     
       timezone = input$timezone,
       w1 = list(start_event = input$start_event, end_event = input$end_event,
                 length = input$length_morning, extend_before = input$extend_before,
@@ -1521,7 +1523,7 @@ server <- function(input, output, session) {
     
     ## Bootstrap loop ----
     withProgress(message = "Running bootstrap iterations...", value = 0, {
-      
+      message(Sys.time(), " temporal rarefaction: re-renter")
       all_results <- vector("list", input$B_temporal)
       
       if (!is.data.table(local_dt)) local_dt <- as.data.table(local_dt)
@@ -1533,7 +1535,7 @@ server <- function(input, output, session) {
       
       schedule_periods <- sapply(values$schedules, function(s) attr(s, "period"))
       n_schedules      <- length(values$schedules)
-      
+      message(Sys.time(), " temporal rarefaction: bootstrap")
       ## sum total effort ----
       filtered_dates_dt <- data.table(date = unique(as.Date(local_dt$date)))
       schedule_efforts  <- sapply(values$schedules, function(s) {
@@ -1605,6 +1607,7 @@ server <- function(input, output, session) {
           
           one_bootstrap[[i]] <- data.table(
             period           = schedule_periods[i],
+            duty_duration    = attr(values$schedules[[i]], "duty_duration"),
             effort           = schedule_efforts[i],
             richness         = r_mean,
             bootstrap        = b,
@@ -1616,6 +1619,7 @@ server <- function(input, output, session) {
       }
       
       summary_richness <- rbindlist(all_results)
+      summary_richness[, duty_cycle_label := paste0(duty_duration, "/", period)] 
       summary_richness[, richness_pct        := 100 * richness / max(richness), by = bootstrap]
       summary_richness[, n_species_detected  := lengths(species_detected)]
       
@@ -1688,11 +1692,13 @@ server <- function(input, output, session) {
       aes(x = effort, y = richness_pct, group = bootstrap, color = factor(bootstrap))
     ) +
       geom_line(alpha = 0.5, aes(text = paste0(
-        "Effort: ", .data$effort, " min — ", round(.data$effort / 60, 2), " h",
+        "<br>Duty cycle: ", .data$duty_cycle_label,
+        "<br>Effort: ", .data$effort, " min — ", round(.data$effort / 60, 2), " h",
         "<br>Richness: ", round(.data$richness_pct, 1), "%",
         "<br>Species detected: ", .data$n_species_detected,
         "<br>Bootstrap ", bootstrap))) +
       geom_point(alpha = 0.5, aes(text = paste0(
+        "<br>Duty cycle: ", .data$duty_cycle_label,
         "Effort: ", .data$effort, " min — ", round(.data$effort / 60, 2), " h",
         "<br>Richness: ", round(.data$richness_pct, 1), "%",
         "<br>Species detected: ", .data$n_species_detected,
@@ -1733,11 +1739,11 @@ server <- function(input, output, session) {
     
     ggplot(missed_summary, aes(x = period, y = species_missed, fill = N)) +
       geom_tile(aes(text = paste0(
-        "Species: ", species_missed, "\nPeriod: ", period, " min\nTimes missed: ", N
+        "Species: ", species_missed, "\nCycle: ", period, " min\nTimes missed: ", N
       )), color = "white", width = period_step, height = 1) +
       scale_fill_viridis_c(option = "D", name = "# bootstraps missed",
                            limits = c(0, max(missed_summary$N, na.rm = TRUE))) +
-      scale_x_continuous(name = "Period (min)",
+      scale_x_continuous(name = "Cycle (min)",
                          breaks = seq(period_min, period_max, by = period_step),
                          expand = c(0, 0)) +
       labs(y = "Species", title = "Species missed across duty cycles") +
