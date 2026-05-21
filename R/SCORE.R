@@ -24,7 +24,11 @@ library(DT)
 library(scico)
 library(plotly)
 library(stringr)
-
+library(metR)
+rsconnect::forgetDeployment()
+rsconnect::setAccountInfo(name='vogelwarte',
+                          token='5FA01481ECE5F33483C37F69731D3CF9',
+                          secret='bBVKSYJlP/1Xz2Ynz8FuwxotsbgoQQTRrKekRXh7')
 
 # Shiny options ----
 
@@ -2116,9 +2120,11 @@ server <- function(input, output, session) {
       "<br>Relative Richness: ",     round(richness_pct, 1), " %",
       "<br>Mean daily richness: ", round(richness, 2),
       "<br>Species: ",      n_species_detected)]
-    
+  
+   
     p <- ggplot(df, aes(x = start_off_h, y = duration_h)) +
-      geom_contour(aes(z = richness_pct), binwidth = 5, color = "grey89", linewidth = 0.2) +
+      geom_contour(aes(z = richness_pct), binwidth = 5, color = "grey89", linewidth = 0.2, show.legend= TRUE) +
+
       geom_tile(aes(fill = richness_pct, text = tooltip), color = "grey89", linewidth = 0.5) +
       scale_fill_scico(palette = "oslo", name = "Mean richness (%)", direction = -1) +
       labs(x = paste0("Start offset relative to ", input$grid_event, " (hours)"),
@@ -2132,7 +2138,7 @@ server <- function(input, output, session) {
                    inherit.aes = FALSE, color = "grey89", linewidth = 0.1) +
       geom_segment(data = grid_h, aes(x = xmin, xend = xmax, y = y, yend = y),
                    inherit.aes = FALSE, color = "grey89", linewidth = 0.1)
-    
+
     if (isTRUE(input$show_frontier)) {
       p <- p + geom_point(data = frontier,
                           aes(start_off_h, duration_h,

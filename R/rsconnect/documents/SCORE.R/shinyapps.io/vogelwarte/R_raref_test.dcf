@@ -1,0 +1,12 @@
+name: R_raref_test
+title: R_raref_test
+username: vogelwarte
+account: vogelwarte
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17391601
+bundleId: 12016934
+url: https://vogelwarte.shinyapps.io/R_raref_test/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
