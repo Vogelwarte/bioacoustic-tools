@@ -28,7 +28,7 @@ To run the App, clone the repository and use the following command in R:
 shiny::runApp("path/to/SCORE.R")
 ```
 
-or open the `app.R` file in RStudio and click "Run App".
+or open the `SCORE.R` file in RStudio and click "Run App".
 
 ### Common Functions
 
