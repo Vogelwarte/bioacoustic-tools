@@ -25,12 +25,15 @@ library(scico)
 library(plotly)
 library(stringr)
 library(metR)
-rsconnect::forgetDeployment()
-rsconnect::setAccountInfo(name='vogelwarte',
-                          token='5FA01481ECE5F33483C37F69731D3CF9',
-                          secret='bBVKSYJlP/1Xz2Ynz8FuwxotsbgoQQTRrKekRXh7')
+# rsconnect::terminateApp("R_raref_test")
+# rsconnect::forgetDeployment()
+# rsconnect::setAccountInfo(name='vogelwarte',
+#                           token='5FA01481ECE5F33483C37F69731D3CF9',
+#                           secret='bBVKSYJlP/1Xz2Ynz8FuwxotsbgoQQTRrKekRXh7')
+# 
 
-# Shiny options ----
+# https://vogelwarte.shinyapps.io/SCORE_online/
+# # Shiny options ----
 
 options(
   shiny.maxRequestSize  = 8 * 1024^3,   # 8 GB upload limit

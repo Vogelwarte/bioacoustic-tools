@@ -40,9 +40,8 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 **Required columns** (BirdNET Raven format defaults, auto-standardised with `make.names()`):
 
-::: {#comment .text style="color: darkred;"}
-Add also the non standardised name (like Begin.Time..s.) in the table.
-:::
+> **Example**\
+> Add also the non standardised name (like Begin.Time..s.) in the table.
 
 | Column           | Description                                      |
 |------------------|--------------------------------------------------|
@@ -78,7 +77,7 @@ Add also the non standardised name (like Begin.Time..s.) in the table.
 
 **In each Tab, you can download data table associated with analysis and each ggplot object separatly using the `ruturn object` buttons. They will appear in the global environement after closing the app.**
 
-<img src="R/www/scheme_dark.png" alt="Workflow illustration" width="500"/>
+<img src="R/www/big_workflow.jpg" alt="Workflow illustration" width="500"/>
 
 ## Features
 
@@ -102,8 +101,7 @@ Add also the non standardised name (like Begin.Time..s.) in the table.
 
 4.  Select the corresponding path columns and click **`Parse path`**.
 
-5.  Apply the desired filters.
-The **`species list selector`** can be used to select a specific bird community from an external species list. Users can upload an Excel or CSV file containing the species to keep in the analysis.The file must contain a column named exactly `species`. This column should contain the species names, with one species per row. The file may contain additional columns, but these will be ignored by the application.Accepted file formats are `.xlsx`, `.xls`, and `.csv`.
+5.  Apply the desired filters. The **`species list selector`** can be used to select a specific bird community from an external species list. Users can upload an Excel or CSV file containing the species to keep in the analysis.The file must contain a column named exactly `species`. This column should contain the species names, with one species per row. The file may contain additional columns, but these will be ignored by the application.Accepted file formats are `.xlsx`, `.xls`, and `.csv`.
 
 6.  Assign one pair of coordinates for the whole dataset, or upload recorder-specific coordinates. Recorder-specific coordinates must be in a `csv`, `txt`, or `xlsx` file, and the location name must exactly match the name defined during path parsing.
 
