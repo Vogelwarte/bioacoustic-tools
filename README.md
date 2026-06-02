@@ -34,7 +34,7 @@ shiny::runApp("path/to/SCORE.R")
 
 or open the `SCORE.R` file in RStudio and click "Run App".
 
-The SCORE app is also avaialble online at <https://vogelwarte.shinyapps.io/SCORE_online> , However we do not recommend to analyse your dataset with the online App as the computation time is **strongly** affected and the weight of input dataset might be **limited**.
+The SCORE app is also avaialble online at <https://vogelwarte.shinyapps.io/SCORE_online> , however we do not recommend to analyse your dataset with the online App as the computation time is **strongly** affected and the weight of input dataset might be **limited**.
 
 ### Common Functions
 
@@ -83,7 +83,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 **In each Tab, you can download data table associated with analysis and each ggplot object separatly using the `ruturn object` buttons. They will appear in the global environement after closing the app.**
 
-<img src="R/www/big_workflow.jpg" alt="Workflow illustration" width="900"/>
+<img src="R/www/big_workflow.jpg" alt="Workflow illustration" width="1200"/>
 
 ## Features
 
@@ -127,7 +127,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
     </div>
 
-<img src="R/www/TAB1.png" alt="TAB1" width="900"/>
+<img src="R/www/TAB1.png" alt="TAB1" width="1200"/>
 
 ## 2. Duty cycle
 
@@ -171,7 +171,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 -   **`Missed-species heatmap`:** shows how often each species goes undetected at each duty-cycle setting compared to continuous recording.
 
-<img src="R/www/TAB2.png" alt="TAB2" width="900"/>
+<img src="R/www/TAB2.png" alt="TAB2" width="1200"/>
 
 ## 3. Time window
 
@@ -211,7 +211,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 > **Important** - This tab identifies efficient recording windows, not duty-cycle designs. - If tested windows extend beyond the real recording coverage of the dataset, richness may be underestimated. - When both windows are active, the number of candidate combined designs grows as the product of all `Window 1` and `Window 2` candidates.
 
-<img src="R/www/TAB3.png" alt="TAB3" width="900"/>
+<img src="R/www/TAB3.png" alt="TAB3" width="1200"/>
 
 ## 4. Multi optimum
 
@@ -239,7 +239,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 > **Important** - This tab is the final decision-support step of the application. - The optimisation criterion is mean daily richness, not cumulative seasonal richness.
 
-<img src="R/www/TAB4.png" alt="TAB4" width="900"/>
+<img src="R/www/TAB4.png" alt="TAB4" width="1200"/>
 
 ------------------------------------------------------------------------
 
@@ -267,7 +267,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 > **Important** - This tab is descriptive rather than optimising. - It visualises temporal activity patterns but does not identify optimal richness-effort trade-offs.
 
-<img src="R/www/TAB5.png" alt="TAB5" width="900"/>
+<img src="R/www/TAB5.png" alt="TAB5" width="1200"/>
 
 ------------------------------------------------------------------------
 
