@@ -25,7 +25,7 @@ install.packages(c(
 To run the App, clone the repository and use the following command in R:
 
 ``` r
-shiny::runApp("path/to/AppName.R")
+shiny::runApp("path/to/SCORE.R")
 ```
 
 or open the `app.R` file in RStudio and click "Run App".
