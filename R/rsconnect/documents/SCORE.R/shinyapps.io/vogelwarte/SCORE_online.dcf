@@ -5,7 +5,7 @@ account: vogelwarte
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 17419981
-bundleId: 12040303
+bundleId: 12072569
 url: https://vogelwarte.shinyapps.io/SCORE_online/
 version: 1
 asMultiple: FALSE
