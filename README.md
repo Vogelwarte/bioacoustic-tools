@@ -127,7 +127,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
     </div>
 
-<img src="R/www/TAB1.png" alt="TAB1" width="800"/>
+<img src="R/www/TAB1.png" alt="TAB1" width="900"/>
 
 ## 2. Duty cycle
 
@@ -171,7 +171,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 -   **`Missed-species heatmap`:** shows how often each species goes undetected at each duty-cycle setting compared to continuous recording.
 
-<img src="R/www/TAB2.png" alt="TAB2" width="800"/>
+<img src="R/www/TAB2.png" alt="TAB2" width="900"/>
 
 ## 3. Time window
 
@@ -211,7 +211,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 > **Important** - This tab identifies efficient recording windows, not duty-cycle designs. - If tested windows extend beyond the real recording coverage of the dataset, richness may be underestimated. - When both windows are active, the number of candidate combined designs grows as the product of all `Window 1` and `Window 2` candidates.
 
-<img src="R/www/TAB3.png" alt="TAB3" width="800"/>
+<img src="R/www/TAB3.png" alt="TAB3" width="900"/>
 
 ## 4. Multi optimum
 
@@ -239,7 +239,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 > **Important** - This tab is the final decision-support step of the application. - The optimisation criterion is mean daily richness, not cumulative seasonal richness.
 
-<img src="R/www/TAB4.png" alt="TAB4" width="800"/>
+<img src="R/www/TAB4.png" alt="TAB4" width="900"/>
 
 ------------------------------------------------------------------------
 
