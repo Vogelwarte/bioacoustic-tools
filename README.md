@@ -1,3 +1,7 @@
+---
+---
+---
+
 # Bioacoustic tool(s)
 
 This repository hosts Shiny web applications for analyzing and visualizing bird detection results from BirdNET. **SCORE** is a Shiny application designed to evaluate and optimize passive acoustic sampling designs from BirdNET detections.
@@ -77,7 +81,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 **In each Tab, you can download data table associated with analysis and each ggplot object separatly using the `ruturn object` buttons. They will appear in the global environement after closing the app.**
 
-<img src="R/www/big_workflow.jpg" alt="Workflow illustration" width="500"/>
+<img src="R/www/big_workflow.jpg" alt="Workflow illustration" width="800"/>
 
 ## Features
 
