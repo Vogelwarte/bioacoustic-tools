@@ -1710,7 +1710,7 @@ server <- function(input, output, session) {
         "<br>Richness: ", round(.data$richness_pct, 1), "%",
         "<br>Species detected: ", .data$n_species_detected,
         "<br>Bootstrap ", bootstrap))) +
-      labs(x = "Sampling schedule effort (min)", y = "Relative richness [%]") +
+      labs(x = "Sampling effort [min]", y = "Relative richness [%]") +
       theme_minimal() +
       guides(color = "none")
     
@@ -1750,7 +1750,7 @@ server <- function(input, output, session) {
       )), color = "white", width = period_step, height = 1) +
       scale_fill_viridis_c(option = "D", name = "# bootstraps missed",
                            limits = c(0, max(missed_summary$N, na.rm = TRUE))) +
-      scale_x_continuous(name = "Cycle (min)",
+      scale_x_continuous(name = "Cycle length [min]",
                          breaks = seq(period_min, period_max, by = period_step),
                          expand = c(0, 0)) +
       labs(y = "Species", title = "Species missed across duty cycles") +
@@ -2129,9 +2129,9 @@ server <- function(input, output, session) {
       geom_contour(aes(z = richness_pct), binwidth = 5, color = "grey89", linewidth = 0.2, show.legend= TRUE) +
 
       geom_tile(aes(fill = richness_pct, text = tooltip), color = "grey89", linewidth = 0.5) +
-      scale_fill_scico(palette = "oslo", name = "Mean richness (%)", direction = -1) +
-      labs(x = paste0("Start offset relative to ", input$grid_event, " (hours)"),
-           y = "Recording duration (hours)", title = "Window 1") +
+      scale_fill_scico(palette = "oslo", name = "Relative richness [%]", direction = -1) +
+      labs(x = paste0("Start offset relative to ", input$grid_event, " [hours]"),
+           y = "Recording duration [hours]", title = "Window 1") +
       theme_minimal() +
       theme(panel.grid = element_blank(), axis.ticks = element_line(),
             axis.ticks.length = unit(3, "pt")) +
@@ -2189,9 +2189,9 @@ server <- function(input, output, session) {
     p <- ggplot(df, aes(x = start_off_h, y = duration_h)) +
       geom_contour(aes(z = richness_pct), binwidth = 5, color = "grey70", linewidth = 0.2) +
       geom_tile(aes(fill = richness_pct, text = tooltip), color = "grey89", linewidth = 0.5) +
-      scale_fill_scico(palette = "bilbao", name = "Mean richness (%)", direction = -1) +
-      labs(x = paste0("Start offset relative to ", input$grid_event2, " (hours)"),
-           y = "Recording duration (hours)", title = "Window 2") +
+      scale_fill_scico(palette = "bilbao", name = "Relatice richness [%]", direction = -1) +
+      labs(x = paste0("Start offset relative to ", input$grid_event2, " [hours]"),
+           y = "Recording duration [hours]", title = "Window 2") +
       theme_minimal() +
       theme(panel.grid = element_blank(), axis.ticks = element_line(),
             axis.ticks.length = unit(3, "pt")) +
@@ -2255,7 +2255,7 @@ server <- function(input, output, session) {
                  color = "orange", size = 2.5, alpha = 0.5) +
       geom_point(data = df3, aes(x = effort_total, y = richness_pct, text = tooltip),
                  color = "darkgreen", size = 3.5, alpha = 0.7) +
-      labs(x = "Total recording effort (minutes)", y = "Mean relative richness (%)") +
+      labs(x = "Total recording effort [min]", y = "Relative richness [%]") +
       theme_minimal()
   })
   
@@ -2547,25 +2547,7 @@ server <- function(input, output, session) {
         if (is_pareto) battery_tooltip(row$effort) else ""
       )
     }
-    # make_tooltip <- function(row, is_pareto = FALSE) {
-    #   base <- paste0(
-    #     if (is_pareto) "Local optimum<br>" else "",
-    #     "Richness: ",        round(row$richness_pct, 1), "%<br>",
-    #     "Species detected: ", row$n_species_detected, "<br>",
-    #     "<b>Type:</b> ",      row$window_type, "<br>",
-    #     "Effort: ",           row$effort, " min — ", round(row$effort / 60, 2), " h<br>"
-    #   )
-    #   w1_info <- if (!is.na(row$start1_hour))
-    #     paste0("<b>Window 1</b><br>Start: ", round(row$start1_hour, 2), " h  Dur: ", round(row$dur1_h, 2), " h<br>")
-    #   w2_info <- if (!is.na(row$start2_hour))
-    #     paste0("<b>Window 2</b><br>Start: ", round(row$start2_hour, 2), " h  Dur: ", round(row$dur2_h, 2), " h<br>")
-    #   paste0(base,
-    #          if (!is.na(row$start1_hour)) w1_info else "",
-    #          if (!is.na(row$start2_hour)) w2_info else "",
-    #          "Period: ", row$duty_period,
-    #          if (is_pareto) battery_tooltip(row$effort) else "")
-    # }
-    
+   
     dt[,           tooltip        := mapply(make_tooltip, split(dt,           seq_len(nrow(dt))),           FALSE)]
     pareto_front[, tooltip_pareto := mapply(make_tooltip, split(pareto_front, seq_len(nrow(pareto_front))), TRUE)]
     
@@ -2577,7 +2559,7 @@ server <- function(input, output, session) {
       scale_color_manual(values = c(W1 = "#1f78b4", W2 = "#6a3d9a", Combined = "#33a02c"),
                          name = "Window type") +
       scale_shape_manual(values = c(W1 = 16, W2 = 17, Combined = 18), name = "Window type") +
-      labs(x = "Recording effort (min)", y = "Relative richness (%)",
+      labs(x = "Recording effort [min]", y = "Relative richness [%]",
            title = "Pareto frontier: optimal trade-off richness vs effort") +
       theme_minimal()
     
