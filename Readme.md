@@ -8,6 +8,7 @@ This repository hosts Shiny web applications for analyzing, visualizing or optim
 
 - **RENAMING**: Interactive renaming of audio or text files
 - (**Data Visualization**: Interactive summary plots showing detection confidence and species distribution)
+- **RECTIME**: View recording time per day and recorder/site and spot missing data
 - **FILTERING**: Interactive summary of birdNET outputs and fitlering of the data
 - **SPECTRO**: View spectrograms of detected bird calls with customizable parameters
 (- **Audio Playback**: Built-in audio player with simple filtering and noise reduction capabilities)
