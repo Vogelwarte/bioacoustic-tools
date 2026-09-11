@@ -1,4 +1,4 @@
-# SPECTRO — BirdNET-ResChecker
+# SPECTRO TOOL APP
 
 Analyzes BirdNET detection results: browse detections, generate spectrograms, and listen to the corresponding audio.
 
