@@ -1,4 +1,4 @@
-# PHENOLOGY — BirdNET-ResChecker
+# PHENOLOGY APP TOOL
 
 Analyzes BirdNET detection results and produces phenology graphs (detection activity across the season / day).
 

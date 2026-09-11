@@ -1,4 +1,4 @@
-# RENAME — BirdNET-ResChecker
+# RENAME APP TOOL
 
 Batch-renames audio files by adding a location-based prefix (latitude/longitude, recorder, date, time). Processes every file in a selected directory at once.
 

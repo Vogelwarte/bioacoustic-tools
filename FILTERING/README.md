@@ -1,4 +1,4 @@
-# FILTERING — BirdNET-ResChecker
+# FILTERING APP TOOL
 
 Explore, filter, and visualize BirdNET detection data. Works with combined BirdNET selection tables.
 
