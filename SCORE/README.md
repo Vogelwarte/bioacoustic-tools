@@ -208,7 +208,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
 > **Important** - This tab identifies efficient recording windows, not duty-cycle designs. - If tested windows extend beyond the real recording coverage of the dataset, richness may be underestimated. - When both windows are active, the number of candidate combined designs grows as the product of all `Window 1` and `Window 2` candidates.
 
-<img src="www/TAB3.png" alt="TAB3" width="1200"/>
+<img src="R/www/TAB3.png" alt="TAB3" width="1200"/>
 
 ## 4. Multi optimum
 

@@ -1,0 +1,13 @@
+name: Filtering_Shiny_App
+title: Filtering_Shiny_App
+username: vogelwarte
+account: vogelwarte
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17486899
+bundleId: 12104467
+url: https://vogelwarte.shinyapps.io/Filtering_Shiny_App/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: 3_App_3_Phenology_publishVersion.R
