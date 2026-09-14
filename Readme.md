@@ -65,9 +65,7 @@ Expected input files:
 
 ## Contributors
 
-- Christophe Sahli
-- Amandine Serrurier
-- Jean-Nicolas Pradervand
+Contributions: Amandine Serrurier, Jean-Nicolas Pradervand & Christophe Sahli — Swiss Ornithological Institute MIT License © 2026 vogelwarte.ch
 
 ## Acknowledgments
 
