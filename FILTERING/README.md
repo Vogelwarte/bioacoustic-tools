@@ -34,4 +34,3 @@ or open `1_App_1_Filtering.R` in RStudio and click "Run App".
 Tabs available: Overview, Visualizations, Filtering impact, Recorder Comparison, Recording Schedule, and a Map (when GPS mode is enabled).
 
 ---
-Contributions: Amandine Serrurier, Jean-Nicolas Pradervand & Christophe Sahli — Swiss Ornithological Institute

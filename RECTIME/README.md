@@ -8,14 +8,9 @@ files) and shows a heatmap of recording coverage by day, per site/recorder.
 Install once:
 
 ```r
-install.packages(c("shiny", "ggplot2", "bslib"))
+install.packages(c("shiny", "ggplot2", "bslib", "rstudioapi"))
 ```
 
-Optional, only for the "Browse" folder-picker button (RStudio only):
-
-```r
-install.packages("rstudioapi")
-```
 
 ## How to run
 

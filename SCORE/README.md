@@ -1,8 +1,6 @@
 ---
----
----
 
-# Bioacoustic tool(s)
+# SCORE - Sampling Coverage Optimizer for Recording Effort
 
 This repository hosts Shiny web applications for analyzing and visualizing bird detection results from BirdNET. **SCORE** is a Shiny application designed to evaluate and optimize passive acoustic sampling designs from BirdNET detections.
 
@@ -14,8 +12,6 @@ The application is intended to be used with a pilot BirdNET detection dataset of
 
 ### Requirements
 
--   R (version 4.1 or higher)
--   RStudio (recommended)
 
 ``` r
 # Install required packages
@@ -127,7 +123,7 @@ The app accepts **BirdNET selection table** in **Raven format** output. Files ca
 
     </div>
 
-<img src="R/www/TAB1.png" alt="TAB1" width="1200"/>
+<img src="SCORE/www/TAB1.png" alt="TAB1" width="1200"/>
 
 ## 2. Duty cycle
 

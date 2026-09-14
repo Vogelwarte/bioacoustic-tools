@@ -5,14 +5,13 @@ Analyzes BirdNET detection results and produces phenology graphs (detection acti
 ## Requirements
 
 ```r
-install.packages("pacman")
-pacman::p_load(
+install.packages(
   "shiny", "grid", "bslib", "stringr", "data.table", "shinyFiles", "tidyr",
   "janitor", "stringi", "fs", "parallel", "ggplot2", "mgcv", "gratia", "hms",
   "suncalc", "scales", "lubridate", "DT", "future.apply"
 )
 ```
-(packages install automatically via `pacman` the first time the app runs)
+
 
 Needs the `Common_functions` folder alongside the app to load its helper functions.
 
@@ -29,5 +28,3 @@ or open `3_App_3_Phenology.R` in RStudio and click "Run App".
 4. Click **"Generate Plot"** to produce the phenology graph.
 
 ---
-Contributions: Amandine Serrurier, Jean-Nicolas Pradervand & Christophe Sahli — Swiss Ornithological Institute
-MIT License © 2026 Swiss Ornithological Institute

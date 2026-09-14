@@ -26,6 +26,4 @@ or open `0_App_0_Rename.R` in RStudio and click "Run App".
 
 **⚠️ Warning:** renaming is irreversible — original file names cannot be restored afterwards.
 
----
-Contributions: Amandine Serrurier, Jean-Nicolas Pradervand & Christophe Sahli — Swiss Ornithological Institute
-MIT License © 2026 Jean-Nicolas Pradervand
+
