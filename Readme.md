@@ -1,4 +1,4 @@
-# Bioacoustic tools — BirdNET-ResChecker
+# Bioacoustic tools
 
 This repository hosts a suite of Shiny web applications for analyzing, filtering, visualizing, and optimizing bird detection results produced by the [BirdNET](https://github.com/kahst/BirdNET-Analyzer) algorithm. Together they cover the full workflow: preparing files, filtering and exploring detections, checking recording coverage, visualizing spectrograms, studying phenology, and optimizing recording schedules.
 
