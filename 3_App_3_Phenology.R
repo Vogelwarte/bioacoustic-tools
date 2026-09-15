@@ -12,7 +12,7 @@ if (!require("pacman", quietly = TRUE)) {
 pacman::p_load(
   "shiny", "grid", "bslib", "stringr", "data.table", "shinyFiles", "tidyr", "janitor",
   "stringi", "fs", "parallel", "ggplot2", "mgcv", "gratia", "hms", "suncalc", "scales",
-  "lubridate", "DT", "future.apply"
+  "lubridate", "DT", "future.apply", "here"
 )
 
 
@@ -21,6 +21,7 @@ pacman::p_load(
 # La fonction 'load_selection_tables.R' doit utiliser data.table::fread() 
 # et NON read.csv() ou read.table() pour être efficace sur des fichiers > 500Mo.
 if (dir.exists("Common_functions")) {
+
   source("Common_functions/get_roots.R")
   source("Common_functions/pheno_matrix.R")
   source("Common_functions/clean_text.R")

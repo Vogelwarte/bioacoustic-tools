@@ -229,7 +229,7 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
         geom_tile(
           data = df_plot, 
           aes(x = date_vocmatrix, y = hour_num, fill = Vocs), 
-          color = NA, alpha = 1
+          color = "grey", alpha = 1
         ) +
         scale_fill_gradientn(
           colours = c("#FCFFA4FF", "#F98C0AFF", "#BB3754FF", "#56106EFF", "#000004FF"),
@@ -378,8 +378,10 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
         geom_tile(
           data = df_plot, 
           aes(x = date_vocmatrix, y = hour_num, fill = Vocs), 
-          color = NA, alpha = 1
+          color = "grey", alpha = 1
         ) +
+        
+        # geom_tile(matrix_plot, mapping=aes(date_vocmatrix,as.POSIXct(format(test_graph), format="%Y-%m-%d %H:%M"), fill=Vocs),color=NA)+ 
         scale_fill_gradientn(
           colours = c("#FCFFA4FF", "#F98C0AFF", "#BB3754FF", "#56106EFF", "#000004FF"),
           na.value = "transparent",
