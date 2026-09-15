@@ -187,8 +187,8 @@ server <- function(input, output, session) {
     
     # GPS
     if (input$gps_mode) {
-      df$lat <- as.numeric(stringr::str_extract(df$filename, "Lat-?\\d+\\.\\d+"))
-      df$long <- as.numeric(stringr::str_extract(df$filename, "Long-?\\d+\\.\\d+"))
+      df$lat <- as.numeric(str_match(df$filename, "Lat(-?\\d+\\.\\d+)")[,2])
+      df$long <- as.numeric(str_match(df$filename, "Long(-?\\d+\\.\\d+)")[,2])
     } else {
       df$lat <- NA_real_
       df$long <- NA_real_
