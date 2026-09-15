@@ -1,6 +1,8 @@
 # PHENOLOGY APP TOOL
 
 Analyzes BirdNET detection results and produces phenology graphs (detection activity across the season / day).
+This app is also available online and does not require to install R : https://vogelwarte.shinyapps.io/PhenoApp_V1/
+We would like to draw your attention to the fact that the online app is considerably slower. 
 
 ## Requirements
 

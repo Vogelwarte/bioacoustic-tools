@@ -8,6 +8,11 @@ With this app you can:
 - Visualize detections over time
 - Export clean, filtered results (data and per-species summaries)
 
+Analyzes BirdNET detection results and produces phenology graphs (detection activity across the season / day).
+This app is also available online and does not require to install R : https://vogelwarte.shinyapps.io/Filtering_Shiny_App/ 
+We would like to draw your attention to the fact that the online app is considerably slower. 
+
+
 ## Requirements
 
 ```r

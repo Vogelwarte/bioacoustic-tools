@@ -1,17 +1,35 @@
-load_selection_tables <- function(dir1, dir2 = NULL, compiled = TRUE,
-                                  device_tz = "Europe/Zurich",  # Fuseau de l'horloge interne (ex: Alaska)
-                                  deployment_tz = "Europe/Zurich")  # Fuseau du lieu réel (ex: France)
+load_selection_tables_ONLINE= function(dir1,
+                                      dir2 = NULL,
+                                      compiled = TRUE,
+                                      device_tz = input$UTC_choice,
+                                      deployment_tz = input$UTC_choice
+                                    ) # Fuseau du lieu réel (ex: France)
 {
   # 1. Configuration initiale
 
+  # pattern <- if (compiled) "*BirdNET_SelectionTable.txt" else "*.selection.table.txt"
+  # filelist <- dir_ls(path = dir1, glob = pattern, recurse = TRUE)
+  # 
+  # if (length(filelist) == 0) {
+  #   message("Aucun fichier trouvé.")
+  #   return(NULL)
+  # }
   pattern <- if (compiled) "*BirdNET_SelectionTable.txt" else "*.selection.table.txt"
-  filelist <- dir_ls(path = dir1, glob = pattern, recurse = TRUE)
-
+  
+  if (dir.exists(dir1)) {
+    # dir1 est un dossier : on cherche tous les fichiers correspondant au pattern
+    filelist <- dir_ls(path = dir1, glob = pattern, recurse = TRUE)
+  } else if (file.exists(dir1)) {
+    # dir1 est déjà un chemin de fichier unique (ex: upload Shiny fileInput)
+    filelist <- dir1
+  } else {
+    filelist <- character(0)
+  }
+  
   if (length(filelist) == 0) {
     message("Aucun fichier trouvé.")
     return(NULL)
   }
-
   message(sprintf("Traitement de %d fichiers...", length(filelist)))
   message(sprintf(" -> Heure interne (Device): %s", device_tz))
   message(sprintf(" -> Heure réelle (Deployment): %s", deployment_tz))

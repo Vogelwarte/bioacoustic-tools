@@ -323,7 +323,6 @@ server <- function(input, output, session) {
     )
     
     tryCatch({
-      
       if (isTRUE(input$Compiled_F)) {
         
         # ---- COMPILED FORMAT ----
@@ -331,15 +330,14 @@ server <- function(input, output, session) {
         
         path1 <- input$compiled_file$datapath
         
-        # Lecture directe du fichier
-        # DT <- data.table::fread(path1)
-        # names(DT) <- make.names(names(DT))
-       DT <- load_selection_tables_ONLINE(
+        DT <- load_selection_tables_ONLINE(
           dir1 = path1,
           dir2 = NULL,
           compiled = TRUE,
-          utc_tz = input$UTC_choice
+          device_tz = input$UTC_choice,
+          deployment_tz = input$UTC_choice
         )
+        
         print(names(DT))
         print(str(DT))
         
@@ -350,18 +348,59 @@ server <- function(input, output, session) {
         
         path1 <- dir1()
         
-        # On garde exactement ton fonctionnement précédent
         DT <- load_selection_tables_ONLINE(
           dir1 = path1,
           dir2 = NULL,
           compiled = FALSE,
-          utc_tz = input$UTC_choice
+          device_tz = input$UTC_choice,
+          deployment_tz = input$UTC_choice
         )
+        
         print(names(DT))
         print(str(DT))
         
       }
-      
+      # 
+      # if (isTRUE(input$Compiled_F)) {
+      #   
+      #   # ---- COMPILED FORMAT ----
+      #   req(input$compiled_file)
+      #   
+      #   path1 <- input$compiled_file$datapath
+      #   
+      #   # Lecture directe du fichier
+      #   # DT <- data.table::fread(path1)
+      #   # names(DT) <- make.names(names(DT))
+      #  # DT <- load_selection_tables_ONLINE(
+      #  #    dir1 = path1,
+      #  #    dir2 = NULL,
+      #  #    compiled = TRUE,
+      #  #    utc_tz = input$UTC_choice
+      #  #  )
+      #  
+      #   print(names(DT))
+      #   print(str(DT))
+      #   
+      # } else {
+      #   
+      #   # ---- NON COMPILED FORMAT ----
+      #   req(dir1())
+      #   
+      #   path1 <- dir1()
+      #   
+      #   # On garde exactement ton fonctionnement précédent
+      #   # DT <- load_selection_tables_ONLINE(
+      #   #   dir1 = path1,
+      #   #   dir2 = NULL,
+      #   #   compiled = FALSE,
+      #   #   utc_tz = input$UTC_choice
+      #   # )
+      #   
+      #   print(names(DT))
+      #   print(str(DT))
+      #   
+      # }
+      # 
       # ---- À partir d'ici, DT existe dans les deux cas ----
       
       if (is.null(DT) || nrow(DT) == 0) {
