@@ -212,10 +212,7 @@ Shared helper functions used by several apps are located in the `Common_function
 
 ## Contributors & acknowledgments
 
-Contributions: Amandine Serrurier, Christian Schano, Jean-Nicolas Pradervand, Gabriel Marcacci, Christophe Sahli, Stéphane Aubert, Alain Jacot, Urs G. Kormann — Swiss Ornithological Institute.
-
-Associated manuscript in preparation.
-
+Contributions: Amandine Serrurier, Jean-Nicolas Pradervand & Christophe Sahli
 MIT License © 2026 vogelwarte.ch
 
 This application is designed to work with output from [BirdNET](https://github.com/kahst/BirdNET-Analyzer), a powerful AI-based bird sound identification system developed by the K. Lisa Yang Center for Conservation Bioacoustics at the Cornell Lab of Ornithology.

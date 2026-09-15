@@ -11,7 +11,7 @@
 
 
 
-<title>Readme</title>
+<title>README</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -352,107 +352,302 @@ display: none;
 </div>
 
 
-<div id="birdnet-reschecker" class="section level1">
-<h1>BirdNET-ResChecker</h1>
-<p>This repository hosts Shiny web applications for analyzing and
-visualizing bird detection results from the BirdNET algorithm. These
-tools provide interactive summaries, spectrograms, audio playback, and
-phenological analysis of bird vocalizations.</p>
-<p><strong>Note</strong>: Theses applications are independent
-third-party tools and are not affiliated with or endorsed by the BirdNET
-developers. They are designed to work with BirdNET output files but are
-developed and maintained separately.</p>
-<div id="features" class="section level2">
-<h2>Features</h2>
+<div id="bioacoustic-tools-birdnet-reschecker" class="section level1">
+<h1>Bioacoustic tools — BirdNET-ResChecker</h1>
+<p>This repository hosts a suite of Shiny web applications for
+analyzing, filtering, visualizing, and optimizing bird detection results
+produced by the <a href="https://github.com/kahst/BirdNET-Analyzer">BirdNET</a> algorithm.
+Together they cover the full workflow: preparing files, filtering and
+exploring detections, checking recording coverage, visualizing
+spectrograms, studying phenology, and optimizing recording
+schedules.</p>
+<p><strong>Note:</strong> these applications are independent third-party
+tools, developed and maintained separately from BirdNET. They are
+designed to work with BirdNET output files but are not affiliated with
+or endorsed by the BirdNET developers.</p>
+<p>Works on Windows, macOS, and Linux.</p>
+<div id="contents" class="section level2">
+<h2>Contents</h2>
 <ul>
-<li><strong>Data Visualization</strong>: Interactive summary plots
-showing detection confidence and species distribution</li>
-<li><strong>Spectrogram Visualization</strong>: View spectrograms of
-detected bird calls with customizable parameters</li>
-<li><strong>Audio Playback</strong>: Built-in audio player with simple
-filtering and noise reduction capabilities</li>
-<li><strong>Data Export</strong>: Export filtered datasets and audio
-segments in CSV, WAV, or MP3 formats</li>
-<li><strong>Phenological Analysis</strong>: Generate temporal activity
-patterns with sunrise/sunset overlays</li>
-<li><strong>Multi-platform Support</strong>: Works on Windows, macOS,
-and Linux</li>
+<li><a href="#apps-overview">Apps overview</a></li>
+<li><a href="#general-requirements">General requirements</a></li>
+<li><a href="#rename--rename-files-with-coordinates-and-recorder-prefix">RENAME</a></li>
+<li><a href="#filtering--explore-and-filter-birdnet-detections">FILTERING</a></li>
+<li><a href="#rectime--recording-time-coverage">RECTIME</a></li>
+<li><a href="#spectro--spectrograms--audio-playback">SPECTRO</a></li>
+<li><a href="#phenology--temporal-activity-patterns">PHENOLOGY</a></li>
+<li><a href="#score--sampling-coverage-optimizer-for-recording-effort">SCORE</a></li>
+<li><a href="#input-files-structure">Input files structure</a></li>
+<li><a href="#common-functions">Common functions</a></li>
+<li><a href="#contributors--acknowledgments">Contributors &amp;
+acknowledgments</a></li>
 </ul>
 </div>
-<div id="requirements" class="section level2">
-<h2>Requirements</h2>
+<div id="apps-overview" class="section level2">
+<h2>Apps overview</h2>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>App</th>
+<th>What it does</th>
+<th>Also available online</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>RENAME</strong></td>
+<td>Batch-renames audio/text files with a location + recorder +
+date/time prefix</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><strong>FILTERING</strong></td>
+<td>Explores, filters (by confidence threshold), and visualizes BirdNET
+detections</td>
+<td><a href="https://vogelwarte.shinyapps.io/Filtering_Shiny_App/">Filtering_Shiny_App</a></td>
+</tr>
+<tr class="odd">
+<td><strong>RECTIME</strong></td>
+<td>Heatmap of recording coverage per day / site / recorder, to spot
+gaps</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><strong>SPECTRO</strong></td>
+<td>Browses detections, generates spectrograms, plays matching
+audio</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><strong>PHENOLOGY</strong></td>
+<td>Temporal activity graphs (phenology) with sunrise/sunset
+overlays</td>
+<td><a href="https://vogelwarte.shinyapps.io/PhenoApp_V1/">PhenoApp_V1</a></td>
+</tr>
+<tr class="even">
+<td><strong>SCORE</strong></td>
+<td>Evaluates and optimizes recording schedules (duty cycle, time
+window) against species richness</td>
+<td><a href="https://vogelwarte.shinyapps.io/SCORE_online">SCORE_online</a></td>
+</tr>
+</tbody>
+</table>
+<p>Each app lives in its own folder (same name, all-caps) and can be run
+independently — you don’t need to run them in order, except that
+<strong>RENAME</strong> is usually a good first step if your files don’t
+yet follow the expected naming convention.</p>
+</div>
+<div id="general-requirements" class="section level2">
+<h2>General requirements</h2>
 <ul>
-<li>R (version 4.0 or higher)</li>
+<li>R (version 4.1 or higher)</li>
 <li>RStudio (recommended)</li>
-<li>Required R packages (automatically installed via pacman):
-<ul>
-<li>shiny, bslib, data.table, ggplot2, DT, seewave, tuneR, av</li>
-<li>tidyr, stringr, stringi, lubridate, hms, parallel</li>
-<li>mgcv, gratia, suncalc, warbleR, audio, base64enc</li>
-</ul></li>
-<li>External dependencies:
-<ul>
-<li>FFmpeg (for MP3/FLAC file support)</li>
-<li>Audacity (optional, for audio editing)</li>
-</ul></li>
+<li>External dependencies for some apps: FFmpeg (MP3/FLAC support),
+Audacity (optional, for audio editing)</li>
 </ul>
+<p>Each app lists its own required R packages below — most install
+automatically via <code>pacman</code> the first time the app runs.</p>
+<hr />
 </div>
-<div id="usage" class="section level2">
-<h2>Usage</h2>
-<p>Each App has its own folder with an <code>app.R</code> file. To run
-an App, you can use the following command in R:</p>
-<pre class="r"><code>shiny::runApp(&quot;path/to/BirdNET_filtering_app&quot;)</code></pre>
-<p>or open the <code>app.R</code> file in RStudio and click “Run
-App”.</p>
-<div id="available-applications" class="section level3">
-<h3>Available Applications</h3>
-<p><strong>App_1_Table_Filtering:</strong> A Shiny web application for
-filtering and analyzing BirdNET output files, in relation with
-species-specific confidence threshold file input. This tool helps
-researchers and ecologists filter species detections by confidence
-thresholds, visualize results, and generate summaries with flexible date
-and GPS options. The App uses combined selection tables from
-BirdNET.</p>
-<p><strong>App_2_Check_Results:</strong> A Shiny web application for
-analyzing and visualizing bird detection results from the BirdNET
-algorithm. This tool provides interactive summaries, spectrograms and
-audio playback of bird vocalizations. Detections validation will be
-implemented in future versions.</p>
+<div id="rename-rename-files-with-coordinates-and-recorder-prefix" class="section level2">
+<h2>RENAME — Rename Files with Coordinates and Recorder Prefix</h2>
+<p>Batch-renames audio files by adding a location-based prefix
+(latitude/longitude, recorder, date, time). Processes every file in a
+selected directory at once. The prefix can be typed manually or
+generated automatically by clicking a location on the built-in map.</p>
+<p><strong>⚠️ Required file name format:</strong>
+<code>LatXX.XXXX_LongYY.YYYY_Recorder_Date_Time.wav</code></p>
+<p><strong>Requirements</strong></p>
+<pre class="r"><code>install.packages(c(&quot;shiny&quot;, &quot;shinyFiles&quot;, &quot;leaflet&quot;, &quot;bslib&quot;))</code></pre>
+<p><strong>Usage</strong></p>
+<pre class="r"><code>shiny::runApp(&quot;RENAME/0_App_0_Rename.R&quot;)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Click <strong>“Choose Folder”</strong> to select the directory
+containing the files to rename.</li>
+<li>Get a prefix either by clicking on the map (auto lat/long) or by
+typing it manually.</li>
+<li>Click <strong>“Preview Changes”</strong> to check the new file names
+before applying anything.</li>
+<li>Click <strong>“Apply Renaming”</strong>.</li>
+</ol>
+<p><strong>⚠️ Warning:</strong> renaming is irreversible — original file
+names cannot be restored afterwards.</p>
+<hr />
 </div>
-<div id="apps-location" class="section level3">
-<h3>Apps location</h3>
-<p>Apps are located in the R folder of this repository:</p>
-<ul>
-<li><code>R/App_1_Table_Filtering</code></li>
-<li><code>R/App_2_Check_Results</code></li>
-</ul>
+<div id="filtering-explore-and-filter-birdnet-detections" class="section level2">
+<h2>FILTERING — Explore and filter BirdNET detections</h2>
+<p>Explores, filters, and visualizes BirdNET detection data. Works with
+combined BirdNET selection tables.</p>
+<p>With this app you can: upload your BirdNET selection tables, apply
+custom confidence thresholds per species, visualize detections over
+time, and export clean, filtered results.</p>
+<p>Also available online, no R install needed: <strong><a href="https://vogelwarte.shinyapps.io/Filtering_Shiny_App/">Filtering_Shiny_App</a></strong>
+— note the online version is considerably slower than running it
+locally.</p>
+<p><strong>Requirements</strong></p>
+<pre class="r"><code>install.packages(c(
+  &quot;shiny&quot;, &quot;data.table&quot;, &quot;readxl&quot;, &quot;stringr&quot;, &quot;plotly&quot;, &quot;leaflet&quot;,
+  &quot;writexl&quot;, &quot;RColorBrewer&quot;, &quot;lubridate&quot;, &quot;ggplot2&quot;, &quot;scales&quot;,
+  &quot;bslib&quot;, &quot;dplyr&quot;, &quot;skimr&quot;, &quot;DT&quot;
+))</code></pre>
+<p><strong>Usage</strong></p>
+<pre class="r"><code>shiny::runApp(&quot;FILTERING/1_App_1_Filtering.R&quot;)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Upload one or more BirdNET selection tables
+(<code>.txt</code>).</li>
+<li>If filenames contain coordinates (<code>Lat-XX_Long-XX_...</code>),
+check the GPS box to enable location-based features (map view).</li>
+<li>Download the species XLS template, fill in custom confidence
+thresholds per species, and re-upload it — graphs update
+automatically.</li>
+<li>Optionally filter by date range or by recorder.</li>
+<li>Download results (raw counts, filtered BirdNET file, filtered
+per-species counts) from the sidebar.</li>
+</ol>
+<p>Tabs available: Overview, Visualizations, Filtering impact, Recorder
+Comparison, Recording Schedule, and a Map (when GPS mode is
+enabled).</p>
+<hr />
 </div>
-<div id="common-functions" class="section level3">
-<h3>Common Functions</h3>
-<p>The necessary functions are located in the
-<code>R/Common_functions</code> folder. They will be sourced
-automatically when running the Apps.</p>
+<div id="rectime-recording-time-coverage" class="section level2">
+<h2>RECTIME — Recording time coverage</h2>
+<p>Scans a local folder of BirdNET selection tables (or audio files) and
+shows a heatmap of recording coverage by day, per site/recorder — useful
+for spotting missing data.</p>
+<p><strong>Requirements</strong></p>
+<pre class="r"><code>install.packages(c(&quot;shiny&quot;, &quot;ggplot2&quot;, &quot;bslib&quot;, &quot;rstudioapi&quot;))</code></pre>
+<p><strong>Usage</strong></p>
+<p>Open <code>4_app_4_recording_time.R</code> in RStudio and click
+<strong>Run App</strong>.</p>
+<ol style="list-style-type: decimal">
+<li>Paste a folder path (or use <strong>Browse</strong>), then click
+<strong>Scan folder</strong>.</li>
+<li>R lists the files, reads the date/time from each filename, and
+infers site/recorder from the folder structure.</li>
+<li>Use the filters (file type, site, date range) to narrow things
+down.</li>
+<li>The heatmap shows one row per recorder — green = day with a
+recording, grey = a gap.</li>
+<li>Download the plot (PNG) or the data (CSV) from the sidebar.</li>
+</ol>
+<p><strong>Note:</strong> everything runs locally — R needs direct
+access to the folder on disk. This won’t work if the app is hosted on a
+server for other people to use from their own computers.</p>
+<hr />
 </div>
+<div id="spectro-spectrograms-audio-playback" class="section level2">
+<h2>SPECTRO — Spectrograms &amp; audio playback</h2>
+<p>Analyzes BirdNET detection results: browse detections, generate
+spectrograms, and listen to the corresponding audio.</p>
+<p><strong>Requirements</strong></p>
+<pre class="r"><code>install.packages(
+  &quot;shiny&quot;, &quot;grid&quot;, &quot;bslib&quot;, &quot;stringr&quot;, &quot;data.table&quot;, &quot;shinyFiles&quot;, &quot;tidyr&quot;,
+  &quot;stringi&quot;, &quot;fs&quot;, &quot;parallel&quot;, &quot;ggplot2&quot;, &quot;mgcv&quot;, &quot;gratia&quot;, &quot;hms&quot;, &quot;suncalc&quot;,
+  &quot;lubridate&quot;, &quot;DT&quot;, &quot;seewave&quot;, &quot;tuneR&quot;, &quot;base64enc&quot;, &quot;av&quot;, &quot;audio&quot;,
+  &quot;future.apply&quot;, &quot;signal&quot;
+)</code></pre>
+<p>Needs the <code>Common_functions</code> folder alongside the app to
+load its helper functions.</p>
+<p><strong>Usage</strong></p>
+<pre class="r"><code>shiny::runApp(&quot;SPECTRO/2_App_2_Spectro.R&quot;)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Select the BirdNET results folder and the corresponding audio
+folder.</li>
+<li>Set the device and deployment timezones, then click <strong>“Start
+App”</strong>.</li>
+<li>In the “Spectrogram &amp; Export” tab, adjust the High-Pass filter
+and frequency range to explore a detection’s spectrogram and play the
+matching audio clip.</li>
+</ol>
+<hr />
 </div>
-<div id="file-structure" class="section level2">
-<h2>File Structure</h2>
+<div id="phenology-temporal-activity-patterns" class="section level2">
+<h2>PHENOLOGY — Temporal activity patterns</h2>
+<p>Analyzes BirdNET detection results and produces phenology graphs
+(detection activity across the season / day), with sunrise/sunset
+overlays.</p>
+<p>Also available online, no R install needed: <strong><a href="https://vogelwarte.shinyapps.io/PhenoApp_V1/">PhenoApp_V1</a></strong>
+— note the online version is considerably slower than running it
+locally.</p>
+<p><strong>Requirements</strong></p>
+<pre class="r"><code>install.packages(c(
+  &quot;shiny&quot;, &quot;grid&quot;, &quot;bslib&quot;, &quot;stringr&quot;, &quot;data.table&quot;, &quot;shinyFiles&quot;, &quot;tidyr&quot;,
+  &quot;janitor&quot;, &quot;stringi&quot;, &quot;fs&quot;, &quot;parallel&quot;, &quot;ggplot2&quot;, &quot;mgcv&quot;, &quot;gratia&quot;, &quot;hms&quot;,
+  &quot;suncalc&quot;, &quot;scales&quot;, &quot;lubridate&quot;, &quot;DT&quot;, &quot;future.apply&quot;
+))</code></pre>
+<p>Needs the <code>Common_functions</code> folder alongside the app to
+load its helper functions.</p>
+<p><strong>Usage</strong></p>
+<pre class="r"><code>shiny::runApp(&quot;PHENOLOGY/3_App_3_Phenology.R&quot;)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Select the BirdNET results folder (check “Results in compiled
+format?” if relevant), then click <strong>“Start App”</strong>.</li>
+<li>Set the device and deployment timezones and click <strong>“Update
+Timezones”</strong> if they differ.</li>
+<li>In the Phenology panel: pick a species, set the confidence
+threshold, latitude/longitude, and aggregation interval (minutes).</li>
+<li>Click <strong>“Generate Plot”</strong>.</li>
+</ol>
+<hr />
+</div>
+<div id="score-sampling-coverage-optimizer-for-recording-effort" class="section level2">
+<h2>SCORE — Sampling Coverage Optimizer for Recording Effort</h2>
+<p>Evaluates and optimizes passive acoustic sampling designs from an
+existing BirdNET dataset. It simulates how different recording schedules
+(duty cycle, time window, or both) would perform on the same data, to
+help decide on recording protocols while retaining a high proportion of
+species richness.</p>
+<p>Intended for a pilot BirdNET dataset of a few days or more, for one
+or several recorders. Three example datasets are included in the
+<code>Example datasets</code> folder.</p>
+<p>Also available online, no R install needed: <strong><a href="https://vogelwarte.shinyapps.io/SCORE_online">SCORE_online</a></strong>
+— the online version is not recommended for real analyses, as
+computation time is strongly affected and input file size may be
+limited.</p>
+<p><strong>Requirements</strong></p>
+<pre class="r"><code>install.packages(c(
+  &quot;shiny&quot;, &quot;shinythemes&quot;, &quot;data.table&quot;, &quot;lubridate&quot;,
+  &quot;ggplot2&quot;, &quot;suncalc&quot;, &quot;dplyr&quot;, &quot;DT&quot;, &quot;scico&quot;,
+  &quot;plotly&quot;, &quot;stringr&quot;, &quot;readxl&quot;
+))</code></pre>
+<p><strong>Usage</strong></p>
+<pre class="r"><code>shiny::runApp(&quot;path/to/SCORE.R&quot;)</code></pre>
+<p>General workflow: import and prepare the BirdNET dataset → define
+coordinates/timezone → apply filters → explore duty-cycle designs →
+explore recording-window designs → compare complete designs
+(multi-optimum) → optionally visualize target-species activity under
+different schedules.</p>
+<p>SCORE is the most extensive app of the suite, with a detailed
+tab-by-tab guide (including screenshots) already available directly in
+<strong><code>SCORE/README.md</code></strong>, and a full <strong>User
+Guide</strong> tab inside the app itself — see those for the complete
+documentation, this section is only a summary.</p>
+<hr />
+</div>
+<div id="input-files-structure" class="section level2">
+<h2>Input files structure</h2>
 <p>Expected input files: - Detection results:
-<code>*.BirdNET.selection.table.txt</code> - Audio files:
+<code>*.BirdNET.selection.table.txt</code> or compiled selection tables:
+<code>*BirdNET_SelectionTable.txt</code> - Audio files:
 <code>*.wav</code>, <code>*.WAV</code>, <code>*.mp3</code>,
-<code>*.flac</code> (in matching folder structure). Integration of other
-file formats and improvements over the reading time of audio files are
-in progress.</p>
+<code>*.flac</code> (in matching folder structure)</p>
 </div>
-<div id="contributors" class="section level2">
-<h2>Contributors</h2>
-<ul>
-<li>Christophe Sahli</li>
-<li>Amandine Serrurier</li>
-<li>Jean-Nicolas Pradervand</li>
-</ul>
+<div id="common-functions" class="section level2">
+<h2>Common functions</h2>
+<p>Shared helper functions used by several apps are located in the
+<code>Common_functions</code> folder. They are sourced automatically
+when running an app, as long as <code>Common_functions</code> is in the
+same location as the app’s <code>.R</code> file.</p>
 </div>
-<div id="acknowledgments" class="section level2">
-<h2>Acknowledgments</h2>
+<div id="contributors-acknowledgments" class="section level2">
+<h2>Contributors &amp; acknowledgments</h2>
+<p>Contributions: Amandine Serrurier, Jean-Nicolas Pradervand &amp;
+Christophe Sahli MIT License © 2026 vogelwarte.ch</p>
 <p>This application is designed to work with output from <a href="https://github.com/kahst/BirdNET-Analyzer">BirdNET</a>, a powerful
 AI-based bird sound identification system developed by the K. Lisa Yang
 Center for Conservation Bioacoustics at the Cornell Lab of
