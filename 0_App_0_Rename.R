@@ -12,7 +12,7 @@ ui <- fluidPage(
     style = "display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #0f0f0f; border-bottom: 1px solid #333; margin-bottom: 20px;",
     div(
       style = "font-size: 24px; font-weight: bold; color: #fff;",
-      "BirdNET-ResChecker - Rename Files with Coordinates and Recorder Prefix"
+      "Bioacoustic tools  - Rename Files with Coordinates and Recorder Prefix"
     ),
     div(
       tags$img(

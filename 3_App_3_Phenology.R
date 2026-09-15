@@ -81,7 +81,7 @@ ui <- page_sidebar(
   
   div(
     style = "display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #0f0f0f; border-bottom: 1px solid #333; margin-bottom: 20px;",
-    div(style = "font-size: 24px; font-weight: bold; color: #fff;", "BirdNET-ResChecker - PHENOLOGY"),
+    div(style = "font-size: 24px; font-weight: bold; color: #fff;", "Bioacoustic tools - PHENOLOGY"),
     div(tags$img(src = "logo.png", height = "70px", style = "margin-right: 10px; border-radius: 12px; padding: 6px 10px; background-color: white;"))
   ),
   
