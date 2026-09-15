@@ -25,6 +25,7 @@ library(scico)
 library(plotly)
 library(stringr)
 library(metR)
+
 # rsconnect::terminateApp("R_raref_test")
 # rsconnect::forgetDeployment()
 # rsconnect::setAccountInfo(name='vogelwarte',
@@ -1054,7 +1055,7 @@ server <- function(input, output, session) {
           timestamp_fm       = parse_date_time(timestamp, orders = "Ymd_HMS", tz = input$timezone),
           timestamp_adjusted = timestamp_fm + seconds(start)
         ) %>%
-        filter(!is.na(timestamp)) %>%
+        dplyr::filter(!is.na(timestamp)) %>%
         mutate(
           date           = str_replace(timestamp,
                                        "^(\\d{4})(\\d{2})(\\d{2})_(\\d{2})(\\d{2})(\\d{2})$",
