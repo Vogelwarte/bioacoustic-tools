@@ -1,8 +1,6 @@
 # ==============================================================================
 
-rsconnect::setAccountInfo(name='vogelwarte',
-                          token='5FA01481ECE5F33483C37F69731D3CF9',
-                          secret='bBVKSYJlP/1Xz2Ynz8FuwxotsbgoQQTRrKekRXh7')
+
 
 # Remove file upload size limitation (10 GB)
 options(shiny.maxRequestSize = 10 * 1024^3)

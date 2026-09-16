@@ -383,7 +383,7 @@ ui <- fluidPage(
             br(),
             
             ## Other parameters ----
-            numericInput("B_temporal",      "Bootstrap",  value = 5, min = 1, step = 1),
+            numericInput("B_temporal",      "Bootstrap",  value = 200, min = 1, step = 1),
             checkboxInput("show_summary",   "Show average + CI", TRUE),
             
             actionButton("run_temporal", "Run analysis"),
