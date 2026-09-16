@@ -85,7 +85,7 @@ ui <- fluidPage(
                    tags$li("Overview: get a quick summary of your filtered data and species detections.."),
                    tags$li("Filtering impact: See how your custom thresholds affect each species."),
                    tags$li("Recorder Comparison: Compare species detections across different recorders."),
-                   tags$li("Recorder schedule: Visualize recording time (in minutes) per recorder and across the season."),
+                   #tags$li("Recorder schedule: Visualize recording time (in minutes) per recorder and across the season."),
                    tags$li("Map: Display recorder locations (available when GPS mode is enabled).")
                  )
         ),
@@ -111,15 +111,15 @@ ui <- fluidPage(
                  h4("Species counts per recorder"),
                  plotOutput("recorder_barplot", height = "600px")
         ),
-        tabPanel("Recording Schedule",
-                 numericInput("rec_length", "Define recording length (in minutes):", value = 1, min = 1, step = 1),
-                 h4("Upload recording file list (.txt)"),
-                 fileInput("schedule_file", "Upload TXT file", accept = ".txt"),
-                 h4("Daily recording (hours per recorder)"),
-                 plotOutput("recorder_daily_plot", height = "400px"),
-                 h4("Total recording density (all recorders combined)"),
-                 plotOutput("schedule_plot_total", height = "400px")
-        ),
+        # tabPanel("Recording Schedule",
+        #          numericInput("rec_length", "Define recording length (in minutes):", value = 1, min = 1, step = 1),
+        #          h4("Upload recording file list (.txt)"),
+        #          fileInput("schedule_file", "Upload TXT file", accept = ".txt"),
+        #          h4("Daily recording (hours per recorder)"),
+        #          plotOutput("recorder_daily_plot", height = "400px"),
+        #          h4("Total recording density (all recorders combined)"),
+        #          plotOutput("schedule_plot_total", height = "400px")
+        # ),
         tabPanel("Map",
                  h4("Recorder positions (GPS mode only)"),
                  leafletOutput("map_positions", height = 600)
