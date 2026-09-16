@@ -38,7 +38,10 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      fileInput("txtfiles", "Upload BirdNET Selection Table(s) (.txt)", accept = ".txt", multiple = TRUE),
+      fileInput("txtfiles",
+                "Upload BirdNET Selection Table(s) (.txt or .csv)",
+                accept = c(".txt", ".csv"),
+                multiple = TRUE),
       p("Do you have coordinates in filenames?"),
       checkboxInput("gps_mode", "Filenames contain GPS coordinates", value = FALSE),
       
@@ -158,7 +161,12 @@ server <- function(input, output, session) {
     
     dt_list <- lapply(seq_along(input$txtfiles$datapath), function(i) {
       tryCatch({
-        dt <- fread(input$txtfiles$datapath[i], sep = "\t", header = TRUE, data.table = FALSE) # data.table = FALSE pour lire directement en df
+        dt <- fread(
+          input$txtfiles$datapath[i],
+          sep = "auto",
+          header = TRUE,
+          data.table = FALSE
+        )
         dt$source_file <- input$txtfiles$name[i]
         dt
       }, error = function(e) {

@@ -62,7 +62,11 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       #p("Upload BirdNET combined selection table(s)."),
-      fileInput("txtfiles", "Step 1: Upload BirdNET Selection Table(s) (.txt)", accept = ".txt", multiple = TRUE),
+      fileInput("txtfiles",
+                "Upload BirdNET Selection Table(s) (.txt or .csv)",
+                accept = c(".txt", ".csv"),
+                multiple = TRUE)
+      ,
       
       p("Do you have coordinates in filenames?"),
       checkboxInput("gps_mode", "Filenames contain GPS coordinates", value = FALSE),
@@ -99,7 +103,7 @@ ui <- fluidPage(
                  p("Ensure R packages: shiny, readr, readxl, dplyr, stringr, plotly, purrr, leaflet, tidyr, writexl, janitor, RColorBrewer, lubridate, scales, bslib, ggplot2"),
                  h4("Usage Instructions"),
                  tags$ol(
-                   tags$li("Step 1.: Upload your data: Upload one or more combined BirdNET selection tables (.txt files). For this use the Browse button on the top"),
+                   tags$li("Step 1.: Upload your data: Upload one or more combined BirdNET selection tables (.csv or .txt files). For this use the Browse button on the top"),
                    tags$li("If your filenames include coordinates like Lat-XX_Long-XX_..., check the GPS box to use location data.You should be able to visalize your data on a map."),
                    tags$li("📥 Step 2.1: Download an XLS file providing a list of all your species. ✍️ You can add your custom confidence thresholds per species in this template and use it to filter your dataset.For unverified data, either use 0 (all) or 1.1 (none)."), 
                    tags$li("📥 Step 2.2: Download an XLS file with a list of detections per species."), 
@@ -184,9 +188,16 @@ server <- function(input, output, session) {
   rawBirdNET <- reactive({
     req(input$txtfiles)
     
-    map2_dfr(input$txtfiles$datapath, input$txtfiles$name, 
-             ~ read_delim(.x, delim = "\t", col_types = cols()) %>%
-               mutate(source_file = .y)) %>%
+    map2_dfr(input$txtfiles$datapath, input$txtfiles$name,
+             ~ {
+               if (grepl("\\.csv$", .y, ignore.case = TRUE)) {
+                 read_csv(.x, col_types = cols()) %>%
+                   mutate(source_file = .y)
+               } else {
+                 read_delim(.x, delim = "\t", col_types = cols()) %>%
+                   mutate(source_file = .y)
+               }
+             }) %>%
       janitor::clean_names() %>%
       mutate(
         common_name_original = common_name,
