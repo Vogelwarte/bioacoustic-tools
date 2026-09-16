@@ -15,6 +15,9 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
     dt <- Voc
   }
   
+  # Convert UTC timestamps to local time
+  dt[, Start_local := lubridate::with_tz(Start_segment, tzone = TimeZone)]
+  
   # # FILTRAGE PRIORITAIRE PAR ESPÈCE
   # if (!"All species" %in% SP) {
   #   dt <- dt[Common.Name %in% SP]
@@ -46,9 +49,9 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
     # Extraction explicite des composants H, M, S dans le fuseau de l'objet (deployment_tz)
     # format() respecte l'attribut 'tzone', contrairement à as.numeric()
     dt[, `:=`(
-      h_loc = as.numeric(format(Start_segment, "%H")),
-      m_loc = as.numeric(format(Start_segment, "%M")),
-      s_loc = as.numeric(format(Start_segment, "%S"))
+      h_loc = lubridate::hour(Start_local),
+      m_loc = lubridate::minute(Start_local),
+      s_loc = lubridate::second(Start_local)
     )]
     
     # Calcul vectoriel : (Heures * 3600) + (Minutes * 60) + Secondes
@@ -71,10 +74,10 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
   
   # Dates et Année (Basés sur l'heure LOCALE)
   # On extrait l'année du premier élément pour construire le calendrier de référence
-  year1 <- as.numeric(format(dt$Start_segment[1], "%Y"))
+  year1 <- lubridate::year(dt$Start_local[1])
   
   # Calcul du Day Of Year (1 à 366) dans le fuseau local
-  dt[, DOY := as.integer(format(Start_segment, "%j"))]
+  dt[, DOY := lubridate::yday(Start_local)]
   
   # Création du calendrier de référence pour la matrice
   SeqDate <- data.frame(

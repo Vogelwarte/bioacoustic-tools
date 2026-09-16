@@ -375,8 +375,8 @@ server <- function(input, output, session) {
     print("dt_pheno") # debeug
     print(head(dt_pheno)) # debeug
     
-    xlim_plot <- c(as.Date(min(dt_pheno$Date, na.rm = TRUE)), 
-                   as.Date(max(dt_pheno$Date, na.rm = TRUE)))
+    xlim_plot <- c(as.Date(min(dt_pheno$Date, na.rm = TRUE))-1, 
+                   as.Date(max(dt_pheno$Date, na.rm = TRUE))+1)
     
     print("xlim_plot") # debeug
     print(xlim_plot) # debeug
