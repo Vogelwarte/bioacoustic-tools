@@ -148,10 +148,23 @@ load_selection_tables <- function(dir1, dir2 = NULL, compiled = TRUE,
   
   # 8. Parsing Robuste du Nom de l'Enregistreur
   # Extrait tout ce qui précède la date (YYYYMMDD) et l'heure (HHMMSS)
-  DT[, recorder := sub("^(.*)_\\d{8}_\\d{6}($|\\..*)$", "\\1", file_name_basic)]
+  # Cas GPS : LatXX_LongYY_RECORDER_YYYYMMDD_HHMMSS
+  DT[, recorder := sub(
+    "^Lat-?\\d+\\.\\d+_Long-?\\d+\\.\\d+_([^_]+)_\\d{8}_\\d{6}$",
+    "\\1",
+    file_name_basic
+  )]
   
-  # Fallback si le regex échoue (nom de fichier atypique) : prend le premier élément
-  DT[recorder == file_name_basic, recorder := sapply(strsplit(file_name_basic, "_"), `[`, 1)]
+  print("DEBUG RECORDER")
+  print(head(DT[, .(file_name_basic, recorder)]))
+  
+  # Fallback pour les noms plus simples :
+  DT[recorder == file_name_basic,
+     recorder := sub(
+       "^(.*)_\\d{8}_\\d{6}$",
+       "\\1",
+       file_name_basic
+     )]
   
   return(DT)
 }

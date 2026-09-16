@@ -29,12 +29,17 @@ load_raw_birdnet_data <- function(files_obj) {
         basename(Begin.Path)
       },
       
+      filename_clean = stringr::str_remove(
+        filename,
+        "^Lat-?\\d+\\.\\d+_Long-?\\d+\\.\\d+_"
+      ),
+      
       # Extraction Lat/Long
       lat = readr::parse_number(stringr::str_extract(filename, "Lat-?\\d+\\.\\d+")),
       long = readr::parse_number(stringr::str_extract(filename, "Long-?\\d+\\.\\d+")),
       
       # Découpage du nom de fichier
-      parts = stringr::str_split(filename, "_"),
+      parts = stringr::str_split(filename_clean, "_"),
       
       # Nettoyage de la liste des parties
       parts_clean = purrr::map(parts, function(x) {
@@ -69,6 +74,6 @@ load_raw_birdnet_data <- function(files_obj) {
       
       date = as.Date(date_str, "%Y%m%d")
     )
-  
+  print(unique(data$recorder)) # test for recorder names
   return(data)
 }
