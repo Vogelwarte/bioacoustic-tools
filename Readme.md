@@ -210,6 +210,13 @@ Expected input files:
 
 Shared helper functions used by several apps are located in the `Common_functions` folder. They are sourced automatically when running an app, as long as `Common_functions` is in the same location as the app's `.R` file.
 
+## Online Apps
+
+Some of the Shiny Apps are available online. You can access these different Apps via le links below: 
+- Filtering App: https://vogelwarte.shinyapps.io/Filtering_Shiny_App/
+- Phenology App: https://vogelwarte.shinyapps.io/PhenoApp_V1/
+- SCORE App:     
+
 ## Contributors & acknowledgments
 
 Contributions: Amandine Serrurier, Jean-Nicolas Pradervand & Christophe Sahli
