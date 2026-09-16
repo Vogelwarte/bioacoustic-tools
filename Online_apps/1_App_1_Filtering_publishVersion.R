@@ -45,7 +45,7 @@ ui <- fluidPage(
     style = "display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #0f0f0f; border-bottom: 1px solid #333; margin-bottom: 20px;",
     div(
       style = "font-size: 24px; font-weight: bold; color: #fff;",
-      "BirdNET-ResChecker - Check and filter output data"
+      "Bioacoustic tools - Check and filter output data"
     ),
     div(
       tags$img(
@@ -111,7 +111,7 @@ ui <- fluidPage(
                    tags$li("Overview: get a quick summary of your filtered data and species detections.."),
                    tags$li("Filtering impact: See how your custom thresholds affect each species."),
                    tags$li("Recorder Comparison: Compare species detections across different recorders."),
-                   tags$li("Recorder schedule: Visualize recording time (in minutes) per recorder and across the season."),
+                   #tags$li("Recorder schedule: Visualize recording time (in minutes) per recorder and across the season."),
                    tags$li("Map: Display recorder locations (available when GPS mode is enabled).")
                  )
         ),
@@ -135,32 +135,33 @@ ui <- fluidPage(
         ),
         tabPanel("Recorder Comparison",
                  h4("Species counts per recorder"),
-                 plotlyOutput("recorder_barplot", height = "600px")
+                 plotOutput("recorder_barplot", height = "600px")
         ),
-        tabPanel("Recording Schedule",
-                 numericInput("rec_length", 
-                              "Define recording length (in minutes):", 
-                              value = 1, min = 1, step = 1),
-                 
-                 h4("Upload recording file list (.txt)"),
-                 fileInput("schedule_file", "Upload TXT file", accept = ".txt"),
-                 
-                 h4("Daily recording (hours per recorder)"),
-                 plotOutput("recorder_daily_plot", height = "400px"),
-                 
-                 h4("Total recording density (all recorders combined)"),
-                 plotOutput("schedule_plot_total", height = "400px")
-        ),
+        # tabPanel("Recording Schedule",
+        #          numericInput("rec_length", 
+        #                       "Define recording length (in minutes):", 
+        #                       value = 1, min = 1, step = 1),
+        #          
+        #          h4("Upload recording file list (.txt)"),
+        #          fileInput("schedule_file", "Upload TXT file", accept = ".txt"),
+        #          
+        #          h4("Daily recording (hours per recorder)"),
+        #          plotOutput("recorder_daily_plot", height = "400px"),
+        #          
+        #          h4("Total recording density (all recorders combined)"),
+        #          plotOutput("schedule_plot_total", height = "400px")
+        # ),
         tabPanel("Map",
                  h4("Recorder positions (GPS mode only)"),
                  leafletOutput("map_positions", height = 600)
         ), 
-        nav_panel("Reference",
-                  layout_columns(
-                    col_widths = c(2, 8, 2),
-                    textOutput("contributions"),
-                    textOutput("license")
-                  )
+        tabPanel(
+          "Reference",
+          layout_columns(
+            col_widths = c(2, 8, 2),
+            textOutput("contributions"),
+            textOutput("license")
+          )
         ),
       )
     )
@@ -334,26 +335,33 @@ server <- function(input, output, session) {
   ############################
   output$plot_species <- renderPlotly({
     df <- summaryData()
-    if (nrow(df) == 0) return(NULL)
-    
-    species_list <- unique(df$common_name_original)
-    base_colors <- RColorBrewer::brewer.pal(8, "Set2")
-    colors <- colorRampPalette(base_colors)(length(species_list))
-    
-    plot_ly(df, x = ~common_name_original, y = ~Occurrence, type = "bar",
-            marker = list(color = rep(colors, length.out = nrow(df)))) %>%
-      layout(title = "Occurrences per species",
-             xaxis = list(title = "Species", tickangle = -45),
-             yaxis = list(title = "Count"))
+    if (is.null(df) || nrow(df) == 0) return(NULL)
+    df <- df[order(-df$Occurrence), ]
+    df$common_name_original <- factor(df$common_name_original, levels = df$common_name_original)
+    cols <- rep("#375a7f", nrow(df))
+    plot_ly(df, x = ~common_name_original, y = ~Occurrence, type = "bar", marker = list(color = cols)) %>%
+      layout(xaxis = list(title = "Species", tickangle = -45, categoryorder = "trace"), yaxis = list(title = "Count"))
   })
   
   output$plot_date <- renderPlotly({
     df <- filteredData()
-    if (nrow(df) == 0) return(NULL)
+    if (is.null(df) || nrow(df) == 0) return(NULL)
     
-    df_summary <- df %>% group_by(date) %>% summarise(Occurrence = n(), .groups = "drop")
-    plot_ly(df_summary, x = ~date, y = ~Occurrence, type = "bar", marker = list(color = 'darkorange')) %>%
-      layout(title = "Occurrences per date", xaxis = list(title = "Date"), yaxis = list(title = "Count"))
+    # CORRECTION : On utilise table() pour compter les occurrences de chaque date
+    # C'est plus robuste que aggregate(~ date, FUN=length) sur une colonne inexistante
+    counts <- table(df$date)
+    
+    agg <- data.frame(
+      date = as.Date(names(counts), origin = "1970-01-01"), # Conversion des noms en Date
+      Occurrence = as.integer(counts),
+      stringsAsFactors = FALSE
+    )
+    
+    # Tri par date (optionnel mais plus joli)
+    agg <- agg[order(agg$date), ]
+    
+    plot_ly(agg, x = ~date, y = ~Occurrence, type = "bar", marker = list(color = 'darkorange')) %>%
+      layout(xaxis = list(title = "Date"), yaxis = list(title = "Count"))
   })
   
   
@@ -375,13 +383,53 @@ server <- function(input, output, session) {
   })
   
   output$filtering_stacked_plot <- renderPlotly({
-    df <- comparisonData()
-    df_long <- df %>% select(common_name_original, Kept_pct, Removed_pct) %>%
-      pivot_longer(cols = c(Kept_pct, Removed_pct), names_to = "Type", values_to = "Percentage")
+    df_raw <- rawBirdNET()
+    df_filt <- filteredData()
     
-    plot_ly(df_long, x = ~common_name_original, y = ~Percentage, color = ~Type, type="bar") %>%
-      layout(barmode = "stack", yaxis = list(title="Percentage", range=c(0,100)),
-             xaxis = list(title="Species", tickangle=-45), title="Filtering impact (%)")
+    if (is.null(df_raw) || nrow(df_raw) == 0) return(NULL)
+    
+    # Comptage Brut
+    counts_raw <- table(df_raw$common_name_original)
+    agg_raw <- data.frame(
+      common_name_original = names(counts_raw),
+      Raw = as.integer(counts_raw),
+      stringsAsFactors = FALSE
+    )
+    
+    # Comptage Filtré
+    if (is.null(df_filt) || nrow(df_filt) == 0) {
+      agg_filt <- data.frame(
+        common_name_original = unique(df_raw$common_name_original),
+        Kept = 0,
+        stringsAsFactors = FALSE
+      )
+    } else {
+      counts_filt <- table(df_filt$common_name_original)
+      agg_filt <- data.frame(
+        common_name_original = names(counts_filt),
+        Kept = as.integer(counts_filt),
+        stringsAsFactors = FALSE
+      )
+    }
+    
+    # Fusion
+    res <- merge(agg_raw, agg_filt, by = "common_name_original", all.x = TRUE)
+    res$Kept[is.na(res$Kept)] <- 0
+    res$Removed <- res$Raw - res$Kept
+    res$Kept_pct <- ifelse(res$Raw > 0, res$Kept/res$Raw*100, 0)
+    res$Removed_pct <- ifelse(res$Raw > 0, res$Removed/res$Raw*100, 0)
+    
+    # Préparation pour Plotly (Melt manuel)
+    df_long <- data.frame(
+      common_name_original = rep(res$common_name_original, 2),
+      Type = c(rep("Kept", nrow(res)), rep("Removed", nrow(res))),
+      Percentage = c(res$Kept_pct, res$Removed_pct),
+      stringsAsFactors = FALSE
+    )
+    df_long$Type <- factor(df_long$Type, levels = c("Kept", "Removed"))
+    
+    plot_ly(df_long, x = ~common_name_original, y = ~Percentage, color = ~Type, type = "bar") %>%
+      layout(barmode = "stack", yaxis = list(range = c(0, 100)))
   })
   
   output$filtering_summary <- renderText({
@@ -400,25 +448,92 @@ server <- function(input, output, session) {
   ## Recorder Comparison: counts per recorder without filtering
   
   
-  output$recorder_barplot <- renderPlotly({
-    df <- rawBirdNET() %>%
-      mutate(recorder = as.factor(recorder)) %>%   
-      group_by(recorder, common_name_original) %>%
-      summarise(Count = n(), .groups = "drop")
-
+  output$recorder_barplot <- renderPlot({
+    df <- rawBirdNET()
+    if (is.null(df) || nrow(df) == 0) return(NULL)
     
-    if(nrow(df) == 0) return(NULL)
+    # 1. Agrégation
+    agg <- aggregate(begin_path ~ recorder + common_name_original, data = df, FUN = length)
+    names(agg)[3] <- "Count"
     
-    n_colors <- min(length(unique(df$common_name_original)), 8)
-    colors <- RColorBrewer::brewer.pal(n_colors, "Set2")
+    # 2. Tri par abondance (Décroissant pour avoir les plus grands EN HAUT)
+    total_counts <- aggregate(Count ~ common_name_original, data = agg, FUN = sum)
+    total_counts <- total_counts[order(total_counts$Count, decreasing = FALSE), ]
     
-    plot_ly(df, x = ~recorder, y = ~Count, color = ~common_name_original, type = "bar",
-            marker = list(color = rep(colors, length.out = nrow(df)))) %>%
-      layout(barmode = "stack",
-             title = "Species counts per recorder",
-             xaxis = list(title = "Recorder"),
-             yaxis = list(title = "Count"))
-  })
+    species_levels <- total_counts$common_name_original
+    agg$common_name_original <- factor(agg$common_name_original, levels = species_levels)
+    
+    # 3. Calcul de la hauteur dynamique
+    n_species <- length(species_levels)
+    plot_height <- max(600, n_species * 40) 
+    
+    # 4. Graphique
+    ggplot(agg, aes(x = recorder, y = common_name_original, fill = Count)) +
+      # Tuiles
+      geom_tile(color = "#1a1a1a", alpha = 0.95) +
+      
+      # Valeurs dans les cases
+      geom_text(aes(label = Count), 
+                color = "grey30",  
+                size = 5, 
+                fontface = "bold") +
+      
+      # Dégradé
+      scale_fill_gradient(low = "#f0f9e8", high = "#2ca25f", name = "Detections", 
+                          trans = "log10", na.value = "grey90") +
+      
+      # CRUCIAL : Dupliquer l'axe X en haut ET en bas
+      scale_x_discrete(position = "top") + 
+      
+      labs(title = "Species Detection Heatmap per Recorder",
+           subtitle = "Sorted by abundance (most abundant at top)",
+           x = "Recorder", y = "Species") +
+      theme_minimal(base_size = 14) +
+      theme(
+        # --- AXE X (HAUT & BAS) ---
+        
+        # Configuration du HAUT
+        axis.title.x.top = element_text(size = 13, face = "bold", color = "#1a1a1a", margin = margin(b = 5)),
+        axis.text.x.top = element_text(angle = 45, hjust = 1, vjust = 1, size = 13, color = "#1a1a1a"),
+        axis.ticks.x.top = element_line(color = "grey50", size = 0.5), # Ligne et ticks visibles
+        
+        # Configuration du BAS
+        axis.title.x.bottom = element_text(size = 13, face = "bold", color = "#1a1a1a", margin = margin(t = 5)),
+        axis.text.x.bottom = element_text(angle = 45, hjust = 1, vjust = 1, size = 13, color = "#1a1a1a"),
+        axis.ticks.x.bottom = element_line(color = "grey50", size = 0.5),
+        
+        # S'assurer que la ligne de l'axe est dessinée des deux côtés
+        axis.line.x.top = element_line(color = "grey70", size = 0.5),
+        axis.line.x.bottom = element_line(color = "grey70", size = 0.5),
+        
+        # --- AXE Y (Espèces) ---
+        axis.text.y = element_text(size = 11, hjust = 1, color = "#1a1a1a", face = "plain"),
+        axis.title.y = element_text(size = 13, face = "bold", color = "#1a1a1a"),
+        axis.line.y = element_line(color = "grey70", size = 0.5),
+        axis.ticks.y = element_line(color = "grey70", size = 0.5),
+        
+        # --- TITRES ET LÉGENDE ---
+        plot.title = element_text(hjust = 0.5, face = "bold", size = 14, color = "#1a1a1a"),
+        plot.subtitle = element_text(hjust = 0.5, color = "grey30", size = 12),
+        
+        legend.position = "bottom",
+        legend.title = element_text(size = 14, color = "#1a1a1a"),
+        legend.text = element_text(size = 12, color = "#1a1a1a"),
+        legend.box.margin = margin(10, 0, 0, 0),
+        
+        # --- FOND ET GRILLE ---
+        panel.grid = element_blank(),
+        panel.border = element_blank(),
+        plot.background = element_rect(fill = "grey90", color = "#1a1a1a"),
+        
+        plot.margin = margin(10, 10, 10, 20) 
+      )
+  }, height = function() {
+    df <- rawBirdNET()
+    if (is.null(df)) return(600)
+    n_sp <- length(unique(df$common_name_original))
+    return(max(600, n_sp * 40 + 120))
+    })
   
   ############################
   # Recorder comparison
@@ -536,38 +651,38 @@ server <- function(input, output, session) {
   # Build schedule data
   ############################
   
-  scheduleData <- reactive({
-    req(input$schedule_file)
-    
-    readr::read_lines(input$schedule_file$datapath) %>%
-      tibble(path = .) %>%
-      mutate(
-        filename = basename(path),
-        
-        # Split by underscore
-        parts = str_split(filename, "_"),
-        
-        # Recorder: always part 1
-        recorder = map_chr(parts, ~ .x[1]),
-        recorder = as.factor(recorder),
-        
-        # Date: always part 2
-        date_str = map_chr(parts, ~ .x[2]),
-        
-        # Time: part 3, remove extension
-        time_str = map_chr(parts, ~ str_remove(.x[3], "\\.wav$|\\.WAV$")),
-        
-        # Build datetime
-        datetime = as.POSIXct(
-          paste0(date_str, time_str),
-          format = "%Y%m%d%H%M%S",
-          tz = "UTC"
-        ),
-        
-        date = as.Date(date_str, "%Y%m%d")
-      ) %>%
-      filter(!is.na(date), !is.na(datetime))
-  })
+ # scheduleData <- reactive({
+  #   req(input$schedule_file)
+  #   
+  #   readr::read_lines(input$schedule_file$datapath) %>%
+  #     tibble(path = .) %>%
+  #     mutate(
+  #       filename = basename(path),
+  #       
+  #       # Split by underscore
+  #       parts = str_split(filename, "_"),
+  #       
+  #       # Recorder: always part 1
+  #       recorder = map_chr(parts, ~ .x[1]),
+  #       recorder = as.factor(recorder),
+  #       
+  #       # Date: always part 2
+  #       date_str = map_chr(parts, ~ .x[2]),
+  #       
+  #       # Time: part 3, remove extension
+  #       time_str = map_chr(parts, ~ str_remove(.x[3], "\\.wav$|\\.WAV$")),
+  #       
+  #       # Build datetime
+  #       datetime = as.POSIXct(
+  #         paste0(date_str, time_str),
+  #         format = "%Y%m%d%H%M%S",
+  #         tz = "UTC"
+  #       ),
+  #       
+  #       date = as.Date(date_str, "%Y%m%d")
+  #     ) %>%
+  #     filter(!is.na(date), !is.na(datetime))
+  # })
   
   
  

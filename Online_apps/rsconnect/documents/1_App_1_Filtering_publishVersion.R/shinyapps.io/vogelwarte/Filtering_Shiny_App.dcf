@@ -5,7 +5,7 @@ account: vogelwarte
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 17486899
-bundleId: 12104467
+bundleId: 12562693
 url: https://vogelwarte.shinyapps.io/Filtering_Shiny_App/
 version: 1
 asMultiple: FALSE
