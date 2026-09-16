@@ -213,9 +213,9 @@ Shared helper functions used by several apps are located in the `Common_function
 ## Online Apps
 
 Some of the Shiny Apps are available online. You can access these different Apps via le links below: 
--Filtering App: https://vogelwarte.shinyapps.io/Filtering_Shiny_App/
--Phenology App: https://vogelwarte.shinyapps.io/PhenoApp_V1/
--SCORE App:     
+- Filtering App: https://vogelwarte.shinyapps.io/Filtering_Shiny_App/
+- Phenology App: https://vogelwarte.shinyapps.io/PhenoApp_V1/
+- SCORE App:     
 
 ## Contributors & acknowledgments
 
