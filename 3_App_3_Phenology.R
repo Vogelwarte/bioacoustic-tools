@@ -41,7 +41,21 @@ if (dir.exists("Common_functions")) {
 
 # --- 3. CONFIGURATION GLOBALE -------------------------------------------------
 roots_home <- get_roots()
-utc_timezones <- OlsonNames()
+all_tz <- OlsonNames()
+
+fixed_tz <- c(
+  "UTC" = "UTC",
+  "UTC+1 (fixed)" = "Etc/GMT-1",
+  "UTC+2 (fixed)" = "Etc/GMT-2",
+  "UTC+3 (fixed)" = "Etc/GMT-3",
+  "UTC-1 (fixed)" = "Etc/GMT+1",
+  "UTC-2 (fixed)" = "Etc/GMT+2"
+)
+
+tz_choices <- c(
+  fixed_tz,
+  setNames(all_tz, all_tz)
+)
 
 # Augmenter la limite de mémoire pour R (si le système le permet)
 # Utile pour les sessions locales. Sur serveur, dépend de la config RAM allouée.
@@ -68,9 +82,9 @@ ui <- page_sidebar(
     actionButton("start", "Start App", class = "btn-primary", width = "100%"),
     hr(),
     selectInput(inputId = "device_tz", label = "Timezone of set device", 
-                choices = utc_timezones, selected = Sys.timezone(), multiple = FALSE),
+                choices = tz_choices, selected = Sys.timezone(), multiple = FALSE),
     selectInput(inputId = "deployment_tz", label = "Timezone of deployement", 
-                choices = utc_timezones, selected = Sys.timezone(), multiple = FALSE),
+                choices = tz_choices, selected = Sys.timezone(), multiple = FALSE),
     actionButton("restart_timezone", "Update Timezones", class = "btn-primary", width = "100%"),
     hr(),
     uiOutput("recorder_ui"),
@@ -97,8 +111,25 @@ ui <- page_sidebar(
                                     numericInput("Lon", "Longitude", min = -180, max = 180, value = 6.97)),
                      sliderInput("Unit", "Aggregation Interval (min)", min = 1, max = 60, value = 15),
                      checkboxInput("Noctu_plot", label = "Nocturnal Plot?", value = FALSE),
-                     actionButton("start_pheno", "Generate Plot", class = "btn-primary", width = "100%")),
-                card(full_screen = TRUE, card_header("Phenology Graph"), plotOutput("pheno_plot"))
+                     actionButton("start_pheno", "Generate Plot", class = "btn-primary", width = "100%"),
+                     sliderInput(
+                       "tile_alpha",
+                       "Heatmap transparency",
+                       min = 0.1,
+                       max = 1,
+                       value = 0.5,
+                       step = 0.05,
+                       width = "100%"
+                     )),
+                card(
+                  full_screen = TRUE,
+                  card_header("Phenology Graph"),
+                  
+                  plotOutput(
+                    "pheno_plot",
+                    height = "700px"
+                  ),
+                )
               )),
     nav_panel("Reference",
               layout_columns(col_widths = c(2, 8, 2),
@@ -106,7 +137,11 @@ ui <- page_sidebar(
                              textOutput("contributions"),
                              textOutput("license")))
   ),
-  
+  checkboxInput(
+    "fixed_recorder_clock",
+    "Recorder kept constant time (ignore DST)",
+    value = TRUE
+  ),
   tags$head(
     tags$style(HTML("
       body { background-color: #2b2b2b; color: #e0e0e0; }
@@ -427,10 +462,18 @@ server <- function(input, output, session) {
     
     tryCatch({
       pheno_matrix(
-        Voc = Voc, SP = sp_to_plot, Unit = input$Unit, 
-        Confidence1 = input$Confid_Pheno, sunrise = TRUE, 
-        LAT = input$Lat, LONG = input$Lon, TimeZone = input$deployment_tz,
-        xlim_plot = xlim_plot, nocturnal = input$Noctu_plot
+        Voc = Voc,
+        SP = sp_to_plot,
+        Unit = input$Unit,
+        Confidence1 = input$Confid_Pheno,
+        sunrise = TRUE,
+        LAT = input$Lat,
+        LONG = input$Lon,
+        TimeZone = input$deployment_tz,
+        xlim_plot = xlim_plot,
+        nocturnal = input$Noctu_plot,
+        tile_alpha = input$tile_alpha,
+        fixed_recorder_clock = input$fixed_recorder_clock
       )
     }, error = function(e) {
       showNotification(paste("Pheno Error:", e$message), type = "error")

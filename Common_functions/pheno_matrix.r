@@ -1,5 +1,17 @@
-pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LAT, LONG, TimeZone, xlim_plot = NULL, nocturnal = FALSE) {
-  
+pheno_matrix <- function(
+    Voc,
+    SP = "All species",
+    Unit,
+    Confidence1,
+    sunrise,
+    LAT,
+    LONG,
+    TimeZone,
+    xlim_plot = NULL,
+    nocturnal = FALSE,
+    tile_alpha = 0.5,
+    fixed_recorder_clock = TRUE
+) {  
   # Chargement explicite pour éviter les erreurs de namespace
   if (!requireNamespace("data.table", quietly = TRUE)) stop("Package data.table required")
   if (!requireNamespace("ggplot2", quietly = TRUE)) stop("Package ggplot2 required")
@@ -167,7 +179,19 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
       if (length(unique_dates) > 0) {
         tryCatch({
           Sun <- getSunlightTimes(date = unique_dates, lat = LAT, lon = LONG, keep = c("sunrise", "sunset", "dawn", "dusk"), tz = TimeZone)
-          
+          if(fixed_recorder_clock){
+            
+            dst_offset <- ifelse(
+              lubridate::dst(Sun$sunrise),
+              1,
+              0
+            )
+            
+            Sun$sunrise <- Sun$sunrise - lubridate::hours(dst_offset)
+            Sun$sunset  <- Sun$sunset  - lubridate::hours(dst_offset)
+            Sun$dawn    <- Sun$dawn    - lubridate::hours(dst_offset)
+            Sun$dusk    <- Sun$dusk    - lubridate::hours(dst_offset)
+          }
           # Helper simple 0-24
           to_hour_num <- function(posix_time) {
             if (is.na(posix_time)) return(NA)
@@ -230,9 +254,12 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
       df_plot <- as.data.frame(matrix_plot)
       a <- a +
         geom_tile(
-          data = df_plot, 
-          aes(x = date_vocmatrix, y = hour_num, fill = Vocs), 
-          color = "grey", alpha = 1
+          data = df_plot,
+          aes(x = date_vocmatrix,
+              y = hour_num,
+              fill = Vocs),
+          color = "grey",
+          alpha = tile_alpha
         ) +
         scale_fill_gradientn(
           colours = c("#FCFFA4FF", "#F98C0AFF", "#BB3754FF", "#56106EFF", "#000004FF"),
@@ -321,7 +348,19 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
       if (length(unique_dates) > 0) {
         tryCatch({
           Sun <- getSunlightTimes(date = unique_dates, lat = LAT, lon = LONG, keep = c("sunrise", "sunset", "dawn", "dusk"), tz = TimeZone)
-          
+          if(fixed_recorder_clock){
+            
+            dst_offset <- ifelse(
+              lubridate::dst(Sun$sunrise),
+              1,
+              0
+            )
+            
+            Sun$sunrise <- Sun$sunrise - lubridate::hours(dst_offset)
+            Sun$sunset  <- Sun$sunset  - lubridate::hours(dst_offset)
+            Sun$dawn    <- Sun$dawn    - lubridate::hours(dst_offset)
+            Sun$dusk    <- Sun$dusk    - lubridate::hours(dst_offset)
+          }
           # Helper pour convertir en heure continue (12-36h)
           # Attention : sunrise/sunset sont sur des jours différents dans la logique graphique
           to_continuous_hour <- function(posix_time, is_next_day = FALSE) {
@@ -379,10 +418,13 @@ pheno_matrix <- function(Voc, SP = "All species", Unit, Confidence1, sunrise, LA
       df_plot <- as.data.frame(matrix_plot)
       a <- a +
         geom_tile(
-          data = df_plot, 
-          aes(x = date_vocmatrix, y = hour_num, fill = Vocs), 
-          color = "grey", alpha = 1
-        ) +
+          data = df_plot,
+          aes(x = date_vocmatrix,
+              y = hour_num,
+              fill = Vocs),
+          color = "grey",
+          alpha = tile_alpha
+        )+
         
         # geom_tile(matrix_plot, mapping=aes(date_vocmatrix,as.POSIXct(format(test_graph), format="%Y-%m-%d %H:%M"), fill=Vocs),color=NA)+ 
         scale_fill_gradientn(
