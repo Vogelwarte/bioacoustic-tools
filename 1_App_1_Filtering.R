@@ -44,7 +44,11 @@ ui <- fluidPage(
                 multiple = TRUE),
       p("Do you have coordinates in filenames?"),
       checkboxInput("gps_mode", "Filenames contain GPS coordinates", value = FALSE),
-      
+      checkboxInput(
+        "remove_nocall",
+        "Remove 'NoCall' detections",
+        value = TRUE
+      ),
       h4("Step 1: Download species list for confidence threshold filtering"),
       downloadButton("downloadSpeciesTemplate", "Download xls"),
       
@@ -99,8 +103,18 @@ ui <- fluidPage(
                  DTOutput("species_summary")
         ),
         tabPanel("Visualizations",
+                 
+                 numericInput(
+                   "top_species_plot",
+                   "Number of most frequent species to display",
+                   value = 20,
+                   min = 1,
+                   step = 1
+                 ),
+                 
                  h4("Occurrences per species"),
                  plotlyOutput("plot_species"),
+                 
                  h4("Occurrences per date"),
                  plotlyOutput("plot_date")
         ),
@@ -111,8 +125,21 @@ ui <- fluidPage(
                  plotlyOutput("filtering_stacked_plot")
         ),
         tabPanel("Recorder Comparison",
+                 
+                 numericInput(
+                   "top_species_heatmap",
+                   "Number of most frequent species to display",
+                   value = 30,
+                   min = 1,
+                   step = 1
+                 ),
+                 
                  h4("Species counts per recorder"),
-                 plotOutput("recorder_barplot", height = "600px")
+                 
+                 plotOutput(
+                   "recorder_barplot",
+                   height = "600px"
+                 )
         ),
         # tabPanel("Recording Schedule",
         #          numericInput("rec_length", "Define recording length (in minutes):", value = 1, min = 1, step = 1),
@@ -191,6 +218,14 @@ server <- function(input, output, session) {
     
     df$common_name_original <- df$common_name
     df$common_name <- tolower(trimws(df$common_name))
+    if (input$remove_nocall) {
+      
+      df <- df[
+        !tolower(trimws(df$common_name)) %in%
+          c("nocall", "no call"),
+      ]
+      
+    }
     df$filename <- basename(df$begin_path)
     
     # GPS
@@ -374,6 +409,10 @@ server <- function(input, output, session) {
     df <- summaryData()
     if (is.null(df) || nrow(df) == 0) return(NULL)
     df <- df[order(-df$Occurrence), ]
+    
+    if (!is.null(input$top_species_plot)) {
+      df <- head(df, input$top_species_plot)
+    }
     df$common_name_original <- factor(df$common_name_original, levels = df$common_name_original)
     cols <- get_safe_colors(nrow(df))
     plot_ly(df, x = ~common_name_original, y = ~Occurrence, type = "bar", marker = list(color = cols)) %>%
@@ -492,14 +531,39 @@ server <- function(input, output, session) {
     names(agg)[3] <- "Count"
     
     # 2. Tri par abondance (Décroissant pour avoir les plus grands EN HAUT)
-    total_counts <- aggregate(Count ~ common_name_original, data = agg, FUN = sum)
-    total_counts <- total_counts[order(total_counts$Count, decreasing = FALSE), ]
+    # Total detections per species across all recorders
+    total_counts <- aggregate(
+      Count ~ common_name_original,
+      data = agg,
+      FUN = sum
+    )
     
-    species_levels <- total_counts$common_name_original
-    agg$common_name_original <- factor(agg$common_name_original, levels = species_levels)
+    # Sort by abundance
+    total_counts <- total_counts[
+      order(total_counts$Count, decreasing = TRUE),
+    ]
+    
+    # Keep only Top N species
+    n_top <- min(
+      input$top_species_heatmap,
+      nrow(total_counts)
+    )
+    
+    top_species <- total_counts$common_name_original[1:n_top]
+    
+    # Filter heatmap dataset
+    agg <- agg[
+      agg$common_name_original %in% top_species,
+    ]
+    
+    # Preserve abundance order in heatmap
+    agg$common_name_original <- factor(
+      agg$common_name_original,
+      levels = rev(top_species)
+    )
     
     # 3. Calcul de la hauteur dynamique
-    n_species <- length(species_levels)
+    n_species <- length(top_species)
     plot_height <- max(600, n_species * 40) 
     
     # 4. Graphique
@@ -566,7 +630,10 @@ server <- function(input, output, session) {
   }, height = function() {
     df <- rawBirdNET()
     if (is.null(df)) return(600)
-    n_sp <- length(unique(df$common_name_original))
+    n_sp <- min(
+      length(unique(df$common_name_original)),
+      input$top_species_heatmap
+    )
     return(max(600, n_sp * 40 + 120)) 
   })
   
