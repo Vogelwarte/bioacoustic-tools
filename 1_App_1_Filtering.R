@@ -523,7 +523,7 @@ server <- function(input, output, session) {
   #     layout(barmode = "stack")
   # })
   output$recorder_barplot <- renderPlot({
-    df <- rawBirdNET()
+    df <- filteredData()
     if (is.null(df) || nrow(df) == 0) return(NULL)
     
     # 1. Agrégation
@@ -628,7 +628,7 @@ server <- function(input, output, session) {
         plot.margin = margin(10, 10, 10, 20) 
       )
   }, height = function() {
-    df <- rawBirdNET()
+    df <- filteredData()
     if (is.null(df)) return(600)
     n_sp <- min(
       length(unique(df$common_name_original)),
