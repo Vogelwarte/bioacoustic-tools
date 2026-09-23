@@ -49,6 +49,11 @@ ui <- fluidPage(
         "Remove 'NoCall' detections",
         value = TRUE
       ),
+      checkboxInput(
+        "hide_zero_species",
+        "Hide species with 0 detections after filtering",
+        value = TRUE
+      ),
       h4("Step 1: Download species list for confidence threshold filtering"),
       downloadButton("downloadSpeciesTemplate", "Download xls"),
       
@@ -373,6 +378,12 @@ server <- function(input, output, session) {
     # Remplacer les NA (espèces présentes dans le brut mais absentes du filtré) par 0
     final_res$Occurrence[is.na(final_res$Occurrence)] <- 0
     
+    if (input$hide_zero_species) {
+      final_res <- final_res[
+        final_res$Occurrence > 0,
+      ]
+    }
+    
     return(final_res)
   })
   # --- 5. AFFICHAGE TABLEAUX (SANS REQ, AVEC GESTION MANUELLE) ---
@@ -529,6 +540,22 @@ server <- function(input, output, session) {
     # 1. Agrégation
     agg <- aggregate(begin_path ~ recorder + common_name_original, data = df, FUN = length)
     names(agg)[3] <- "Count"
+    if (input$hide_zero_species) {
+      
+      total_sp <- aggregate(
+        Count ~ common_name_original,
+        data = agg,
+        FUN = sum
+      )
+      
+      keep_sp <- total_sp$common_name_original[
+        total_sp$Count > 0
+      ]
+      
+      agg <- agg[
+        agg$common_name_original %in% keep_sp,
+      ]
+    }
     
     # 2. Tri par abondance (Décroissant pour avoir les plus grands EN HAUT)
     # Total detections per species across all recorders
