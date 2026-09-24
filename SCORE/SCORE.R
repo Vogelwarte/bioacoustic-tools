@@ -26,12 +26,6 @@ library(plotly)
 library(stringr)
 library(metR)
 
-# rsconnect::terminateApp("R_raref_test")
-# rsconnect::forgetDeployment()
-# rsconnect::setAccountInfo(name='vogelwarte',
-#                           token='5FA01481ECE5F33483C37F69731D3CF9',
-#                           secret='bBVKSYJlP/1Xz2Ynz8FuwxotsbgoQQTRrKekRXh7')
-# 
 
 # https://vogelwarte.shinyapps.io/SCORE_online/
 # # Shiny options ----
