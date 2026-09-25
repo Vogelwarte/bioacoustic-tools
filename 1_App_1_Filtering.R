@@ -47,6 +47,8 @@ library(bslib)
 library(dplyr)
 library(skimr)
 library(DT)
+library(readr)
+library(purrr)
 
 ################################################################################
 # --- 2. UI Dark theme ---
@@ -745,10 +747,64 @@ server <- function(input, output, session) {
   )
   
   output$downloadSummary <- downloadHandler(
-    filename = function() "Summary.xlsx",
+    filename = function() "Filtered_Counts.xlsx",
     content = function(file) {
-      df <- summaryData()
-      writexl::write_xlsx(df, file)
+      
+      df <- filteredData()
+      
+      if (is.null(df) || nrow(df) == 0) {
+        writexl::write_xlsx(
+          list(
+            Total = data.frame(
+              Species = character(),
+              Count = integer()
+            )
+          ),
+          file
+        )
+        return()
+      }
+      
+      sheets <- list()
+      
+      # Total counts
+      total_counts <- as.data.frame(
+        table(df$common_name_original),
+        stringsAsFactors = FALSE
+      )
+      
+      names(total_counts) <- c("Species", "Count")
+      
+      total_counts <- total_counts[
+        order(total_counts$Count, decreasing = TRUE),
+      ]
+      
+      sheets[["Total"]] <- total_counts
+      
+      # Daily counts
+      dates <- sort(unique(df$date))
+      
+      for (d in dates) {
+        
+        daily_df <- df[df$date == d, ]
+        
+        daily_counts <- as.data.frame(
+          table(daily_df$common_name_original),
+          stringsAsFactors = FALSE
+        )
+        
+        names(daily_counts) <- c("Species", "Count")
+        
+        daily_counts <- daily_counts[
+          order(daily_counts$Count, decreasing = TRUE),
+        ]
+        
+        sheet_name <- format(as.Date(d), "%Y-%m-%d")
+        
+        sheets[[sheet_name]] <- daily_counts
+      }
+      
+      writexl::write_xlsx(sheets, file)
     }
   )
   
@@ -759,8 +815,12 @@ server <- function(input, output, session) {
       if (is.null(df)) {
         writexl::write_xlsx(data.frame(common_name="", Confidence=0), file)
       } else {
-        tmp <- unique(df[, c("common_name")])
-        tmp$Confidence <- 0
+        tmp <- data.frame(
+          common_name = sort(unique(df$common_name)),
+          Confidence = 0,
+          stringsAsFactors = FALSE
+        )
+        
         writexl::write_xlsx(tmp, file)
       }
     }
@@ -769,14 +829,62 @@ server <- function(input, output, session) {
   output$downloadRawCounts <- downloadHandler(
     filename = function() "RawCounts.xlsx",
     content = function(file) {
+      
       df <- rawBirdNET()
-      if (is.null(df)) {
-        writexl::write_xlsx(data.frame(), file)
-      } else {
-        agg <- aggregate(Count ~ common_name_original, data = df, FUN = length)
-        names(agg)[2] <- "Total"
-        writexl::write_xlsx(list(Total = agg), file)
+      
+      if (is.null(df) || nrow(df) == 0) {
+        writexl::write_xlsx(
+          list(
+            Total = data.frame(
+              Species = character(),
+              Count = integer()
+            )
+          ),
+          file
+        )
+        return()
       }
+      
+      sheets <- list()
+      
+      # Total counts
+      total_counts <- as.data.frame(
+        table(df$common_name_original),
+        stringsAsFactors = FALSE
+      )
+      
+      names(total_counts) <- c("Species", "Count")
+      
+      total_counts <- total_counts[
+        order(total_counts$Count, decreasing = TRUE),
+      ]
+      
+      sheets[["Total"]] <- total_counts
+      
+      # Daily counts
+      dates <- sort(unique(df$date))
+      
+      for (d in dates) {
+        
+        daily_df <- df[df$date == d, ]
+        
+        daily_counts <- as.data.frame(
+          table(daily_df$common_name_original),
+          stringsAsFactors = FALSE
+        )
+        
+        names(daily_counts) <- c("Species", "Count")
+        
+        daily_counts <- daily_counts[
+          order(daily_counts$Count, decreasing = TRUE),
+        ]
+        
+        sheet_name <- format(as.Date(d), "%Y-%m-%d")
+        
+        sheets[[sheet_name]] <- daily_counts
+      }
+      
+      writexl::write_xlsx(sheets, file)
     }
   )
 }

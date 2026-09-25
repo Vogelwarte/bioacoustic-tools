@@ -1,0 +1,12 @@
+name: Online_apps
+title: Online_apps
+username: jnop
+account: jnop
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 18011124
+bundleId: 12605709
+url: https://jnop.shinyapps.io/Online_apps/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
