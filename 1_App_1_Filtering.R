@@ -26,7 +26,7 @@
 ################################################################################
 
 # Remove file upload size limitation (2 GB)
-options(shiny.maxRequestSize = 2 * 1024^3)
+options(shiny.maxRequestSize = 10 * 1024^3)
 
 ################################################################################
 # 1. LOAD REQUIRED PACKAGES
