@@ -1,7 +1,37 @@
-# Remove file upload size limitation (10 GB)
-options(shiny.maxRequestSize = 10 * 1024^3)
+################################################################################
+# BirdNET Filtering App
+#
+# Purpose:
+#   Interactive Shiny application to:
+#   - Load BirdNET selection tables (.txt / .csv)
+#   - Apply species-specific confidence thresholds
+#   - Filter detections by recorder and/or date
+#   - Visualize detections through interactive plots
+#   - Compare recorder performance
+#   - Export filtered datasets and summaries
+#
+# Authors:
+#   Amandine Serrurier
+#   Jean-Nicolas Pradervand
+#   Christophe Sahli
+#
+# Institution:
+#   Swiss Ornithological Institute
+#
+# Notes:
+#   - Supports multiple BirdNET selection tables
+#   - Supports recorder coordinates embedded in filenames
+#   - Optimized for large BirdNET datasets
+#
+################################################################################
 
-# --- 1. CHARGEMENT DES LIBRAIRIES ---
+# Remove file upload size limitation (2 GB)
+options(shiny.maxRequestSize = 2 * 1024^3)
+
+################################################################################
+# 1. LOAD REQUIRED PACKAGES
+#
+
 library(shiny)
 library(data.table)
 library(readxl)
@@ -18,7 +48,8 @@ library(dplyr)
 library(skimr)
 library(DT)
 
-# --- 2. UI ---
+################################################################################
+# --- 2. UI Dark theme ---
 dark_theme <- bs_theme(
   version = 5,
   bootswatch = "darkly",
@@ -146,15 +177,6 @@ ui <- fluidPage(
                    height = "600px"
                  )
         ),
-        # tabPanel("Recording Schedule",
-        #          numericInput("rec_length", "Define recording length (in minutes):", value = 1, min = 1, step = 1),
-        #          h4("Upload recording file list (.txt)"),
-        #          fileInput("schedule_file", "Upload TXT file", accept = ".txt"),
-        #          h4("Daily recording (hours per recorder)"),
-        #          plotOutput("recorder_daily_plot", height = "400px"),
-        #          h4("Total recording density (all recorders combined)"),
-        #          plotOutput("schedule_plot_total", height = "400px")
-        # ),
         tabPanel("Map",
                  h4("Recorder positions (GPS mode only)"),
                  leafletOutput("map_positions", height = 600)
@@ -176,7 +198,8 @@ server <- function(input, output, session) {
   
   output$contributions <- renderText("Contributions: Amandine Serrurier, Jean-Nicolas Pradervand & Christophe Sahli\nSwiss Ornithological Institute")
   output$license <- renderText("MIT License © 2026 Jean-Nicolas Pradervand")
-  
+
+  # Get correct colors based on number of species  
   get_safe_colors <- function(n) {
     if (n <= 0) return("#cccccc")
     if (n == 1) return("#377eb8")
@@ -185,11 +208,11 @@ server <- function(input, output, session) {
     return(colorRampPalette(brewer.pal(8, "Set2"))(n))
   }
   
-  # --- 1. CHARGEMENT (Avec conversion immédiate en data.frame pour sécurité) ---
+  # --- 1. loading BirdNET dataframe ---
   rawBirdNET <- reactive({
     if (is.null(input$txtfiles)) return(NULL)
     
-    cat("DEBUG: Tentative de lecture des fichiers...\n")
+    cat("DEBUG: Trying to read file...\n")
     
     dt_list <- lapply(seq_along(input$txtfiles$datapath), function(i) {
       tryCatch({
@@ -202,7 +225,7 @@ server <- function(input, output, session) {
         dt$source_file <- input$txtfiles$name[i]
         dt
       }, error = function(e) {
-        cat("Erreur lecture:", e$message, "\n")
+        cat("Reading error:", e$message, "\n")
         NULL
       })
     })
@@ -211,13 +234,13 @@ server <- function(input, output, session) {
     if (length(dt_list) == 0) return(NULL)
     
     df <- do.call(rbind, dt_list)
-    cat("DEBUG: Fichiers lus. Total lignes:", nrow(df), "\n")
+    cat("DEBUG: File read. Number of lines:", nrow(df), "\n")
     
-    # Nettoyage noms
+    # Cleaning names
     names(df) <- tolower(gsub("[^a-zA-Z0-9]", "_", names(df)))
     
     if (!"common_name" %in% names(df)) {
-      cat("ERREUR: Colonne 'common_name' introuvable. Colonnes:", paste(names(df), collapse=", "), "\n")
+      cat("Error: Column 'common_name' not found Column:", paste(names(df), collapse=", "), "\n")
       return(NULL)
     }
     
@@ -233,7 +256,7 @@ server <- function(input, output, session) {
     }
     df$filename <- basename(df$begin_path)
     
-    # GPS
+    # extract GPS data
     if (input$gps_mode) {
       df$lat <- as.numeric(str_match(df$filename, "Lat(-?\\d+\\.\\d+)")[,2])
       df$long <- as.numeric(str_match(df$filename, "Long(-?\\d+\\.\\d+)")[,2])
@@ -242,7 +265,7 @@ server <- function(input, output, session) {
       df$long <- NA_real_
     }
     
-    # Parsing (Vectorisé sur dataframe)
+    # Parsing (to recover date, time and recorder name based on the structure RECORDER_DATE_TIME)
     parts <- strsplit(df$filename, "_")
     df$recorder <- sapply(parts, function(x) {
       if (length(x) >= 3 && grepl("^Lat", x[1]) && grepl("^Long", x[2])) x[3] else x[1]
@@ -258,16 +281,17 @@ server <- function(input, output, session) {
     df$datetime <- as.POSIXct(paste0(df$date_str, df$time_str), format = "%Y%m%d%H%M%S", tz = "UTC")
     df$date <- as.Date(df$date_str, "%Y%m%d")
     
-    # Suppression colonnes inutiles
+    # Remove useless columns
     df$source_file <- NULL
     df$date_str <- NULL
     df$time_str <- NULL
     
-    cat("DEBUG: Chargement terminé avec succès.\n")
+    cat("DEBUG: File successfully loaded.\n")
     return(df)
   })
   
-  # --- 2. UI DYNAMIQUE ---
+  # --- 2. UI DYNAMIC ---
+  # Recorder selection
   output$recorder_ui <- renderUI({
     df <- rawBirdNET()
     if (is.null(df) || nrow(df) == 0) return(NULL)
@@ -276,12 +300,14 @@ server <- function(input, output, session) {
     selectInput("selected_recorders", "Select recorder(s):", choices = recs, selected = recs, multiple = TRUE)
   })
   
+  #remove species with 0 data
   output$date_ui <- renderUI({
     df <- rawBirdNET()
     if (is.null(df) || nrow(df) == 0) return(NULL)
     dates <- sort(unique(df$date))
     if(length(dates) == 0) return(NULL)
-    
+   
+    # Filter by date 
     tagList(
       radioButtons("date_mode", "Filter by:", choices = c("All" = "all", "Single day" = "single", "Period" = "range"), inline = TRUE),
       conditionalPanel("input.date_mode == 'single'",
@@ -291,7 +317,7 @@ server <- function(input, output, session) {
     )
   })
   
-  # --- 3. FILTRAGE ---
+  # --- 3. Filtering ---
   confidenceData <- reactive({
     if (is.null(input$xlsfile)) return(NULL)
     df_xl <- readxl::read_excel(input$xlsfile$datapath)
@@ -336,17 +362,17 @@ server <- function(input, output, session) {
     return(df)
   })
   
-  # --- 4. RÉSUMÉ (Conversion explicite) ---
+  # --- 4. Summary (Conversion explicite) ---
   summaryData <- reactive({
     df_raw <- rawBirdNET()
     df_filt <- filteredData()
     
-    # Cas 1 : Pas de données brutes
+    # Case 1 : No raw data
     if (is.null(df_raw) || nrow(df_raw) == 0) {
       return(data.frame(common_name_original = character(), Occurrence = integer()))
     }
     
-    # Cas 2 : Données brutes présentes mais filtrage vide
+    # Case 2 : Empty filtered dataset
     if (is.null(df_filt) || nrow(df_filt) == 0) {
       res <- data.frame(
         common_name_original = unique(df_raw$common_name_original),
@@ -356,18 +382,17 @@ server <- function(input, output, session) {
       return(res)
     }
     
-    # Cas 3 : Calcul robuste avec table() (Base R, pas de package requis)
-    # table() compte automatiquement le nombre d'apparitions de chaque espèce
+    # Case 3 : Use table() (Base R)
     counts <- table(df_filt$common_name_original)
     
-    # Conversion du résultat de table() en data.frame propre
+    # Convertibg table in clean dataset
     res <- data.frame(
       common_name_original = names(counts),
       Occurrence = as.integer(counts),
       stringsAsFactors = FALSE
     )
     
-    # Optionnel : S'assurer que toutes les espèces du jeu brut apparaissent (même avec 0)
+    # Check that all species appear in dataframe (even 0)
     all_sp <- data.frame(
       common_name_original = unique(df_raw$common_name_original), 
       stringsAsFactors = FALSE
@@ -375,7 +400,7 @@ server <- function(input, output, session) {
     
     final_res <- merge(all_sp, res, by = "common_name_original", all.x = TRUE)
     
-    # Remplacer les NA (espèces présentes dans le brut mais absentes du filtré) par 0
+    # Replace NAs (species from raw but absent in filtered) by 0
     final_res$Occurrence[is.na(final_res$Occurrence)] <- 0
     
     if (input$hide_zero_species) {
@@ -386,17 +411,17 @@ server <- function(input, output, session) {
     
     return(final_res)
   })
-  # --- 5. AFFICHAGE TABLEAUX (SANS REQ, AVEC GESTION MANUELLE) ---
+  # --- 5. DISPLAY TABLES ---
   
   output$preview <- renderDT({
     df <- rawBirdNET()
     
 
     if (is.null(df)) {
-      return(datatable(data.frame(Message = "En attente de fichiers..."), options = list(dom = 't')))
+      return(datatable(data.frame(Message = "Waiting for tables..."), options = list(dom = 't')))
     }
     if (nrow(df) == 0) {
-      return(datatable(data.frame(Message = "Fichier vide ou erreur de lecture."), options = list(dom = 't')))
+      return(datatable(data.frame(Message = "Empty file or reading error."), options = list(dom = 't')))
     }
     
     datatable(df, rownames = FALSE)
@@ -406,16 +431,16 @@ server <- function(input, output, session) {
     df <- summaryData()
     
     if (is.null(df) || nrow(df) == 0) {
-      return(datatable(data.frame(Message = "Aucune donnée à résumer."), options = list(dom = 't')))
+      return(datatable(data.frame(Message = "No data to summarise."), options = list(dom = 't')))
     }
     
-    # Tri décroissant
+    # Sort
     df <- df[order(df$Occurrence, decreasing = T), ]
     
     datatable(df, rownames = FALSE)
   })
   
-  # --- 6. GRAPHIQUES ---
+  # --- 6. Graphs ---
   output$plot_species <- renderPlotly({
     df <- summaryData()
     if (is.null(df) || nrow(df) == 0) return(NULL)
@@ -434,17 +459,14 @@ server <- function(input, output, session) {
     df <- filteredData()
     if (is.null(df) || nrow(df) == 0) return(NULL)
     
-    # CORRECTION : On utilise table() pour compter les occurrences de chaque date
-    # C'est plus robuste que aggregate(~ date, FUN=length) sur une colonne inexistante
     counts <- table(df$date)
     
     agg <- data.frame(
-      date = as.Date(names(counts), origin = "1970-01-01"), # Conversion des noms en Date
+      date = as.Date(names(counts), origin = "1970-01-01"), # 
       Occurrence = as.integer(counts),
       stringsAsFactors = FALSE
     )
     
-    # Tri par date (optionnel mais plus joli)
     agg <- agg[order(agg$date), ]
     
     plot_ly(agg, x = ~date, y = ~Occurrence, type = "bar", marker = list(color = 'darkorange')) %>%
@@ -480,7 +502,7 @@ server <- function(input, output, session) {
     
     if (is.null(df_raw) || nrow(df_raw) == 0) return(NULL)
     
-    # Comptage Brut
+    # Raw count
     counts_raw <- table(df_raw$common_name_original)
     agg_raw <- data.frame(
       common_name_original = names(counts_raw),
@@ -488,7 +510,7 @@ server <- function(input, output, session) {
       stringsAsFactors = FALSE
     )
     
-    # Comptage Filtré
+    # Filtered count 
     if (is.null(df_filt) || nrow(df_filt) == 0) {
       agg_filt <- data.frame(
         common_name_original = unique(df_raw$common_name_original),
@@ -504,14 +526,14 @@ server <- function(input, output, session) {
       )
     }
     
-    # Fusion
+    # Fuse
     res <- merge(agg_raw, agg_filt, by = "common_name_original", all.x = TRUE)
     res$Kept[is.na(res$Kept)] <- 0
     res$Removed <- res$Raw - res$Kept
     res$Kept_pct <- ifelse(res$Raw > 0, res$Kept/res$Raw*100, 0)
     res$Removed_pct <- ifelse(res$Raw > 0, res$Removed/res$Raw*100, 0)
     
-    # Préparation pour Plotly (Melt manuel)
+    # Prepare data for Plotly (Melt manuel)
     df_long <- data.frame(
       common_name_original = rep(res$common_name_original, 2),
       Type = c(rep("Kept", nrow(res)), rep("Removed", nrow(res))),
@@ -524,20 +546,11 @@ server <- function(input, output, session) {
       layout(barmode = "stack", yaxis = list(range = c(0, 100)))
   })
   
-  # output$recorder_barplot <- renderPlotly({
-  #   df <- rawBirdNET()
-  #   if (is.null(df) || nrow(df) == 0) return(NULL)
-  #   agg <- aggregate(begin_path ~ recorder + common_name_original, data = df, FUN = length)
-  #   names(agg)[3] <- "Count"
-  #   cols <- get_safe_colors(length(unique(agg$common_name_original)))
-  #   plot_ly(agg, x = ~recorder, y = ~Count, color = ~common_name_original, type = "bar", marker = list(color = cols)) %>%
-  #     layout(barmode = "stack")
-  # })
   output$recorder_barplot <- renderPlot({
     df <- filteredData()
     if (is.null(df) || nrow(df) == 0) return(NULL)
     
-    # 1. Agrégation
+    # 1. Aggregate
     agg <- aggregate(begin_path ~ recorder + common_name_original, data = df, FUN = length)
     names(agg)[3] <- "Count"
     if (input$hide_zero_species) {
@@ -557,7 +570,7 @@ server <- function(input, output, session) {
       ]
     }
     
-    # 2. Tri par abondance (Décroissant pour avoir les plus grands EN HAUT)
+    # 2. Sort by abundance decreasing
     # Total detections per species across all recorders
     total_counts <- aggregate(
       Count ~ common_name_original,
@@ -589,26 +602,26 @@ server <- function(input, output, session) {
       levels = rev(top_species)
     )
     
-    # 3. Calcul de la hauteur dynamique
+    # 3. Calculate dynamic height
     n_species <- length(top_species)
     plot_height <- max(600, n_species * 40) 
     
-    # 4. Graphique
+    # 4. Graph
     ggplot(agg, aes(x = recorder, y = common_name_original, fill = Count)) +
       # Tuiles
       geom_tile(color = "#1a1a1a", alpha = 0.95) +
       
-      # Valeurs dans les cases
+      # Values
       geom_text(aes(label = Count), 
                 color = "grey30",  
                 size = 5, 
                 fontface = "bold") +
       
-      # Dégradé
+      # Gradient
       scale_fill_gradient(low = "#f0f9e8", high = "#2ca25f", name = "Detections", 
                           trans = "log10", na.value = "grey90") +
       
-      # CRUCIAL : Dupliquer l'axe X en haut ET en bas
+      # Duplicate  X axis 
       scale_x_discrete(position = "top") + 
       
       labs(title = "Species Detection Heatmap per Recorder",
@@ -616,29 +629,29 @@ server <- function(input, output, session) {
            x = "Recorder", y = "Species") +
       theme_minimal(base_size = 14) +
       theme(
-        # --- AXE X (HAUT & BAS) ---
+        # --- AXis X ---
         
-        # Configuration du HAUT
+        # Configure top
         axis.title.x.top = element_text(size = 13, face = "bold", color = "#1a1a1a", margin = margin(b = 5)),
         axis.text.x.top = element_text(angle = 45, hjust = 1, vjust = 1, size = 13, color = "#1a1a1a"),
         axis.ticks.x.top = element_line(color = "grey50", size = 0.5), # Ligne et ticks visibles
         
-        # Configuration du BAS
+        # Configure bottom
         axis.title.x.bottom = element_text(size = 13, face = "bold", color = "#1a1a1a", margin = margin(t = 5)),
         axis.text.x.bottom = element_text(angle = 45, hjust = 1, vjust = 1, size = 13, color = "#1a1a1a"),
         axis.ticks.x.bottom = element_line(color = "grey50", size = 0.5),
         
-        # S'assurer que la ligne de l'axe est dessinée des deux côtés
+        
         axis.line.x.top = element_line(color = "grey70", size = 0.5),
         axis.line.x.bottom = element_line(color = "grey70", size = 0.5),
         
-        # --- AXE Y (Espèces) ---
+        # --- AXIS Y (Species) ---
         axis.text.y = element_text(size = 11, hjust = 1, color = "#1a1a1a", face = "plain"),
         axis.title.y = element_text(size = 13, face = "bold", color = "#1a1a1a"),
         axis.line.y = element_line(color = "grey70", size = 0.5),
         axis.ticks.y = element_line(color = "grey70", size = 0.5),
         
-        # --- TITRES ET LÉGENDE ---
+        # --- Title and Legend ---
         plot.title = element_text(hjust = 0.5, face = "bold", size = 14, color = "#1a1a1a"),
         plot.subtitle = element_text(hjust = 0.5, color = "grey30", size = 12),
         
@@ -647,7 +660,7 @@ server <- function(input, output, session) {
         legend.text = element_text(size = 12, color = "#1a1a1a"),
         legend.box.margin = margin(10, 0, 0, 0),
         
-        # --- FOND ET GRILLE ---
+        # --- Background and Grid ---
         panel.grid = element_blank(),
         panel.border = element_blank(),
         plot.background = element_rect(fill = "grey90", color = "#1a1a1a"),
@@ -665,7 +678,7 @@ server <- function(input, output, session) {
   })
   
   
-  # --- 7. SCHEDULE & MAP (Simplifiés) ---
+  # --- 7. SCHEDULE & MAP (Simplified) ---
   scheduleData <- reactive({
     if (is.null(input$schedule_file)) return(NULL)
     lines <- readLines(input$schedule_file$datapath)
@@ -721,7 +734,7 @@ server <- function(input, output, session) {
     leaflet(pos) %>% addTiles() %>% addCircleMarkers(lng=~long, lat=~lat, popup=~recorder, radius=5)
   })
   
-  # --- 8. DOWNLOADS (Simplifiés) ---
+  # --- 8. DOWNLOADS (Simplified) ---
   output$downloadData <- downloadHandler(
     filename = function() "Filtered_BirdNET.txt",
     content = function(file) {
@@ -767,4 +780,9 @@ server <- function(input, output, session) {
     }
   )
 }
+
+############################
+# Run app
+############################
+
 shinyApp(ui = ui, server = server)
