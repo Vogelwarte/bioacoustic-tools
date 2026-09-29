@@ -18,10 +18,10 @@ pacman::p_load(
 
 # --- 2. CHARGEMENT DES FONCTIONS PERSONNALISÉES -------------------------------
 # NOTE CRITIQUE POUR GROS FICHIERS :
-# La fonction 'load_selection_tables.R' doit utiliser data.table::fread() 
+# La fonction 'load_selection_tables.R' doit utiliser data.table::fread()
 # et NON read.csv() ou read.table() pour être efficace sur des fichiers > 500Mo.
 if (dir.exists("Common_functions")) {
-
+  
   source("Common_functions/get_roots.R")
   source("Common_functions/pheno_matrix.R")
   source("Common_functions/clean_text.R")
@@ -31,7 +31,7 @@ if (dir.exists("Common_functions")) {
   source("Common_functions/BirdNET_data_parser.R")
 } else {
   warning("Folder 'Common_functions' not found. Simple mode activated.")
-  get_roots <- function() return("~") 
+  get_roots <- function() return("~")
   load_selection_tables <- function(...) return(NULL)
   prepare_for_spectro <- function(...) return(list(NULL, 22050, NULL, 16))
   pheno_matrix <- function(...) return(NULL)
@@ -81,9 +81,9 @@ ui <- page_sidebar(
     textOutput("dir1_path"),
     actionButton("start", "Start App", class = "btn-primary", width = "100%"),
     hr(),
-    selectInput(inputId = "device_tz", label = "Timezone of set device", 
+    selectInput(inputId = "device_tz", label = "Timezone of set device",
                 choices = tz_choices, selected = Sys.timezone(), multiple = FALSE),
-    selectInput(inputId = "deployment_tz", label = "Timezone of deployement", 
+    selectInput(inputId = "deployment_tz", label = "Timezone of deployement",
                 choices = tz_choices, selected = Sys.timezone(), multiple = FALSE),
     actionButton("restart_timezone", "Update Timezones", class = "btn-primary", width = "100%"),
     hr(),
@@ -110,25 +110,15 @@ ui <- page_sidebar(
                                     numericInput("Lat", "Latitude", min = -90, max = 90, value = 46.97),
                                     numericInput("Lon", "Longitude", min = -180, max = 180, value = 6.97)),
                      sliderInput("Unit", "Aggregation Interval (min)", min = 1, max = 60, value = 15),
-                     checkboxInput("Noctu_plot", label = "Nocturnal Plot?", value = FALSE),
-                     actionButton("start_pheno", "Generate Plot", class = "btn-primary", width = "100%"),
-                     sliderInput(
-                       "tile_alpha",
-                       "Heatmap transparency",
-                       min = 0.1,
-                       max = 1,
-                       value = 0.5,
-                       step = 0.05,
-                       width = "100%"
-                     )),
+                     checkboxInput("Noctu_plot", label = "Nocturnal plot (noon to noon)", value = FALSE),
+                     checkboxInput("log_colour", "Log colour scale (shows rare and frequent slots)", value = TRUE),
+                     sliderInput("tile_alpha", "Heatmap opacity",
+                                 min = 0.1, max = 1, value = 0.9, step = 0.05, width = "100%"),
+                     actionButton("start_pheno", "Generate Plot", class = "btn-primary", width = "100%")),
                 card(
                   full_screen = TRUE,
                   card_header("Phenology Graph"),
-                  
-                  plotOutput(
-                    "pheno_plot",
-                    height = "700px"
-                  ),
+                  plotly::plotlyOutput("pheno_plot", height = "700px")
                 )
               )),
     nav_panel("Reference",
@@ -154,8 +144,8 @@ ui <- page_sidebar(
       .selectize-dropdown .option { color: #ffffff !important; }
       .selectize-dropdown .active { background-color: #555555 !important; color: #ffffff !important; }
       .control-label, .bslib-sidebar-input label { color: #ffffff !important; font-weight: 600; }
-      .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, 
-      .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, 
+      .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter,
+      .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing,
       .dataTables_wrapper .dataTables_paginate { color: #e0e0e0 !important; }
       .dataTable tbody tr { color: #e0e0e0; }
       .dataTable tbody tr:hover { background-color: #3a3a3a; }
@@ -168,6 +158,25 @@ ui <- page_sidebar(
     "))
   )
 )
+
+# --- 4b. PLOTLY PHENOLOGY FUNCTIONS (plot only) --------------------------------
+# pheno_matrix_plotly.R (same file as the online app) is read in its OWN
+# environment, only when a plot is generated: it cannot overwrite any other
+# function (load_selection_tables, get_roots, pheno_matrix...).
+if (!requireNamespace("plotly", quietly = TRUE)) {
+  install.packages("plotly", repos = "https://cloud.r-project.org")
+}
+.pheno_plotly_env <- NULL
+pheno_plotly_fun <- function() {
+  if (is.null(.pheno_plotly_env)) {
+    f <- "Common_functions/pheno_matrix_plotly.R"
+    if (!file.exists(f)) stop("File not found: ", f)
+    env <- new.env()
+    sys.source(f, envir = env)
+    .pheno_plotly_env <<- env
+  }
+  .pheno_plotly_env
+}
 
 # --- 5. LOGIQUE SERVEUR (SERVER) ----------------------------------------------
 server <- function(input, output, session) {
@@ -235,9 +244,9 @@ server <- function(input, output, session) {
         incProgress(0.2, detail = "Initializing...")
         
         DT <- load_selection_tables(
-          dir1 = dir1(), 
-          dir2 = dir2(), 
-          compiled = input$Compiled_F, 
+          dir1 = dir1(),
+          dir2 = dir2(),
+          compiled = input$Compiled_F,
           device_tz = input$device_tz,      # Ex: "America/Anchorage" (choisi par l'utilisateur)
           deployment_tz = input$deployment_tz # Ex: "Europe/Zurich" (choisi par l'utilisateur)
         )
@@ -258,7 +267,7 @@ server <- function(input, output, session) {
         Date_DT_min(min(DT$Date, na.rm = TRUE))
         Date_DT_max(max(DT$Date, na.rm = TRUE))
         
-        updateDateRangeInput(session, "filter_dates", 
+        updateDateRangeInput(session, "filter_dates",
                              start = Date_DT_min(), end = Date_DT_max(),
                              min = Date_DT_min(), max = Date_DT_max())
         
@@ -375,7 +384,7 @@ server <- function(input, output, session) {
   
   
   
-
+  
   # ---  UI DYNAMIQUE ---
   output$recorder_ui <- renderUI({
     req(DT_reac())
@@ -410,14 +419,14 @@ server <- function(input, output, session) {
     print("dt_pheno") # debeug
     print(head(dt_pheno)) # debeug
     
-    xlim_plot <- c(as.Date(min(dt_pheno$Date, na.rm = TRUE))-1, 
+    xlim_plot <- c(as.Date(min(dt_pheno$Date, na.rm = TRUE))-1,
                    as.Date(max(dt_pheno$Date, na.rm = TRUE))+1)
     
     print("xlim_plot") # debeug
     print(xlim_plot) # debeug
     
     conf_val <- input$Confid_Pheno
-
+    
     print("conf_val") # debeug
     print(conf_val) # debeug
     
@@ -443,53 +452,95 @@ server <- function(input, output, session) {
     
     
     sp_to_plot <- input$species_pheno
-
+    
     print("sp_to_plot") # debeug
     print(sp_to_plot) # debeug
     
     
-      # FILTRAGE PRIORITAIRE PAR ESPÈCE
-      if (!"All species" %in% sp_to_plot) {
-        Voc <- DT_intermediate[Common.Name %in% sp_to_plot]
-      } else {
-        Voc <- DT_intermediate
-      }
+    # FILTRAGE PRIORITAIRE PAR ESPÈCE
+    if (!"All species" %in% sp_to_plot) {
+      Voc <- DT_intermediate[Common.Name %in% sp_to_plot]
+    } else {
+      Voc <- DT_intermediate
+    }
     
     
     print("Voc avant matrix") # debeug
     print(head(Voc)) # debeug
     
     
+    validate(need(nrow(Voc) > 0,
+                  "No detections for this selection. Lower the confidence threshold or change species / recorders."))
+    
+    # Time axis: recorder clock (no DST) or local time (same as online app)
+    plot_tz <- if (isTRUE(input$fixed_recorder_clock)) input$device_tz else input$deployment_tz
+    
     tryCatch({
-      pheno_matrix(
-        Voc = Voc,
-        SP = sp_to_plot,
-        Unit = input$Unit,
-        Confidence1 = input$Confid_Pheno,
-        sunrise = TRUE,
-        LAT = input$Lat,
-        LONG = input$Lon,
-        TimeZone = input$deployment_tz,
-        xlim_plot = xlim_plot,
-        nocturnal = input$Noctu_plot,
-        tile_alpha = input$tile_alpha,
-        fixed_recorder_clock = input$fixed_recorder_clock
+      pheno_plotly_fun()$pheno_matrix(
+        Voc                  = Voc,
+        SP                   = sp_to_plot,
+        Unit                 = input$Unit,
+        sunrise              = TRUE,
+        LAT                  = input$Lat,
+        LONG                 = input$Lon,
+        TimeZone             = plot_tz,
+        xlim_plot            = xlim_plot,
+        nocturnal            = input$Noctu_plot,
+        tile_alpha           = input$tile_alpha,
+        log_colour           = input$log_colour,
+        fixed_recorder_clock = FALSE,  # DST is handled through plot_tz
+        sun_as_shapes        = TRUE    # night / twilight drawn below the tiles in plotly
       )
     }, error = function(e) {
-      showNotification(paste("Pheno Error:", e$message), type = "error")
+      showNotification(paste("Pheno Error:", e$message), type = "error", duration = 10)
       return(NULL)
     })
   })
   
-  output$pheno_plot <- renderPlot({
-    data <- pheno_data()
-    if (is.null(data)) {
-      plot(1, type="n", axes=FALSE, xlab="", ylab="", 
-           main = "No data to plot\n(Lower confidence threshold or select species)")
-      text(1, 1, "Check parameters", cex=1.2, col="red")
-    } else {
-      if (inherits(data, "gg")) print(data) else plot(data)
+  # Interactive plot: hover a tile to see date, time slot and number of detections
+  output$pheno_plot <- plotly::renderPlotly({
+    p <- pheno_data()
+    
+    validate(need(inherits(p, "gg"),
+                  if (is.character(p)) p else "No data to plot. Check the parameters and click 'Generate Plot'."))
+    
+    pl <- plotly::ggplotly(p, tooltip = "text")
+    
+    # Night (dark blue) and dawn / dusk (light blue) as shapes BELOW the tiles
+    pl <- pheno_plotly_fun()$pheno_add_sun_shapes(pl, p)
+    
+    # Tile opacity set on the plotly trace (ggplotly ignores ggplot 'alpha' on heatmaps).
+    # Reading the slider here also updates the plot live.
+    tile_opacity <- input$tile_alpha
+    
+    for (i in seq_along(pl$x$data)) {
+      tr <- pl$x$data[[i]]
+      if (identical(tr$type, "heatmap")) {
+        pl$x$data[[i]]$opacity       <- tile_opacity
+        pl$x$data[[i]]$hoverongaps   <- FALSE
+        pl$x$data[[i]]$hovertemplate <- "%{text}<extra></extra>"
+      } else if (is.null(tr$text) || all(is.na(tr$text) | tr$text == "")) {
+        pl$x$data[[i]]$hoverinfo <- "skip"
+      } else {
+        pl$x$data[[i]]$opacity <- tile_opacity
+      }
     }
+    
+    pl |>
+      plotly::layout(
+        hoverlabel  = list(bgcolor = "white", font = list(size = 13, color = "#222222")),
+        annotations = list(list(
+          text = "Dark blue: night  \u00b7  Light blue: dawn / dusk twilight",
+          xref = "paper", yref = "paper", x = 0, y = -0.13,
+          xanchor = "left", yanchor = "top", showarrow = FALSE,
+          font = list(size = 12, color = "#555555")
+        )),
+        margin = list(b = 90)
+      ) |>
+      plotly::config(displaylogo = FALSE,
+                     modeBarButtonsToRemove = c("lasso2d", "select2d"),
+                     toImageButtonOptions = list(format = "png", filename = "phenology_plot",
+                                                 width = 1400, height = 800))
   })
 }
 
