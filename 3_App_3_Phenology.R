@@ -314,7 +314,7 @@ server <- function(input, output, session) {
         utc_strings <- format(DT_new$DateTime_Display, tz = "UTC", usetz = FALSE)
         
         # 2. On recrée l'objet dans le fuseau de déploiement (ex: France)
-        DT_new[, DateTime_Real := as.POSIXct(utc_strings, format = "%Y-%m-%d %H:%M:%S", tz = input$deployment_tz)]
+        DT_new[, DateTime_Real := lubridate::with_tz(DateTime_Display, tzone = input$deployment_tz)]
         attr(DT_new$DateTime_Real, "tzone") <- input$deployment_tz
         
         message("Conversion des fuseaux horaires effectuée.")
