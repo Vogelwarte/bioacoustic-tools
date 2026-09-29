@@ -7,43 +7,48 @@
 # --- 1. CHARGEMENT DES LIBRAIRIES ---------------------------------------------
 # library(pacman)
 library(shiny)
-library(grid)
 library(bslib)
 library(stringr)
-library(data.table)
-library(shinyFiles)
-library(tidyr)
 library(stringi)
 library(fs)
-library(parallel)
+library(data.table)
+library(tidyr)
 library(ggplot2)
-library(mgcv)
-library(gratia)
 library(hms)
 library(suncalc)
+library(scales)
 library(lubridate)
-library(DT)
-library(seewave)
-library(tuneR)
-library(base64enc)
-library(av)
-library(audio)
 library(dipsaus)
-library(future)
 
 # --- 2. CHARGEMENT DES FONCTIONS PERSONNALISÉES -------------------------------
-  source("Common_functions/get_roots.R")
   source("Common_functions/pheno_matrix.r")
   source("Common_functions/clean_text.R")
-  source("Common_functions/export_selected_audio.R")
-  source("Common_functions/prepare_for_spectro.R")
   source("Common_functions/load_selection_tables_ONLINE.R")
 
-apply_timezones <- function(DT, device_tz, deployment_tz, compiled) {
-  DT <- data.table::copy(DT)
-  
-  # Heure lue sur l'enregistreur -> instant correct
-  DT[, DateTime_Display := as.POSIXct(date_strings, format = "%Y%m%d_%H%M%S", tz = device_tz)]
+  apply_timezones <- function(DT, device_tz, deployment_tz, compiled) {
+    DT <- data.table::as.data.table(data.table::copy(DT))
+    
+    # --- Créer date_strings si le loader ne l'a pas fait ---
+    if (!"date_strings" %in% names(DT)) {
+      # Colonnes possibles contenant le nom du fichier audio
+      file_cols <- intersect(c("Begin_Path", "Begin.Path", "Begin.File", "File", "file", "Source_file"),
+                             names(DT))
+      if (length(file_cols) == 0) {
+        stop("No column with audio file names found. Columns are: ",
+             paste(names(DT), collapse = ", "))
+      }
+      fname <- basename(as.character(DT[[file_cols[1]]]))
+      # Cherche le motif AAAAMMJJ_HHMMSS dans le nom de fichier
+      DT[, date_strings := stringr::str_extract(fname, "\\d{8}_\\d{6}")]
+      
+      if (all(is.na(DT$date_strings))) {
+        stop("Could not read a date (YYYYMMDD_HHMMSS) in column '", file_cols[1],
+             "'. Example: ", fname[1])
+      }
+    }
+    
+    # Heure lue sur l'enregistreur -> instant correct
+    DT[, DateTime_Display := as.POSIXct(date_strings, format = "%Y%m%d_%H%M%S", tz = device_tz)]
   # Même instant, affiché en heure locale
   DT[, DateTime_Real := lubridate::with_tz(DateTime_Display, tzone = deployment_tz)]
   
