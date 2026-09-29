@@ -38,11 +38,62 @@ library(future)
   source("Common_functions/export_selected_audio.R")
   source("Common_functions/prepare_for_spectro.R")
   source("Common_functions/load_selection_tables_ONLINE.R")
+
+apply_timezones <- function(DT, device_tz, deployment_tz, compiled) {
+  DT <- data.table::copy(DT)
+  
+  # Heure lue sur l'enregistreur -> instant correct
+  DT[, DateTime_Display := as.POSIXct(date_strings, format = "%Y%m%d_%H%M%S", tz = device_tz)]
+  # Même instant, affiché en heure locale
+  DT[, DateTime_Real := lubridate::with_tz(DateTime_Display, tzone = deployment_tz)]
+  
+  # Décalage dans le fichier
+  if (compiled && "File.Offset..s." %in% names(DT)) {
+    DT[, time_offset := File.Offset..s.]
+  } else if ("Begin.Time..s." %in% names(DT)) {
+    DT[, time_offset := Begin.Time..s.]
+  } else {
+    DT[, time_offset := 0]
+  }
+  
+  DT[, Start_segment := DateTime_Real + time_offset]
+  
+  if ("End.Time..s." %in% names(DT)) {
+    if (compiled && "File.Offset..s." %in% names(DT)) {
+      DT[, Stop_segment := Start_segment + (End.Time..s. - File.Offset..s.)]
+    } else {
+      DT[, Stop_segment := DateTime_Real + End.Time..s.]
+    }
+  } else {
+    DT[, Stop_segment := Start_segment]
+  }
+  
+  DT[, `:=`(
+    Date = as.Date(Start_segment, tz = deployment_tz),
+    Hour = lubridate::hour(Start_segment),
+    Min  = lubridate::minute(Start_segment),
+    Time = sprintf("%02d:%02d", lubridate::hour(Start_segment), lubridate::minute(Start_segment))
+  )]
+  DT[]
+}
+
 #test
 # --- 3. CONFIGURATION GLOBALE -------------------------------------------------
 # roots_home <- get_roots()
-utc_timezones <- OlsonNames()
-
+all_tz <- OlsonNames()
+fixed_tz <- c(
+  "UTC" = "UTC",
+  "UTC+1 (fixed)" = "Etc/GMT-1",
+  "UTC+2 (fixed)" = "Etc/GMT-2",
+  "UTC+3 (fixed)" = "Etc/GMT-3",
+  "UTC-1 (fixed)" = "Etc/GMT+1",
+  "UTC-2 (fixed)" = "Etc/GMT+2"
+)
+tz_choices <- c(
+  fixed_tz,
+  setNames(all_tz, all_tz)
+)
+  
 Files_message_1 <- "-- There are no results files (~.BirdNET.selection.table.txt) in the results folder. --"
 
 # Définition du thème sombre avec bslib
@@ -87,52 +138,15 @@ ui <- page_sidebar( # Remplace page_fluid par page_sidebar
       )
     ),
     
-    
-    # checkboxInput(
-    #   "compiled_format",
-    #   "Results in compiled format?",
-    #   value = FALSE
-    # ),
-    # 
-    # conditionalPanel(
-    #   condition = "input.compiled_format == false",
-    #   
-    #   dipsaus::fancyDirectoryInput(
-    #     "dir1",
-    #     "Choose folder",
-    #     autoCleanup = TRUE,
-    #     autoCleanupLocked = TRUE
-    #   )
-    # ),
-    # 
-    # conditionalPanel(
-    #   condition = "input.compiled_format == true",
-    #   
-    #   fileInput(
-    #    "Compiled_F",
-    #     "Choose compiled result file",
-    #     multiple = FALSE,
-    #     accept = c(
-    #       ".csv",
-    #       ".txt"
-    #     )
-    #   )
-    # ),
-    # dipsaus::fancyDirectoryInput(
-    #   "dir1",
-    #   "Select BirdNET Results Folder",
-    #   autoCleanup = TRUE,
-    #   autoCleanupLocked = TRUE
-    # ),
-    
-    # shinyDirButton("dir1", "Select BirdNET Results Folder", title = "Choose Results Folder"),
-    # checkboxInput("Compiled_F", label = "Results in compiled format?", value = FALSE),
     textOutput("dir1_path"),
     hr(),
     actionButton("start", "Start App", class = "btn-primary", width = "100%"),
     hr(),
-    selectInput(inputId = "UTC_choice", label = "Timezone (UTC)", 
-                choices = utc_timezones, selected = "CET", multiple = FALSE),
+    selectInput("device_tz", "Timezone of recorder clock",
+                choices = tz_choices, selected = "Etc/GMT-1"),
+    selectInput("deployment_tz", "Timezone of deployment (local time)",
+                choices = tz_choices, selected = "Europe/Zurich"),
+    actionButton("restart_timezone", "Update Timezones", class = "btn-primary", width = "100%"),
     hr(),
     textOutput("status"),
     div(style = "color: #ff6b6b; font-size: 0.8em;", textOutput("Messages_Resu"))
@@ -169,9 +183,24 @@ ui <- page_sidebar( # Remplace page_fluid par page_sidebar
                                     numericInput("Lon", "Longitude", min = -180, max = 180, value = 6.97)),
                      sliderInput("Unit", "Aggregation Interval (min)", min = 1, max = 60, value = 15),
                      checkboxInput("Noctu_plot", label = "Nocturnal Plot?", value = FALSE),
-                     actionButton("start_pheno", "Generate Plot", class = "btn-primary", width = "100%")),
-                # Card 8: Pheno Plot
-                card(full_screen = TRUE, card_header("Phenology Graph"), plotOutput("pheno_plot"))
+                     actionButton("start_pheno", "Generate Plot", class = "btn-primary", width = "100%"),
+                     sliderInput(
+                       "tile_alpha",
+                       "Heatmap transparency",
+                       min = 0.1,
+                       max = 1,
+                       value = 0.5,
+                       step = 0.05,
+                       width = "100%"
+                     )),
+                card(
+                  full_screen = TRUE,
+                  card_header("Phenology Graph"),
+                  plotOutput(
+                    "pheno_plot",
+                    height = "700px"
+                  ),
+                )
               )),
     
     nav_panel("Reference",
@@ -181,6 +210,11 @@ ui <- page_sidebar( # Remplace page_fluid par page_sidebar
                 textOutput("contributions"),
                 textOutput("license")
               ))
+  ),
+  checkboxInput(
+    "fixed_recorder_clock",
+    "Recorder kept constant time (ignore DST)",
+    value = TRUE
   ),
   
   # CSS Personnalisé pour adapter les composants spécifiques (inputs, tableaux)
@@ -326,35 +360,26 @@ server <- function(input, output, session) {
         path1 <- input$compiled_file$datapath
         
         DT <- load_selection_tables_ONLINE(
-          dir1 = path1,
-          dir2 = NULL,
-          compiled = TRUE,
-          device_tz = input$UTC_choice,
-          deployment_tz = input$UTC_choice
+          dir1 = path1, dir2 = NULL, compiled = isTRUE(input$Compiled_F),
+          device_tz = input$device_tz, deployment_tz = input$deployment_tz
         )
+        DT <- apply_timezones(DT, input$device_tz, input$deployment_tz, isTRUE(input$Compiled_F))
         
         print(names(DT))
         print(str(DT))
         
       } else {
-        
         # ---- NON COMPILED FORMAT ----
         req(dir1())
-        
         path1 <- dir1()
         
         DT <- load_selection_tables_ONLINE(
-          dir1 = path1,
-          dir2 = NULL,
-          compiled = FALSE,
-          device_tz = input$UTC_choice,
-          deployment_tz = input$UTC_choice
+          dir1 = path1, dir2 = NULL, compiled = FALSE,
+          device_tz = input$device_tz, deployment_tz = input$deployment_tz
         )
-        
-        print(names(DT))
-        print(str(DT))
-        
+        DT <- apply_timezones(DT, input$device_tz, input$deployment_tz, FALSE)
       }
+      
       # 
       # if (isTRUE(input$Compiled_F)) {
       #   
@@ -595,32 +620,57 @@ server <- function(input, output, session) {
   })
 
   # --- 5.8 Phénologie ---
+  
+  observeEvent(input$restart_timezone, {
+    req(DT_reac(), input$device_tz, input$deployment_tz)
+    tryCatch({
+      DT_reac(apply_timezones(DT_reac(), input$device_tz, input$deployment_tz,
+                              isTRUE(input$Compiled_F)))
+      showNotification(paste("Timezone updated:", input$device_tz, "->", input$deployment_tz),
+                       type = "message", duration = 3)
+    }, error = function(e) showNotification(paste("Error updating timezone:", e$message), type = "error"))
+  })
+  
   pheno_data <- eventReactive(input$start_pheno, {
     req(DT_reac())
-    if (!exists("pheno_matrix")) {
-      showNotification("Function 'pheno_matrix' missing.", type = "error")
-      return(NULL)
-    }
-
+    validate(need(!is.null(input$device_tz) && !is.null(input$deployment_tz), "Select timezones"))
+    plot_tz <- if (isTRUE(input$fixed_recorder_clock)) input$device_tz else input$deployment_tz
     dt_pheno <- DT_reac()
-    xlim_plot <- c(as.Date(min(dt_pheno$Date, na.rm = TRUE)),
-                   as.Date(max(dt_pheno$Date, na.rm = TRUE)))
-
+    
+    xlim_plot <- c(as.Date(min(dt_pheno$Date, na.rm = TRUE)) - 1,
+                   as.Date(max(dt_pheno$Date, na.rm = TRUE)) + 1)
+    
+    # 1. Filtre confiance
+    Voc <- dt_pheno[Confidence >= input$Confid_Pheno]
+    
+    # 2. Filtre espèces
     sp_to_plot <- input$species_pheno
-    if (is.null(sp_to_plot) || length(sp_to_plot) == 0 || "All species" %in% sp_to_plot) {
-      sp_to_plot <- unique(dt_pheno$Common.Name)
+    if (is.null(sp_to_plot) || length(sp_to_plot) == 0) sp_to_plot <- "All species"
+    if (!"All species" %in% sp_to_plot) {
+      Voc <- Voc[Common.Name %in% sp_to_plot]
     }
-
+    
+    validate(need(nrow(Voc) > 0,
+                  "No detections for this species / confidence threshold"))
+    
     tryCatch({
       pheno_matrix(
-        Voc = dt_pheno, SP = sp_to_plot, Unit = input$Unit,
-        Confidence1 = input$Confid_Pheno, sunrise = TRUE,
-        LAT = input$Lat, LONG = input$Lon, UTC = input$UTC_choice,
-        xlim_plot = xlim_plot, nocturnal = input$Noctu_plot
+        Voc = data.table::copy(Voc),
+        SP = sp_to_plot,
+        Unit = input$Unit,
+        Confidence1 = input$Confid_Pheno,
+        sunrise = TRUE,
+        LAT = input$Lat,
+        LONG = input$Lon,
+        TimeZone = plot_tz,
+        xlim_plot = xlim_plot,
+        nocturnal = input$Noctu_plot,
+        tile_alpha = input$tile_alpha,
+        fixed_recorder_clock = FALSE
       )
     }, error = function(e) {
-      showNotification(paste("Pheno Error:", e$message), type = "error")
-      return(NULL)
+      showNotification(paste("Pheno Error:", e$message), type = "error", duration = 10)
+      NULL
     })
   })
 
