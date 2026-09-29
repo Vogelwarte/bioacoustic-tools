@@ -9,10 +9,8 @@
 library(shiny)
 library(bslib)
 library(stringr)
-library(stringi)
-library(fs)
 library(data.table)
-library(tidyr)
+library(tidyr)      # pour %>% (tant que le bloc 5.3 existe)
 library(ggplot2)
 library(hms)
 library(suncalc)
@@ -44,6 +42,18 @@ library(dipsaus)
       if (all(is.na(DT$date_strings))) {
         stop("Could not read a date (YYYYMMDD_HHMMSS) in column '", file_cols[1],
              "'. Example: ", fname[1])
+      }
+    }
+    
+    # --- Créer recorder si le loader ne l'a pas fait ---
+    if (!"recorder" %in% names(DT)) {
+      file_cols <- intersect(c("Begin_Path", "Begin.Path", "Begin.File", "File", "file", "Source_file"),
+                             names(DT))
+      if (length(file_cols) > 0) {
+        fname <- basename(as.character(DT[[file_cols[1]]]))
+        rec <- sub("_?\\d{8}_\\d{6}.*$", "", fname)
+        rec[rec == "" | rec == fname] <- NA
+        DT[, recorder := rec]
       }
     }
     
@@ -152,6 +162,8 @@ ui <- page_sidebar( # Remplace page_fluid par page_sidebar
     selectInput("deployment_tz", "Timezone of deployment (local time)",
                 choices = tz_choices, selected = "Europe/Zurich"),
     actionButton("restart_timezone", "Update Timezones", class = "btn-primary", width = "100%"),
+    hr(),
+    uiOutput("recorder_ui"),
     hr(),
     textOutput("status"),
     div(style = "color: #ff6b6b; font-size: 0.8em;", textOutput("Messages_Resu"))
@@ -276,37 +288,6 @@ server <- function(input, output, session) {
   output$license <- renderText("MIT License © 2025 Christophe Sahli")
   
   # --- 5.1 Gestion des Dossiers (ShinyFiles) ---
-  # fileInput(
-  #   "dir1_files",
-  #   "Choose files – folder 1",
-  #   multiple = TRUE
-  # )
-  # 
-  # fileInput(
-  #   "dir2_files",
-  #   "Choose files – folder 2",
-  #   multiple = TRUE
-  # )
-  # shinyDirChoose(input, "dir1", roots = c(home = roots_home))
-  # shinyDirChoose(input, "dir2", roots = c(home = roots_home))
-   
-  # observeEvent(input$dir1, {
-  #   tryCatch({
-  #     dir1_path <- parseDirPath(roots = c(home = roots_home), input$dir1)
-  #     if (is.character(dir1_path) && length(dir1_path) > 0 && dir1_path != "") {
-  #       dir1(dir1_path)
-  #     }
-  #   }, error = function(e) {
-  #     showNotification("Invalid path for results folder.", type = "warning")
-  #   })
-  # })
-  # 
-   # 
-  
-  # dir2 <- reactiveVal(NULL)
-  
-  # observeEvent(input$dir1, {
-  #   req(input$dir1)
   #   
   # })
    dir1 <- reactiveVal(NULL)
@@ -385,48 +366,6 @@ server <- function(input, output, session) {
         DT <- apply_timezones(DT, input$device_tz, input$deployment_tz, FALSE)
       }
       
-      # 
-      # if (isTRUE(input$Compiled_F)) {
-      #   
-      #   # ---- COMPILED FORMAT ----
-      #   req(input$compiled_file)
-      #   
-      #   path1 <- input$compiled_file$datapath
-      #   
-      #   # Lecture directe du fichier
-      #   # DT <- data.table::fread(path1)
-      #   # names(DT) <- make.names(names(DT))
-      #  # DT <- load_selection_tables_ONLINE(
-      #  #    dir1 = path1,
-      #  #    dir2 = NULL,
-      #  #    compiled = TRUE,
-      #  #    utc_tz = input$UTC_choice
-      #  #  )
-      #  
-      #   print(names(DT))
-      #   print(str(DT))
-      #   
-      # } else {
-      #   
-      #   # ---- NON COMPILED FORMAT ----
-      #   req(dir1())
-      #   
-      #   path1 <- dir1()
-      #   
-      #   # On garde exactement ton fonctionnement précédent
-      #   # DT <- load_selection_tables_ONLINE(
-      #   #   dir1 = path1,
-      #   #   dir2 = NULL,
-      #   #   compiled = FALSE,
-      #   #   utc_tz = input$UTC_choice
-      #   # )
-      #   
-      #   print(names(DT))
-      #   print(str(DT))
-      #   
-      # }
-      # 
-      # ---- À partir d'ici, DT existe dans les deux cas ----
       
       if (is.null(DT) || nrow(DT) == 0) {
         showNotification(
@@ -490,84 +429,7 @@ server <- function(input, output, session) {
     })
     
   })
-#   observeEvent(input$start, {
-#     
-#     if (isTRUE(input$Compiled_F)) {
-#       
-#       req(input$compiled_file)
-#       
-#       path1 <- input$compiled_file$datapath
-#       
-#     } else {
-#       
-#       req(dir1())
-#       
-#       path1 <- dir1()
-#       
-#     }
-#     
-#     DT_reac(NULL)
-#     
-#     showNotification(
-#       "Loading selection tables...",
-#       closeButton = FALSE,
-#       duration = 2
-#     )
-#     
-#     if (!exists("load_selection_tables")) {
-#       showNotification(
-#         "Error: Function 'load_selection_tables' not found.",
-#         type = "error"
-#       )
-#       return()
-#     }
-#     
-#     tryCatch({
-#       
-#       DT <- load_selection_tables(
-#         dir1 = path1,
-#         dir2 = dir2(),
-#         compiled = input$Compiled_F,
-#         utc_tz = input$UTC_choice
-#       )
-#       
-#     tryCatch({
-#       DT <- load_selection_tables(
-#         dir1 = dir1(), dir2 = dir2(), compiled = input$Compiled_F, utc_tz = input$UTC_choice
-#       )
-# 
-#    
-# 
-#       if (is.null(DT) || nrow(DT) == 0) {
-#         showNotification("No data found or empty tables.", type = "error")
-#         output$status <- renderText("No data loaded.")
-#         return()
-#       }
-#       
-#       complete_audio_path(DT$Begin_Path)
-#       Date_DT_min(min(DT$Date, na.rm = TRUE))
-#       Date_DT_max(max(DT$Date, na.rm = TRUE))
-#       
-#       updateDateRangeInput(session, "filter_dates", 
-#                            start = Date_DT_min(), end = Date_DT_max(),
-#                            min = Date_DT_min(), max = Date_DT_max())
-#       
-#       Sp_List_DT <- sort(unique(DT$Common.Name))
-#       Sp_List(Sp_List_DT)
-#       
-#       species_list_pheno <- c(Sp_List_DT, "All species")
-#       updateSelectizeInput(session, "species_pheno", choices = species_list_pheno, 
-#                            selected = "All species", server = TRUE)
-#       
-#       DT_reac(DT)
-#       output$status <- renderText(paste("Loaded:", nrow(DT), "detections |", length(Sp_List_DT), "species"))
-#       
-#     }, error = function(e) {
-#       showNotification(paste("Error loading data:", e$message), type = "error")
-#       output$status <- renderText("Error loading data.")
-#     })
-#   })
-#   
+  
   # --- 5.3 Filtrage Réactif ---
   DT_filtered <- reactiveVal(NULL)
   last_species_list <- reactiveVal(NULL)
@@ -626,6 +488,18 @@ server <- function(input, output, session) {
 
   # --- 5.8 Phénologie ---
   
+  # --- Sélecteur d'enregistreurs (dynamique) ---
+  output$recorder_ui <- renderUI({
+    req(DT_reac())
+    df <- DT_reac()
+    if (!"recorder" %in% names(df)) return(NULL)
+    recs <- sort(unique(na.omit(df$recorder)))
+    if (length(recs) == 0) return(NULL)
+    selectInput("selected_recorders", "Select recorder(s):",
+                choices = recs, selected = recs, multiple = TRUE)
+  })
+  
+  
   observeEvent(input$restart_timezone, {
     req(DT_reac(), input$device_tz, input$deployment_tz)
     tryCatch({
@@ -648,7 +522,13 @@ server <- function(input, output, session) {
     # 1. Filtre confiance
     Voc <- dt_pheno[Confidence >= input$Confid_Pheno]
     
-    # 2. Filtre espèces
+    # 2. Filtre enregistreurs
+    if ("recorder" %in% names(Voc) &&
+        !is.null(input$selected_recorders) && length(input$selected_recorders) > 0) {
+      Voc <- Voc[recorder %in% input$selected_recorders]
+    }
+    
+    # 3. Filtre espèces
     sp_to_plot <- input$species_pheno
     if (is.null(sp_to_plot) || length(sp_to_plot) == 0) sp_to_plot <- "All species"
     if (!"All species" %in% sp_to_plot) {
