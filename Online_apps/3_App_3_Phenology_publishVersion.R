@@ -49,18 +49,16 @@ apply_timezones <- function(DT, device_tz, deployment_tz, compiled) {
     names(DT)
   )
   
-  # 1. date_strings from the file name (e.g. "REC01_20250312_053000.WAV")
-  if (!"date_strings" %in% names(DT)) {
-    if (length(file_cols) == 0) {
-      stop("No column with audio file names found. Columns are: ",
-           paste(names(DT), collapse = ", "))
-    }
+  # 1. date_strings: ALWAYS read again from the audio file name
+  #    (the loader may have built them in the server's time zone)
+  if (length(file_cols) > 0) {
     fname <- basename(as.character(DT[[file_cols[1]]]))
-    DT[, date_strings := stringr::str_extract(fname, "\\d{8}_\\d{6}")]
-    if (all(is.na(DT$date_strings))) {
-      stop("Could not read a date (YYYYMMDD_HHMMSS) in column '", file_cols[1],
-           "'. Example: ", fname[1])
-    }
+    ds <- stringr::str_extract(fname, "\\d{8}_\\d{6}")
+    if (!all(is.na(ds))) DT[, date_strings := ds]
+  }
+  if (!"date_strings" %in% names(DT) || all(is.na(DT$date_strings))) {
+    stop("Could not read a date (YYYYMMDD_HHMMSS) from the file names. Columns are: ",
+         paste(names(DT), collapse = ", "))
   }
   
   # 2. recorder = part of the file name before the date (e.g. "REC01")
@@ -175,6 +173,7 @@ ui <- page_sidebar(
                 choices = tz_choices, selected = "Etc/GMT-1"),
     selectInput("deployment_tz", "Time zone of the deployment site (local time)",
                 choices = tz_choices, selected = "Europe/Zurich"),
+    helpText("Set the time zones BEFORE loading the data."),
     checkboxInput("fixed_recorder_clock",
                   "Plot on recorder clock (no daylight saving time)", value = TRUE),
     actionButton("restart_timezone", "Update time zones", class = "btn-primary", width = "100%"),
@@ -375,11 +374,19 @@ server <- function(input, output, session) {
         req(dir1())
         path1 <- dir1()
       }
-      
+      ###### !!! for ONLINE APP 
       # Read the tables, then fix time zones / dates / recorder names
-      DT <- load_selection_tables_ONLINE(
-        dir1 = path1, dir2 = NULL, compiled = compiled,
-        device_tz = input$device_tz, deployment_tz = input$deployment_tz
+      # While loading, R's default time zone = the recorder time zone chosen
+      # by the user. Any time the loader reads without an explicit time zone
+      # is then read correctly, whatever the server's own time zone is.
+      old_tz <- Sys.getenv("TZ")
+      Sys.setenv(TZ = input$device_tz)
+      DT <- tryCatch(
+        load_selection_tables_ONLINE(
+          dir1 = path1, dir2 = NULL, compiled = compiled,
+          device_tz = input$device_tz, deployment_tz = input$deployment_tz
+        ),
+        finally = Sys.setenv(TZ = old_tz)   # always put the server setting back
       )
       if (is.null(DT) || nrow(DT) == 0) {
         showNotification("No data found or tables are empty.", type = "error")

@@ -5,9 +5,9 @@ account: jnop
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 18011124
-bundleId: 12622112
+bundleId: 12626637
 url: https://jnop.shinyapps.io/Online_apps/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: 1_App_1_Filtering_publishVersion.R
+ignoredFiles: 1_App_1_Filtering_publishVersion.R|1_App_3.2_Phenology_publishVersion.R

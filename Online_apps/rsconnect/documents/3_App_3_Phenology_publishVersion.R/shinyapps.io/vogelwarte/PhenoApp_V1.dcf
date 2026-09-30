@@ -5,9 +5,9 @@ account: vogelwarte
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 17391736
-bundleId: 12623098
+bundleId: 12626655
 url: https://vogelwarte.shinyapps.io/PhenoApp_V1/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: 1_App_1_Filtering_publishVersion.R
+ignoredFiles: 1_App_1_Filtering_publishVersion.R|1_App_3.2_Phenology_publishVersion.R
