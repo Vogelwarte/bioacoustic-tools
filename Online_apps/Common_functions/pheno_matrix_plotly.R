@@ -196,6 +196,7 @@ pheno_matrix <- function(
     ggplot2::scale_fill_gradientn(
       colours  = PHENO_RAMP,
       trans    = if (use_log) "log10" else "identity",
+      limits   = c(1, max(2, max(tiles$N, na.rm = TRUE))),
       na.value = "transparent",
       name     = paste0("Detections /\n", Unit, " min")
     ) +
@@ -234,6 +235,16 @@ pheno_matrix <- function(
 #   p   the ggplot returned by pheno_matrix(..., sun_as_shapes = TRUE)
 # ==============================================================================
 pheno_add_sun_shapes <- function(pl, p) {
+  for (i in seq_along(pl$x$data)) {
+    tr <- pl$x$data[[i]]
+    if (identical(tr$type, "heatmap")) {
+      cs <- tr$colorscale
+      if (!is.null(cs) && NROW(cs) < 2) {
+        col <- if (is.data.frame(cs)) cs[1, 2] else cs[[1]][[2]]
+        pl$x$data[[i]]$colorscale <- list(c(0, col), c(1, col))
+      }
+    }
+  }
   sun <- attr(p, "sun")
   if (is.null(sun) || nrow(sun) == 0) return(pl)
   noct  <- isTRUE(attr(p, "nocturnal"))
