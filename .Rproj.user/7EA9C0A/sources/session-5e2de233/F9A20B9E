@@ -1,0 +1,26 @@
+{
+    "id": "F9A20B9E",
+    "path": "~/Documents/Birds/Acoustic/bioacoustic-tools/R/SCORE.R",
+    "project_path": "R/SCORE.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1779302771041.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "17,19",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1779302734,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1779302734,
+    "read_only": false,
+    "read_only_alternatives": []
+}
