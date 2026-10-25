@@ -85,7 +85,6 @@ load_selection_tables <- function(dir1, dir2 = NULL, compiled = TRUE,
   
   
   # 6. Calcul du segment temporel absolu (Start_segment)
-  # On utilise l'heure RÉELLE pour les calculs scientifiques (soleil, etc.)
   if (compiled) {
     DT[, time_offset := File.Offset..s.]
   } else {
@@ -96,7 +95,7 @@ load_selection_tables <- function(dir1, dir2 = NULL, compiled = TRUE,
     }
   }
   
-  # Calcul de Start_segment basé sur DateTime_Real
+  # Calcul de Start_segment
   DT[, Start_segment := DateTime_Real + time_offset]
   
   # Calcul Stop_segment
@@ -114,22 +113,23 @@ load_selection_tables <- function(dir1, dir2 = NULL, compiled = TRUE,
     }
   }
   
-  DT[, `:=`(
-    Date = as.Date(Start_segment),
-    Hour = hour(Start_segment),
-    Min = minute(Start_segment),
-    Time = sprintf("%02d:%02d", hour(Start_segment), minute(Start_segment)),
-    Hour_Decimal_Real = hour(Start_segment) + (minute(Start_segment) / 60)
-  )]
+  # --- CORRECTION CRUCIALE : Ré-attribuer le fuseau horaire APRÈS les calculs ---
+  # data.table peut perdre l'attribut tzone lors des additions numériques
+  attr(DT$Start_segment, "tzone") <- deployment_tz
+  attr(DT$Stop_segment, "tzone") <- deployment_tz
   
+  # Extraction des composantes de date/heure en forçant le fuseau
+  DT[, `:=`(
+    Date = as.Date(format(Start_segment, tz = deployment_tz)),
+    Hour = as.integer(format(Start_segment, "%H", tz = deployment_tz)),
+    Min = as.integer(format(Start_segment, "%M", tz = deployment_tz)),
+    Time = format(Start_segment, "%H:%M", tz = deployment_tz),
+    Hour_Decimal_Real = as.integer(format(Start_segment, "%H", tz = deployment_tz)) + 
+      (as.integer(format(Start_segment, "%M", tz = deployment_tz)) / 60)
+  )]
   
   # Nettoyage colonne temporaire
   DT[, time_offset := NULL]
-  
-  # Exclusion nocall
-  if ("Common.Name" %in% names(DT)) {
-    DT <- DT[Common.Name != "nocall"]
-  }
   
   # 7. Jointure Audio
   if (!is.null(dir2)) {
