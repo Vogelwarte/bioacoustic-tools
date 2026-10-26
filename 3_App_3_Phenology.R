@@ -311,9 +311,9 @@ server <- function(input, output, session) {
       # Colonnes dérivées "Display" (pour référence/logs)
       DT_new[, `:=`(
         Date_Display = as.Date(DateTime_Display),
-        Hour_Display = hour(DateTime_Display),
-        Min_Display = minute(DateTime_Display),
-        Time_Display = sprintf("%02d:%02d", hour(DateTime_Display), minute(DateTime_Display))
+        Hour_Display = lubridate::hour(DateTime_Display),
+        Min_Display = lubridate::minute(DateTime_Display),
+        Time_Display = sprintf("%02d:%02d", lubridate::hour(DateTime_Display), lubridate::minute(DateTime_Display))
       )]
       
       # Gestion des Dates - CONVERSION VERS L'HEURE "RÉELLE" (DEPLOYMENT)
@@ -366,10 +366,10 @@ server <- function(input, output, session) {
       
       DT_new[, `:=`(
         Date = as.Date(Start_segment),
-        Hour = hour(Start_segment),
-        Min = minute(Start_segment),
-        Time = sprintf("%02d:%02d", hour(Start_segment), minute(Start_segment)),
-        Hour_Decimal_Real = hour(Start_segment) + (minute(Start_segment) / 60)
+        Hour = lubridate::hour(Start_segment),
+        Min = lubridate::minute(Start_segment),
+        Time = sprintf("%02d:%02d", lubridate::hour(Start_segment), lubridate::minute(Start_segment)),
+        Hour_Decimal_Real = lubridate::hour(Start_segment) + (lubridate::minute(Start_segment) / 60)
       )]
       
       DT_reac(DT_new)
@@ -469,7 +469,7 @@ server <- function(input, output, session) {
     print(head(Voc)) # debeug
     
     
-    validate(need(nrow(Voc) > 0,
+    shiny::validate(shiny::need(nrow(Voc) > 0,
                   "No detections for this selection. Lower the confidence threshold or change species / recorders."))
     
     # Time axis: recorder clock (no DST) or local time (same as online app)
@@ -501,7 +501,7 @@ server <- function(input, output, session) {
   output$pheno_plot <- plotly::renderPlotly({
     p <- pheno_data()
     
-    validate(need(inherits(p, "gg"),
+    shiny::validate(shiny::need(inherits(p, "gg"),
                   if (is.character(p)) p else "No data to plot. Check the parameters and click 'Generate Plot'."))
     
     pl <- plotly::ggplotly(p, tooltip = "text")

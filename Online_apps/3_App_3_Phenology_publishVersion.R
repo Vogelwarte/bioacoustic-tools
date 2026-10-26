@@ -20,6 +20,7 @@ library(hms)
 library(suncalc)
 library(scales)
 library(lubridate)
+library(splusTimeDate)
 # dipsaus is no longer needed: the folder upload uses a standard fileInput
 
 # Allow large uploads (default Shiny limit is 500 MB). Adjust to the server RAM.

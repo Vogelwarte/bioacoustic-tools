@@ -61,9 +61,9 @@ load_selection_tables <- function(dir1, dir2 = NULL, compiled = TRUE,
   # Colonnes dérivées "Display" (pour référence/logs)
   DT[, `:=`(
     Date_Display = as.Date(DateTime_Display),
-    Hour_Display = hour(DateTime_Display),
-    Min_Display = minute(DateTime_Display),
-    Time_Display = sprintf("%02d:%02d", hour(DateTime_Display), minute(DateTime_Display))
+    Hour_Display = lubridate::hour(DateTime_Display),
+    Min_Display = lubridate::minute(DateTime_Display),
+    Time_Display = sprintf("%02d:%02d", lubridate::hour(DateTime_Display), lubridate::minute(DateTime_Display))
   )]
   
   # 5. Gestion des Dates - ÉTAPE 2 : CONVERSION VERS L'HEURE "RÉELLE" (DEPLOYMENT)

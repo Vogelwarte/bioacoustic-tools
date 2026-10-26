@@ -455,7 +455,7 @@ server <- function(input, output, session) {
     df$common_name_original <- factor(df$common_name_original, levels = df$common_name_original)
     cols <- get_safe_colors(nrow(df))
     plot_ly(df, x = ~common_name_original, y = ~Occurrence, type = "bar", marker = list(color = cols)) %>%
-      layout(xaxis = list(title = "Species", tickangle = -45, categoryorder = "trace"), yaxis = list(title = "Count"))
+      plotly::layout(xaxis = list(title = "Species", tickangle = -45, categoryorder = "trace"), yaxis = list(title = "Count"))
   })
   
   output$plot_date <- renderPlotly({
@@ -473,7 +473,7 @@ server <- function(input, output, session) {
     agg <- agg[order(agg$date), ]
     
     plot_ly(agg, x = ~date, y = ~Occurrence, type = "bar", marker = list(color = 'darkorange')) %>%
-      layout(xaxis = list(title = "Date"), yaxis = list(title = "Count"))
+      plotly::layout(xaxis = list(title = "Date"), yaxis = list(title = "Count"))
   })
   
   comparisonData <- reactive({
@@ -546,7 +546,7 @@ server <- function(input, output, session) {
     df_long$Type <- factor(df_long$Type, levels = c("Kept", "Removed"))
     
     plot_ly(df_long, x = ~common_name_original, y = ~Percentage, color = ~Type, type = "bar") %>%
-      layout(barmode = "stack", yaxis = list(range = c(0, 100)))
+      plotly::layout(barmode = "stack", yaxis = list(range = c(0, 100)))
   })
   
   output$recorder_barplot <- renderPlot({
