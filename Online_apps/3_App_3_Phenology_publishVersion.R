@@ -22,8 +22,8 @@ library(scales)
 library(lubridate)
 # dipsaus is no longer needed: the folder upload uses a standard fileInput
 
-# Allow large uploads (default Shiny limit is 5 MB). Adjust to the server RAM.
-options(shiny.maxRequestSize = 500 * 1024^2)
+# Allow large uploads (default Shiny limit is 500 MB). Adjust to the server RAM.
+options(shiny.maxRequestSize = 50000 * 1024^2)
 
 
 # --- 2. CUSTOM FUNCTIONS ------------------------------------------------------
