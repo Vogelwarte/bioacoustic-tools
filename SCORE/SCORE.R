@@ -27,6 +27,7 @@ library(stringr)
 library(metR)
 
 
+
 # https://vogelwarte.shinyapps.io/SCORE_online/
 # # Shiny options ----
 
@@ -37,6 +38,8 @@ options(
 
 # Load functions ----
 source("functions.R")
+source("preset_functions.R")  
+SCORE_VERSION <- "1.1.0" 
 
 
 # Recorder battery specifications----
@@ -169,7 +172,7 @@ ui <- fluidPage(
             "timezone",
             "Timezone",
             choices  = OlsonNames(),
-            selected = "CET",
+            selected = "Europe/Zurich",
             options  = list(placeholder = "Type to search timezone...", maxOptions = 1000)
           ),
           
@@ -252,113 +255,7 @@ ui <- fluidPage(
               
               br()
             ),
-            ## 24h recording option ----
-            # checkboxInput("record_24h", "Continuous 24h recording", FALSE),
-            # 
-            # ## Recording schedule ----
-            # conditionalPanel(
-            #   condition = "input.record_24h == false",
-            #   
-            #   tags$details(
-            #     open = TRUE,
-            #     tags$summary(
-            #       tags$b("Recording schedule"),
-            #       style = "cursor: pointer; margin-bottom: 10px;"
-            #     ),
-            #     
-            #     selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
-            #     selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
-            #     numericInput("length_morning",  "Fixed duration (h)", 0, min = 0),
-            #     numericInput("extend_before",   "Extend before (h)",  1),
-            #     numericInput("extend_after",    "Extend after (h)",   0)
-            #   ),
-            #   
-            #   br()
-            # ),
-            # 
-            # ## Second daily window ----
-            # conditionalPanel(
-            #   condition = "input.record_24h == false",
-            #   
-            #   tags$details(
-            #     open = FALSE,
-            #     tags$summary(
-            #       tags$b("Second daily window"),
-            #       style = "cursor: pointer; margin-bottom: 10px;"
-            #     ),
-            #     
-            #     checkboxInput("use_window2", "Add second daily window", FALSE),
-            #     
-            #     conditionalPanel(
-            #       condition = "input.use_window2 == true",
-            #       selectInput("start_event2",     "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
-            #       selectInput("end_event2",       "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
-            #       numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
-            #       numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
-            #       numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
-            #     )
-            #   ),
-            #   
-            #   br()
-            # ),
-            # checkboxInput("record_24h", "Continuous 24h recording", FALSE),
-            # 
-            # conditionalPanel(
-            #   condition = "input.record_24h == false",
-            #   
-            #   tags$details(
-            #     open = TRUE,
-            #     tags$summary(
-            #       tags$b("Recording schedule"),
-            #       style = "cursor: pointer; margin-bottom: 10px;"
-            #     ),
-            #     
-            #     selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
-            #     selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
-            #     numericInput("length_morning",  "Fixed duration (h)", 0, min = 0),
-            #     numericInput("extend_before",   "Extend before (h)",  1),
-            #     numericInput("extend_after",    "Extend after (h)",   0)
-            #   ),
-            #   
-            #   br()
-            # ),
-            # tags$details(
-            #   open = TRUE,
-            #   tags$summary(
-            #     tags$b("Recording schedule"),
-            #     style = "cursor: pointer; margin-bottom: 10px;"
-            #   ),
-            #   
-            #   checkboxInput("record_24h", "Continuous 24h recording", FALSE),
-            #   selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
-            #   selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
-            #   numericInput("length_morning",  "Fixed duration (h)",    0, min = 0),
-            #   numericInput("extend_before",   "Extend before (h)",     1),
-            #   numericInput("extend_after",    "Extend after (h)",      0)
-            # ),
-            # 
-            # br(),
-            
-            ## Second daily window ----
-            # tags$details(
-            #   open = FALSE,
-            #   tags$summary(
-            #     tags$b("Second daily window"),
-            #     style = "cursor: pointer; margin-bottom: 10px;"
-            #   ),
-            #   
-            #   checkboxInput("use_window2", "Add second daily window", FALSE),
-            #   conditionalPanel(
-            #     condition = "input.use_window2 == true",
-            #     selectInput("start_event2",    "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
-            #     selectInput("end_event2",      "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
-            #     numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
-            #     numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
-            #     numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
-            #   )
-            # ),
-            # 
-            # br(),
+           
             
             ## Duty cycle parameters ----
             tags$details(
@@ -369,8 +266,8 @@ ui <- fluidPage(
               ),
               
               numericInput("period_min",      "Min cycle (min)",    1),
-              numericInput("period_max",      "Max cycle (min)",   30),
-              numericInput("period_step",     "Step (min)",          5),
+              numericInput("period_max",      "Max cycle (min)",   60),
+              numericInput("period_step",     "Step (min)",          3),
               numericInput("duty_duration",   "Duty duration (min)", 1)
             ),
             
@@ -399,7 +296,7 @@ ui <- fluidPage(
               "Return duty cycle data",
               style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"
             ),
-            
+            downloadButton("dl_duty", "Download duty-cycle results (.csv)"), 
             width = 12
           )
         ),
@@ -417,60 +314,7 @@ ui <- fluidPage(
         )
       )
     ),
-    # ## TAB2: UI Duty cycle ----
-    # tabPanel(
-    #   "2. Duty cycle",
-    #   fluidRow(
-    #     column(
-    #       width = 3,
-    #       sidebarPanel(
-    #         checkboxInput("record_24h", "Continuous 24h recording", FALSE),
-    #         selectInput("start_event", "Start event", c("dawn", "sunrise", "sunset", "dusk")),
-    #         selectInput("end_event",   "End event",   c("dawn", "sunrise", "sunset", "dusk")),
-    #         numericInput("length_morning",  "Fixed duration (h)",    0, min = 0),
-    #         numericInput("extend_before",   "Extend before (h)",     1),
-    #         numericInput("extend_after",    "Extend after (h)",      0),
-    #         
-    #         checkboxInput("use_window2", "Add second daily window", FALSE),
-    #         conditionalPanel(
-    #           condition = "input.use_window2 == true",
-    #           selectInput("start_event2",    "Start event (Window 2)", c("dawn", "sunrise", "sunset", "dusk")),
-    #           selectInput("end_event2",      "End event (Window 2)",   c("dawn", "sunrise", "sunset", "dusk")),
-    #           numericInput("length_morning2", "Fixed duration (h) — Window 2", 0, min = 0),
-    #           numericInput("extend_before2",  "Extend before (h) — Window 2", 0),
-    #           numericInput("extend_after2",   "Extend after (h) — Window 2",  0)
-    #         ),
-    #         
-    #         numericInput("period_min",      "Min period (min)",   1),
-    #         numericInput("period_max",      "Max period (min)",  30),
-    #         numericInput("period_step",     "Step (min)",         5),
-    #         numericInput("duty_duration",   "Duty duration (min)", 1),
-    #         numericInput("B_temporal",      "Bootstrap",  value = 5, min = 1, step = 1),
-    #         checkboxInput("show_summary",   "Show average + CI", TRUE),
-    #         
-    #         actionButton("run_temporal",          "Run analysis"),
-    #         actionButton("return_raref",          "Return rarefaction plot",
-    #                      style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
-    #         actionButton("return_heatmap_miss",   "Return missed species plot",
-    #                      style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
-    #         actionButton("return_duty_data",      "Return duty cycle data",
-    #                      style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
-    #         width = 12
-    #       )
-    #     ),
-    #     column(
-    #       width = 9,
-    #       fluidRow(
-    #         column(12, h4("Schedule preview")),
-    #         column(6, plotOutput("sun_plot",  height = "150px")),
-    #         column(6, plotOutput("duty_plot", height = "150px"))
-    #       ),
-    #       br(),
-    #       plotlyOutput("plot_temporal",           height = "600px", width = "100%"),
-    #       plotlyOutput("heatmap_missed_species",  height = "900px", width = "100%")
-    #     )
-    #   )
-    # ),
+  
     
     ## TAB3: UI Time window ----
     tabPanel(
@@ -488,11 +332,11 @@ ui <- fluidPage(
               ),
               selected = "sunrise"
             ),
-            numericInput("grid_start_min",  "Min offset from event (hours)",  value = -2,  step = 0.25),
-            numericInput("grid_start_max",  "Max offset from event (hours)",  value =  4,  step = 0.25),
+            numericInput("grid_start_min",  "Min offset from event (hours)",  value = -3,  step = 0.25),
+            numericInput("grid_start_max",  "Max offset from event (hours)",  value =  5,  step = 0.25),
             numericInput("grid_start_step", "Start time step (hours)",        value =  0.5, step = 0.25),
             numericInput("grid_dur_min",    "Min duration (hours)",           value =  0.5, step = 0.25),
-            numericInput("grid_dur_max",    "Max duration (hours)",           value =  6,  step = 0.25),
+            numericInput("grid_dur_max",    "Max duration (hours)",           value =  8,  step = 0.25),
             numericInput("grid_dur_step",   "Duration step (hours)",          value =  0.5, step = 0.25),
             
             checkboxInput("use_window2_grid", "Add second daily window", FALSE),
@@ -507,11 +351,11 @@ ui <- fluidPage(
                 ),
                 selected = "sunset"
               ),
-              numericInput("grid_start_min2",  "Min offset (Window 2)",       value = -2,  step = 0.25),
-              numericInput("grid_start_max2",  "Max offset (Window 2)",       value =  4,  step = 0.25),
+              numericInput("grid_start_min2",  "Min offset (Window 2)",       value = -5,  step = 0.25),
+              numericInput("grid_start_max2",  "Max offset (Window 2)",       value =  2,  step = 0.25),
               numericInput("grid_start_step2", "Start time step (Window 2)",  value =  0.5, step = 0.25),
               numericInput("grid_dur_min2",    "Min duration (Window 2)",     value =  0.5, step = 0.25),
-              numericInput("grid_dur_max2",    "Max duration (Window 2)",     value =  6,  step = 0.25),
+              numericInput("grid_dur_max2",    "Max duration (Window 2)",     value =  8,  step = 0.25),
               numericInput("grid_dur_step2",   "Duration step (Window 2)",    value =  0.5, step = 0.25)
             ),
             
@@ -520,6 +364,7 @@ ui <- fluidPage(
                          style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
             actionButton("return_window_data","Return day window data",
                          style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
+            downloadButton("dl_window", "Download time-window results (.csv)"), 
             width = 12,
             numericInput(
               "top_n_combined",
@@ -558,7 +403,8 @@ ui <- fluidPage(
           actionButton("return_multi",      "Return multi-optimum plot",
                        style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
           actionButton("return_multi_data", "Return multi optimum data",
-                       style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;")
+                       style = "background-color: #728FCE; color: white; font-size: 12px; padding: 4px 8px; border: none;"),
+          downloadButton("dl_multi", "Download multi-optimum results (.csv)")  
         )
       ),
       fluidRow(
@@ -596,6 +442,84 @@ ui <- fluidPage(
         mainPanel(
           width = 10,
           plotlyOutput("target_heatmap", height = "900px", width = "100%")
+        )
+      )
+    ),
+    
+    ## Tab 6: UI Share results (SCORE preset) ----
+    tabPanel(
+      "6. Share results",
+      sidebarLayout(
+        sidebarPanel(
+          width = 4,
+          h4("Share your results as a SCORE preset"),
+          helpText("Run Tabs 2, 3 and 4 first. Analysis settings and results are filled in automatically;",
+                   "please describe your study below."),
+          
+          tags$details(open = "open", tags$summary(strong("1. Contributor")),
+                       textInput("ps_name",        "Name"),
+                       textInput("ps_affiliation", "Affiliation"),
+                       textInput("ps_orcid",       "ORCID (e.g. 0000-0002-1825-0097)"),
+                       textInput("ps_contact",     "Contact e-mail (optional, will be public)")
+          ),
+          
+          tags$details(open = "open", tags$summary(strong("2. Study")),
+                       textInput("ps_title", "Short title", placeholder = "e.g. Alpine bird community, early June"),
+                       textAreaInput("ps_project_description", "Project description", rows = 3),
+                       selectizeInput("ps_objective", "Monitoring objective", choices = OBJECTIVES,
+                                      options = list(create = TRUE, placeholder = "choose or type your own")),
+                       selectizeInput("ps_target_taxa", "Target taxa", choices = TAXA, selected = "birds", multiple = TRUE,
+                                      options = list(create = TRUE, placeholder = "choose or type another group")),
+                       selectizeInput("ps_target_species", "Target species (optional, one or several)", choices = NULL,
+                                      multiple = TRUE, options = list(create = TRUE, placeholder = "choose or type species names")),
+                       selectizeInput("ps_country", "Country", choices = c("", names(COUNTRIES)),
+                                      options = list(placeholder = "choose a country")),
+                       textInput("ps_region", "Region"),
+                       selectizeInput("ps_habitat", "Habitat(s) (EUNIS level 1)", choices = EUNIS_L1, multiple = TRUE),
+                       textInput("ps_habitat_desc", "Habitat description", placeholder = "e.g. alpine grassland and scree"),
+                       numericInput("ps_elev_mean", "Mean elevation (m)", NA),
+                       strong("Study location"),
+                       helpText("The coordinates entered in Tab 1 (used to compute sunrise and sunset) are:"),
+                       textOutput("ps_coords_app"),
+                       checkboxInput("ps_share_location", "Share these coordinates in the preset", FALSE),
+                       conditionalPanel("input.ps_share_location",
+                                        checkboxInput("ps_round_location", "Round them to ~10 km (0.1 degree), recommended", TRUE))
+          ),
+          
+          tags$details(open = "open", tags$summary(strong("3. Recording")),
+                       selectizeInput("ps_timing", "Timing (season and/or months)", choices = TIMING, multiple = TRUE,
+                                      options = list(placeholder = "e.g. breeding, May, June")),
+                       selectInput("ps_recorder_model", "Recorder model",
+                                   c("", unique(battery_specs$recorder), "Other")),
+                       numericInput("ps_sample_rate", "Sample rate (Hz)", NA),
+                       numericInput("ps_height", "Deployment height (m)", NA),
+                       textInput("ps_raw_recording", "Recording scheme of the input data", value = "continuous 24 h")
+          ),
+          
+          tags$details(open = "open", tags$summary(strong("4. Classifier")),
+                       selectInput("ps_classifier", "Classifier", c("BirdNET-Analyzer", "BirdNET (other)", "Other")),
+                       textInput("ps_classifier_version", "Classifier version", placeholder = "e.g. 2.4")
+          ),
+          
+          tags$details(tags$summary(strong("5. Content of the preset")),
+                       checkboxGroupInput("ps_targets", "Recommended schedules for richness targets (%)",
+                                          choices = c(75, 80, 85, 90, 95), selected = c(75, 80, 85, 90, 95), inline = TRUE),
+                       checkboxInput("ps_include_pareto",  "Include the Pareto front", TRUE),
+                       checkboxInput("ps_include_species", "Include species-level summaries", TRUE),
+                       numericInput("ps_species_min_conf", "Species summaries: minimum confidence", 0, min = 0, max = 1, step = 0.05),
+                       textAreaInput("ps_notes", "Notes", rows = 3)
+          ),
+          hr(),
+          uiOutput("ps_download_ui")
+        ),
+        mainPanel(
+          width = 8,
+          h4("Filled in automatically from your analysis"),
+          tableOutput("ps_auto"),
+          h4("Recommended schedules in this preset"),
+          DT::dataTableOutput("ps_recs"),
+          helpText("Clock times are approximate (mean sunrise/sunset over the analysed days).",
+                   "Effort is the % of the day recorded per recorder.")
         )
       )
     ),
@@ -2285,7 +2209,7 @@ server <- function(input, output, session) {
   # TAB 4 MULTIOPTIMUM----
   
   multi_combo <- eventReactive(input$run_multi, {
-    
+
     req(values$summary_richness, values$grid_results, values$schedules)
     message(Sys.time(), " multi_combo: start")
     
@@ -2303,6 +2227,8 @@ server <- function(input, output, session) {
     dt      <- copy(dt_raw())
     req(dt)
     dt[, date := as.Date(date)]
+    assign("multi_params", reactiveValuesToList(input), envir = .GlobalEnv)   # tous les réglages
+    assign("multi_dates",  range(dt$date),               envir = .GlobalEnv)  # dates analysées
     solar_dt <- setDT(solar_table())
     
     ## Pre-compute reference minute for W1 and W2 (done once, not per iteration) ----
@@ -2487,7 +2413,23 @@ server <- function(input, output, session) {
   observeEvent(input$return_multi_data, {
     assign("multi_optimum_data", multi_combo(), envir = .GlobalEnv)
   })
-  
+  output$dl_duty <- downloadHandler(
+    filename = function() paste0("SCORE_duty_cycle_", format(Sys.Date()), ".csv"),
+    content  = function(file) {
+      x <- copy(temporal_results())
+      list_cols <- names(x)[sapply(x, is.list)]
+      for (cc in list_cols) set(x, j = cc, value = sapply(x[[cc]], function(v) paste(unlist(v), collapse = "; ")))
+      fwrite(x, file)
+    })
+  output$dl_window <- downloadHandler(
+    filename = function() paste0("SCORE_time_windows_", format(Sys.Date()), ".csv"),
+    content  = function(file) {
+      g <- grid_results()
+      fwrite(rbindlist(list(W1 = g$w1, W2 = g$w2, Combined = g$comb), idcol = "window_type", fill = TRUE), file)
+    })
+  output$dl_multi <- downloadHandler(
+    filename = function() paste0("SCORE_multi_optimum_", format(Sys.Date()), ".csv"),
+    content  = function(file) fwrite(multi_combo(), file))
   
   # TAB 4 plots----
   
@@ -2566,9 +2508,129 @@ server <- function(input, output, session) {
   
   observeEvent(input$return_multi, {
     assign("plotly_optimum", plotly_optimum(), envir = .GlobalEnv)
+    assign("ggplot_optimum", gg_optimum(), envir = .GlobalEnv)
   })
   
+  # TAB 6 SHARE RESULTS (SCORE preset) ----
+  observe({
+    sp <- tryCatch(sort(unique(dt_raw()$species)), error = function(e) NULL)
+    updateSelectizeInput(session, "ps_target_species", choices = sp, server = TRUE)
+  })
   
+  output$ps_coords_app <- renderText({
+    lat <- tryCatch(active_lat(), error = function(e) NA); lon <- tryCatch(active_lon(), error = function(e) NA)
+    if (is.null(lat) || is.na(lat)) "no coordinates entered yet" else sprintf("lat %.4f, lon %.4f", lat, lon)
+  })
+  
+  preset_meta <- reactive({
+    dts <- as.Date(dt_raw()$date)
+    code <- if (nzchar(input$ps_country)) unname(COUNTRIES[input$ps_country]) else "XX"
+    region <- gsub("[^A-Za-z0-9]+", "-", trimws(input$ps_region))
+    list(
+      preset_id = paste(c(code, if (nzchar(region)) region, format(min(dts)), paste0(uniqueN(dts), "d")), collapse = "_"),
+      title = input$ps_title,
+      name = input$ps_name, affiliation = input$ps_affiliation, orcid = input$ps_orcid, contact = input$ps_contact,
+      project_description = input$ps_project_description, objective = input$ps_objective,
+      target_taxa = input$ps_target_taxa, target_species = input$ps_target_species,
+      country = input$ps_country, region = input$ps_region,
+      habitat_codes = input$ps_habitat, habitat_desc = input$ps_habitat_desc,
+      elevation_mean = input$ps_elev_mean,
+      share_location = input$ps_share_location, round_location = input$ps_round_location,
+      timing = input$ps_timing, recorder_model = input$ps_recorder_model, sample_rate = input$ps_sample_rate,
+      height = input$ps_height, raw_recording = input$ps_raw_recording,
+      classifier = input$ps_classifier, classifier_version = input$ps_classifier_version, notes = input$ps_notes)
+  })
+  
+  preset_settings <- reactive({
+    list(grid_event = input$grid_event, grid_event2 = input$grid_event2, use_window2_grid = input$use_window2_grid,
+         duty_duration = as.numeric(input$duty_duration),
+         lat = active_lat(), lon = active_lon(), timezone = input$timezone,
+         min_conf = if (is.null(rv_filters$min_conf)) 0 else rv_filters$min_conf,
+         species_filter = if (is.null(rv_filters$species)) "none" else paste(length(rv_filters$species), "species selected"),
+         n_units = uniqueN(sub("_\\d{8}_\\d{6}.*$", "", dt_raw()$filename)),   # recorders, from file names
+         window_grid = list(
+           w1 = list(reference_event = input$grid_event, start_offset_h = c(input$grid_start_min, input$grid_start_max),
+                     step_h = input$grid_start_step, duration_h = c(input$grid_dur_min, input$grid_dur_max),
+                     duration_step_h = input$grid_dur_step),
+           w2 = if (isTRUE(input$use_window2_grid)) list(reference_event = input$grid_event2,
+                                                         start_offset_h = c(input$grid_start_min2, input$grid_start_max2), step_h = input$grid_start_step2,
+                                                         duration_h = c(input$grid_dur_min2, input$grid_dur_max2), duration_step_h = input$grid_dur_step2),
+           top_n_combined = input$top_n_combined))
+  })
+  
+  # Results part (slow): recomputed only when the analysis or the content options change
+  preset_core <- reactive({
+    req(multi_combo(), values$schedules)
+    withProgress(message = "Building SCORE preset...", value = 0.5, {
+      build_preset_core(
+        settings = preset_settings(), dt = dt_raw(), combo = multi_combo(),
+        solar = solar_table(), schedules = values$schedules,
+        targets = as.numeric(input$ps_targets), include_pareto = input$ps_include_pareto,
+        include_species = input$ps_include_species, species_min_conf = input$ps_species_min_conf,
+        score_version = SCORE_VERSION)
+    })
+  })
+  # Full preset = results + form fields (instant)
+  preset_obj <- reactive(add_preset_meta(preset_core(), preset_meta(), preset_settings()))
+  
+  output$ps_auto <- renderTable({
+    req(multi_combo())
+    p <- preset_obj()
+    data.frame(
+      Item = c("Preset ID", "Dates", "Days", "Recorders", "Time zone", "Shared location", "Min. confidence",
+               "Species filter", "Species (24 h)", "Mean daily richness (24 h)", "Candidate schedules", "SCORE version"),
+      Value = c(p$preset_id, paste(p$sampling$period$first_date, "to", p$sampling$period$last_date),
+                p$sampling$period$n_days, p$sampling$recorders$n_units, p$sampling$period$timezone,
+                if (is.null(p$study$location)) "not shared" else
+                  paste0(p$study$location$lat, ", ", p$study$location$lon,
+                         if (isTRUE(p$study$location$rounded)) " (rounded ~10 km)" else " (exact)"),
+                p$classifier$min_confidence, p$classifier$species_filter,
+                p$analysis$reference$total_species, p$analysis$reference$continuous_24h_mean_daily_richness,
+                p$analysis$n_candidates, p$score_version))
+  })
+  
+  output$ps_recs <- DT::renderDataTable({
+    req(multi_combo())
+    rec <- preset_obj()$results$recommended_schedules
+    out <- rbindlist(lapply(rec, function(r) {
+      if (!isTRUE(r$reached)) return(data.table(Target = paste0(r$target_pct, "%"), Schedule = "not reached"))
+      data.table(Target = paste0(r$target_pct, "%"), `Duty cycle` = r$duty_cycle$label,
+                 Windows = paste(sapply(r$windows, function(w) sprintf("%s %+.1f h, %.1f h (%s)", w$reference_event,
+                                                                       w$start_offset_h, w$duration_h, w$approx_clock_time)), collapse = " + "),
+                 `Hours/day` = r$recording_h_per_day, `Effort (% of 24 h)` = r$effort_pct_24h,
+                 `Richness (% of 24 h)` = r$richness_pct_of_24h,
+                 `Species never detected` = paste0(r$omission$species_never_detected, " of ", r$omission$species_detected_24h))
+    }), fill = TRUE)
+    DT::datatable(out, rownames = FALSE, options = list(dom = "t", paging = FALSE))
+  })
+  
+  output$ps_download_ui <- renderUI({
+    if (is.null(tryCatch(multi_combo(), error = function(e) NULL)))
+      return(helpText("Run the Multi-optimum analysis (Tab 4) to enable the download."))
+    tagList(downloadButton("download_preset", "Download SCORE preset (.zip)"),
+            helpText("The .zip contains the preset (.json) and the figures of Tabs 2-4.",
+                     "To share it, submit the .zip on GitHub (Issues > 'Submit a SCORE preset') or send it by e-mail."))
+  })
+  
+  # Figures of the app, saved in the preset .zip (skipped if the tab was not run)
+  preset_plots <- function() {
+    get_plot <- function(f) tryCatch(f(), error = function(e) NULL)
+    list(duty_cycle_rarefaction    = get_plot(gg_raref),
+         duty_cycle_missed_species = get_plot(gg_missed),
+         time_window_w1            = get_plot(gg_plot_w1),
+         time_window_w2            = get_plot(gg_plot_w2),
+         time_window_combined      = get_plot(gg_plot_comb),
+         multi_optimum             = get_plot(gg_optimum))
+  }
+  
+  output$download_preset <- downloadHandler(
+    filename = function() paste0("SCORE_preset_", preset_meta()$preset_id, ".zip"),
+    content  = function(file) {
+      withProgress(message = "Saving preset and figures...", value = 0.5,
+                   write_score_preset_zip(preset_obj(), preset_plots(), file))
+    },
+    contentType = "application/zip"
+  )
   # TAB 5  TARGET SPECIES ACTIVITY ----
   
   ## Populate species selector from current dataset ----

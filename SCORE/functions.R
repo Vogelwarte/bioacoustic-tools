@@ -1,5 +1,7 @@
 # ---- Helper Utilities ----
-
+# Always use shiny's validate()/need(), even if another package (e.g. jsonlite) is loaded
+validate <- shiny::validate
+need     <- shiny::need
 # ---- Input validation ----
 
 
@@ -112,35 +114,64 @@ split_window_across_days <- function(date, start_min, end_min) {
 #
 # win_start and win_end are treated as scalars (first element used).
 # start_min / end_min may be vectors.
+
+
+# Test whether a recording block [start_min, end_min] falls within a recording
+# window [win_start, win_end]. Bounds can differ per row (e.g. one window per
+# day, following sunrise/sunset). Handles windows that overflow into the next
+# day (win_end > 1440) or start before midnight (win_start < 0).
 block_in_window <- function(start_min, end_min, win_start, win_end) {
+  n         <- length(start_min)
+  win_start <- rep_len(win_start, n)   # one bound per row (a single value is recycled)
+  win_end   <- rep_len(win_end,   n)
   
-  # Enforce scalar window bounds
-  win_start <- win_start[1]
-  win_end   <- win_end[1]
+  # Normal case: window within a single day
+  out <- start_min >= win_start & end_min <= win_end
   
-  # Normal case: window stays within a single day
-  if (win_start >= 0 && win_end <= 1440) {
-    return(start_min >= win_start & end_min <= win_end)
-  }
+  # Window overflowing into the next day
+  nxt <- win_end > 1440
+  out[nxt] <- ((start_min >= pmax(0, win_start) & end_min <= 1440) |
+                 (start_min >= 0 & end_min <= (win_end - 1440)))[nxt]
   
-  # Window overflows into the next day
-  if (win_end > 1440) {
-    return(
-      (start_min >= pmax(0, win_start) & end_min <= 1440) |
-        (start_min >= 0 & end_min <= (win_end - 1440))
-    )
-  }
+  # Window starting before midnight
+  prv <- win_start < 0 & !nxt
+  out[prv] <- ((start_min >= (1440 + win_start) & end_min <= 1440) |
+                 (start_min >= 0 & end_min <= pmin(1440, win_end)))[prv]
   
-  # Window starts before midnight of the previous day
-  if (win_start < 0) {
-    return(
-      (start_min >= (1440 + win_start) & end_min <= 1440) |
-        (start_min >= 0 & end_min <= pmin(1440, win_end))
-    )
-  }
-  
-  return(rep(FALSE, length(start_min)))
+  out
 }
+
+
+
+# block_in_window <- function(start_min, end_min, win_start, win_end) {
+#   
+#   # Enforce scalar window bounds
+#   win_start <- win_start[1]
+#   win_end   <- win_end[1]
+#   
+#   # Normal case: window stays within a single day
+#   if (win_start >= 0 && win_end <= 1440) {
+#     return(start_min >= win_start & end_min <= win_end)
+#   }
+#   
+#   # Window overflows into the next day
+#   if (win_end > 1440) {
+#     return(
+#       (start_min >= pmax(0, win_start) & end_min <= 1440) |
+#         (start_min >= 0 & end_min <= (win_end - 1440))
+#     )
+#   }
+#   
+#   # Window starts before midnight of the previous day
+#   if (win_start < 0) {
+#     return(
+#       (start_min >= (1440 + win_start) & end_min <= 1440) |
+#         (start_min >= 0 & end_min <= pmin(1440, win_end))
+#     )
+#   }
+#   
+#   return(rep(FALSE, length(start_min)))
+# }
 
 
 
