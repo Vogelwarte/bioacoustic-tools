@@ -1,29 +1,24 @@
 # =============================================================================
 # render_preset_pages.R
 # Turns SCORE presets into readable GitHub pages (Markdown + figures) and a
-# catalogue (presets/README.md).
+# catalogue.
 #
-# Usage:
-#   setwd("<folder that contains the presets/ folder>")
-#   source("render_preset_pages.R")
-#   render_all_presets("presets")
+# Usage (RStudio project SCORE open, so that paths are relative to SCORE/):
+#   source("dev/render_preset_pages.R")
+#   render_all_presets("preset_library")
 #
-# Input: presets/ can contain
-#   - unzipped presets downloaded from the app:  presets/<id>/<id>.json + presets/<id>/figures/*.png
-#   - or single .json files:                      presets/<anything>.json
-# Output:
-#   presets/README.md                       catalogue (table of all presets)
-#   presets/index.csv                       same catalogue, machine-readable
-#   presets/pages/<id>.md                   one readable page per preset
-#   presets/pages/<id>_schedule.png         recommended schedules, relative to sunrise/sunset
-#   presets/pages/<id>_curve.png            effort-richness curve
+# The library folder must look like this (you only add the presets):
+#   preset_library/
+#   ├── presets/                 INPUT: unzipped presets from the app
+#   │   └── <id>/<id>.json + <id>/figures/*.png    (or single .json files)
+#   ├── README.md                OUTPUT: catalogue (generated)
+#   ├── index.csv                OUTPUT: catalogue, machine-readable (generated)
+#   └── pages/                   OUTPUT: one page + 2 figures per preset (generated)
 #
 # Packages: jsonlite, ggplot2 (jsonlite is called as jsonlite::fromJSON() and is
 # not attached on purpose: library(jsonlite) masks shiny::validate()).
 # =============================================================================
-setwd("/Users/amandine.serrurier/Documents/SCORE_runs/github_presets")
-source("render_preset_pages.R")
-render_all_presets("presets")
+
 library(ggplot2)
 
 # ---- small helpers -----------------------------------------------------------
@@ -163,13 +158,13 @@ plot_curve <- function(p, file) {
 
 # ---- one page ----------------------------------------------------------------
 
-render_preset_page <- function(json_file, presets_dir) {
+render_preset_page <- function(json_file, library_dir) {
   p  <- jsonlite::fromJSON(json_file, simplifyVector = FALSE)
   id <- p$preset_id
-  pages_dir <- file.path(presets_dir, "pages")
+  pages_dir <- file.path(library_dir, "pages")          # pages are written here
   dir.create(pages_dir, showWarnings = FALSE, recursive = TRUE)
   message("Rendering ", id)
-  rel <- function(f) paste0("../", sub(paste0("^", normalizePath(presets_dir), "/?"), "", normalizePath(f)))
+  rel <- function(f) paste0("../", sub(paste0("^", normalizePath(library_dir), "/?"), "", normalizePath(f)))
 
   plot_schedule(p, file.path(pages_dir, paste0(id, "_schedule.png")))
   plot_curve(p,    file.path(pages_dir, paste0(id, "_curve.png")))
@@ -390,13 +385,20 @@ render_preset_page <- function(json_file, presets_dir) {
 
 # ---- catalogue ---------------------------------------------------------------
 
-render_all_presets <- function(presets_dir = "presets") {
-  files <- list.files(presets_dir, pattern = "\\.json$", full.names = TRUE, recursive = TRUE)
+# library_dir: the library folder (e.g. "preset_library"), NOT its "presets" subfolder.
+# Reads  <library_dir>/presets/**.json
+# Writes <library_dir>/pages/, <library_dir>/README.md, <library_dir>/index.csv
+render_all_presets <- function(library_dir = "preset_library") {
+  input_dir <- file.path(library_dir, "presets")
+  if (!dir.exists(input_dir))
+    stop("Folder '", input_dir, "' not found. Give the library folder (e.g. 'preset_library'), ",
+         "which must contain a 'presets' subfolder with the presets.")
+  files <- list.files(input_dir, pattern = "\\.json$", full.names = TRUE, recursive = TRUE)
   files <- files[!grepl("(^|/)pages/", files)]
-  if (!length(files)) stop("No .json preset in ", presets_dir)
-  idx <- do.call(rbind, lapply(files, render_preset_page, presets_dir = presets_dir))
+  if (!length(files)) stop("No .json preset in ", input_dir)
+  idx <- do.call(rbind, lapply(files, render_preset_page, library_dir = library_dir))
   idx <- idx[order(idx$country, idx$first_date), ]
-  write.csv(idx, file.path(presets_dir, "index.csv"), row.names = FALSE)
+  write.csv(idx, file.path(library_dir, "index.csv"), row.names = FALSE)
 
   tab <- data.frame(
     Preset = paste0("[", idx$title, "](pages/", idx$preset_id, ".md)"),
@@ -416,7 +418,7 @@ render_all_presets <- function(presets_dir = "presets") {
     "1. In SCORE, open the tab **6. Share results**, fill in the form and download the preset (.zip).",
     "2. Open a new issue with the template **Submit a SCORE preset** and attach the .zip, or send it by e-mail.",
     "3. After a quick check, it is added here and archived with a DOI at each release.", "")
-  writeLines(md, file.path(presets_dir, "README.md"), useBytes = TRUE)
-  message("Done: ", nrow(idx), " preset(s) -> ", normalizePath(presets_dir))
+  writeLines(md, file.path(library_dir, "README.md"), useBytes = TRUE)
+  message("Done: ", nrow(idx), " preset(s). Catalogue: ", normalizePath(file.path(library_dir, "README.md")))
   invisible(idx)
 }
