@@ -115,7 +115,7 @@ ui <- page_fluid( # On passe à page_fluid pour mieux contrôler l'en-tête
                        uiOutput("audio_player")),
                   card(full_screen = TRUE, card_header("Parameters"), 
                        sliderInput("Highpass", "High-Pass Filter (Hz)", min = 0, max = 8000, value = 200),
-                       sliderInput("Freq_Spectro", "Frequency Range (Y-axis, Hz)", min = 0, max = 12000, value = c(0, 10000), dragRange = TRUE))
+                       sliderInput("Freq_Spectro", "Frequency Range (Y-axis, Hz)", min = 0, max = 20000, value = c(0, 12000), dragRange = TRUE))
                   ),
                 layout_columns(
                   col_widths = c(3, 9),
@@ -126,7 +126,10 @@ ui <- page_fluid( # On passe à page_fluid pour mieux contrôler l'en-tête
                                       options = list(placeholder = 'Select a species', create = FALSE)),
                        dateRangeInput(inputId = "filter_dates", label = "Date Range",
                                       start = as.Date("1900-01-01"), end = as.Date(Sys.Date())),
-                       sliderInput("Hour_Range", "Hour range", min = 0, max = 23, value = c(0, 23), dragRange = TRUE),
+                       sliderInput("Hour_Range", "Hour range", 
+                                   min = 0, max = 23, value = c(0, 23), 
+                                   dragRange = TRUE, step = 1),
+                       checkboxInput("Hour_Invert", "Invert hours selection (night)", value = FALSE),
                        uiOutput("recorder_ui"),
                        textOutput("selected_audio")),
                   card(full_screen = TRUE, card_header("Actions & Data"), 
@@ -366,41 +369,49 @@ server <- function(input, output, session) {
   
   filtered_confid <- reactive(input$Confid) %>% debounce(300)
   filtered_dates <- reactive(input$filter_dates) %>% debounce(300)
+  filtered_hour <- reactive(input$Hour_Range) %>% debounce(300)
   
   observe({
     tryCatch({
       
-      # 1. Vérification des prérequis
+      # 1. Prérequis
       req(DT_reac())
       DT_source <- DT_reac()
-      n_rows <- nrow(DT_source)
       
-      # Si le tableau source est vide, on arrête ici proprement
-      if (n_rows == 0) {
+      if (nrow(DT_source) == 0) {
         DT_filtered(DT_source)
         return()
       }
       
       # Récupération des inputs
-      conf_val <- input$Confid
-      dates_val <- input$filter_dates
-      hour_range <- input$Hour_Range
+      conf_val    <- input$Confid
+      dates_val   <- input$filter_dates
+      hour_range  <- input$Hour_Range
+      inverted    <- isTRUE(input$Hour_Invert)
       species_val <- input$species
+      rec_sel     <- input$selected_recorders
       
-      
-      # Vérification de validité des inputs (doivent être des vecteurs de 2)
-      # Si pas valides, on retourne TOUT le dataset sans filtrer
-      if (is.null(conf_val) || length(conf_val) != 2 || 
-          is.null(dates_val) || length(dates_val) != 2 || 
+      # Fallback si inputs non prêts
+      if (is.null(conf_val) || length(conf_val) != 2 ||
+          is.null(dates_val) || length(dates_val) != 2 ||
           is.null(hour_range) || length(hour_range) != 2) {
-        DT_filtered(DT_source) # Retourne tout
+        DT_filtered(DT_source)
         return()
       }
       
-      DT_source <- DT_source[recorder %in% input$selected_recorders]
+      # --- Filtre recorder EN PREMIER (avant tout calcul de longueur) ---
+      if (!is.null(rec_sel) && length(rec_sel) > 0 && "recorder" %in% names(DT_source)) {
+        DT_source <- DT_source[recorder %in% rec_sel]
+      }
       
+      # n_rows calculé APRÈS le filtre recorder
+      n_rows <- nrow(DT_source)
+      if (n_rows == 0) {
+        DT_filtered(DT_source)
+        return()
+      }
       
-      # 2. Initialisation des vecteurs logiques (TRUE = on garde la ligne)
+      # 2. Vecteurs logiques (tous de longueur n_rows)
       condition_conf <- rep(TRUE, n_rows)
       condition_date <- rep(TRUE, n_rows)
       condition_hour <- rep(TRUE, n_rows)
@@ -409,122 +420,99 @@ server <- function(input, output, session) {
       alerte_hour <- FALSE
       message_alerte <- ""
       
-      # --- Condition Confiance ---
-      # On suppose que la colonne Confidence existe toujours si DT_source est valide
+      # --- Confiance ---
       if ("Confidence" %in% names(DT_source)) {
-        condition_conf <- DT_source$Confidence >= conf_val[1] & 
+        condition_conf <- DT_source$Confidence >= conf_val[1] &
           DT_source$Confidence <= conf_val[2]
+        condition_conf[is.na(condition_conf)] <- FALSE
       }
       
-      # --- Condition Date ---
+      # --- Date ---
       if ("Date" %in% names(DT_source)) {
         dates_valides <- !is.na(DT_source$Date)
-        
         if (sum(dates_valides) == 0) {
-          # CAS : Aucune date valide -> On ne peut pas filtrer
           alerte_date <- TRUE
-          condition_date <- rep(TRUE, n_rows) # On garde TOUT (fallback demandé)
+          condition_date <- rep(TRUE, n_rows)
         } else {
-          # CAS : Dates valides présentes -> On applique le filtre
-          condition_date <- dates_valides & 
-            DT_source$Date >= dates_val[1] & 
+          condition_date <- dates_valides &
+            DT_source$Date >= dates_val[1] &
             DT_source$Date <= dates_val[2]
+          condition_date[is.na(condition_date)] <- FALSE
         }
       } else {
-        # Colonne absente
-        alerte_date <- TRUE 
+        alerte_date <- TRUE
       }
       
-      # --- Condition Hour ---
+      # --- Hour (vecteur logique, PAS de sous-échantillonnage direct) ---
       if ("Hour" %in% names(DT_source)) {
         hours_valides <- !is.na(DT_source$Hour)
-        
         if (sum(hours_valides) == 0) {
-          # CAS : Aucune heure valide -> On ne peut pas filtrer
           alerte_hour <- TRUE
-          condition_hour <- rep(TRUE, n_rows) # On garde TOUT
+          condition_hour <- rep(TRUE, n_rows)
         } else {
-          # CAS : Heures valides présentes -> On applique le filtre
-          condition_hour <- hours_valides & 
-            DT_source$Hour >= hour_range[1] & 
+          in_range <- DT_source$Hour >= hour_range[1] &
             DT_source$Hour <= hour_range[2]
+          in_range[is.na(in_range)] <- FALSE
+          condition_hour <- if (inverted) !in_range else in_range
         }
       } else {
-        # Colonne absente
         alerte_hour <- TRUE
       }
       
-      # 3. Gestion des alertes (Méthode robuste sans conflit de nom)
+      # 3. Alertes
       if (alerte_date || alerte_hour) {
         if (alerte_date) message_alerte <- "Date invalide/absente. "
         if (alerte_hour) message_alerte <- paste0(message_alerte, "Heure invalide/absente. ")
-        
-        msg_final <- paste0("Filtrage partiel : ", message_alerte, "-> Affichage de toutes les données disponibles.")
-        
-        # Affichage dans la console R (toujours visible)
+        msg_final <- paste0("Filtrage partiel : ", message_alerte,
+                            "-> Affichage de toutes les données disponibles.")
         cat("INFO FILTRE:", msg_final, "\n")
-        
-        # Notification Shiny (méthode directe pour éviter conflits)
-        showNotification(
-          msg_final,
-          type = "warning",
-          duration = 5,
-          id = "filter_warning"
-        )
+        showNotification(msg_final, type = "warning", duration = 5, id = "filter_warning")
       } else {
         removeNotification("filter_warning", session = session)
       }
       
-      # 4. Application du filtre global
+      # 4. Application globale (toutes les conditions ont la MÊME longueur)
       global_filter <- condition_conf & condition_date & condition_hour
+      DT_filter <- DT_source[global_filter]
       
-      # Filtrage
-      DT_filter <- DT_source[global_filter, ]
-      
-      # SÉCURITÉ SUPPLÉMENTAIRE : Si le filtre vide tout le tableau (0 ligne)
-      # Et que ce n'était pas voulu (ex: intervalle trop strict), on pourrait prévenir.
-      # Mais ici on respecte le filtre logique.
-      
-      # 5. Mise à jour de la liste des espèces
-      if (nrow(DT_filter) > 0) {
-        available_species <- sort(unique(DT_filter$Common.Name))
+      # 5. Liste des espèces (calculée AVANT le filtre espèce)
+      available_species <- if (nrow(DT_filter) > 0) {
+        sort(unique(DT_filter$Common.Name))
       } else {
-        available_species <- character(0)
+        character(0)
       }
       
       current_selectized_list <- last_species_list()
-      
       if (is.null(current_selectized_list) || !identical(current_selectized_list, available_species)) {
         updateSelectizeInput(
-          session, 
-          "species", 
-          choices = available_species, 
+          session, "species",
+          choices = available_species,
           selected = if (!is.null(species_val) && species_val %in% available_species) species_val else NULL,
           server = TRUE
         )
         last_species_list(available_species)
       }
       
-      # 6. Filtre Espèce
+      # 6. Filtre espèce
       if (!is.null(species_val) && species_val != "" && species_val %in% available_species) {
-        DT_filter <- DT_filter[Common.Name == species_val, ]
+        DT_filter <- DT_filter[Common.Name == species_val]
       }
       
-      # 7. Sauvegarde (Même si vide, on sauvegarde l'objet)
+      # 7. Sauvegarde
       DT_filtered(DT_filter)
       
     }, error = function(e) {
-      # En cas d'erreur CRITIQUE (bug de code), on retourne TOUT le dataset pour ne pas bloquer l'app
       cat("ERREUR CRITIQUE DANS LE FILTRAGE:", e$message, "\n")
-      showNotification(paste("Erreur technique (données complètes affichées):", e$message), type = "error", duration = 10)
-      
+      showNotification(paste("Erreur technique (données complètes affichées):", e$message),
+                       type = "error", duration = 10)
       if (exists("DT_source")) {
-        DT_filtered(DT_source) # Fallback : on montre tout
+        DT_filtered(DT_source)
       } else {
         DT_filtered(NULL)
       }
     })
   })
+  
   # ==============================================================================
   # 4. VARIABLES RÉACTIVES AUDIO (Déclarations uniques)
   # ==============================================================================
