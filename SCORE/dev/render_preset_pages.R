@@ -25,7 +25,7 @@
 
 setwd("/Users/amandine.serrurier/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE/presets_library")
 # source("render_preset_pages.R")
-render_all_presets("presets")
+ render_all_presets("presets")
 render_all_presets("/Users/amandine.serrurier/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE/presets_library")
 
 

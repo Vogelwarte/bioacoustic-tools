@@ -1,0 +1,7232 @@
+{
+  "schema": {
+    "name": "SCORE preset",
+    "version": "0.2"
+  },
+  "preset_id": "CH_Valais_2023-06-01_7d",
+  "title": "Alpine bird community, Valais (CH): early breeding season",
+  "created": "2026-11-12",
+  "score_version": "1.1.0",
+  "contributors": [
+    {
+      "name": "Amandine Serrurier",
+      "affiliation": "Swiss Ornithological Institute",
+      "orcid": "0009-0006-4618-576X",
+      "contact": "amandine.serrurier@vogelwarte,ch"
+    }
+  ],
+  "study": {
+    "project_description": "15 recorders in 2 sites of swiss alps",
+    "objective": "community",
+    "target_taxa": [
+      "birds"
+    ],
+    "target_species": [],
+    "country": "Switzerland",
+    "country_code": "CH",
+    "region": "Valais",
+    "habitat": {
+      "classification": "EUNIS level 1",
+      "codes": [
+        "E"
+      ],
+      "description": "South faced Alpine grassland, above treeline"
+    },
+    "elevation_mean_m": 2200,
+    "location": {
+      "lat": 46.2,
+      "lon": 8.1,
+      "rounded": true,
+      "precision_deg": 0.1
+    }
+  },
+  "sampling": {
+    "period": {
+      "first_date": "2023-06-01",
+      "last_date": "2023-06-07",
+      "n_days": 7,
+      "timing": [
+        "breeding",
+        "June"
+      ],
+      "mean_sunrise": "05:39",
+      "timezone": "Europe/Zurich"
+    },
+    "recorders": {
+      "n_units": 14,
+      "model": "SMMini 2",
+      "sample_rate_hz": "48000",
+      "deployment_height_m": "1"
+    },
+    "raw_recording": "continuous 24 h"
+  },
+  "classifier": {
+    "name": "BirdNET-Analyzer",
+    "version": "2.4",
+    "min_confidence": 0,
+    "species_filter": "none"
+  },
+  "analysis": {
+    "spatial_pooling": "all recorders pooled per day",
+    "richness_metric": "mean daily species richness",
+    "reference": {
+      "continuous_24h_mean_daily_richness": 126.286,
+      "total_species": 131
+    },
+    "duty_cycles": {
+      "record_min": 1,
+      "cycle_min": [1, 58]
+    },
+    "window_grid": {
+      "w1": {
+        "reference_event": "sunrise",
+        "start_offset_h": [-3, 5],
+        "step_h": 0.5,
+        "duration_h": [0.5, 8],
+        "duration_step_h": 0.5
+      },
+      "w2": {
+        "reference_event": "sunset",
+        "start_offset_h": [-5, 2],
+        "step_h": 0.5,
+        "duration_h": [0.5, 8],
+        "duration_step_h": 0.5
+      },
+      "top_n_combined": 2
+    },
+    "n_candidates": 20420,
+    "selection_rule": "least effort with richness >= target (% of best candidate); ties: highest richness"
+  },
+  "results": {
+    "recommended_schedules": [
+      {
+        "target_pct": 75,
+        "reached": true,
+        "duty_cycle": {
+          "record_min": 1,
+          "cycle_min": 13,
+          "label": "1/13 min"
+        },
+        "windows": [
+          {
+            "reference_event": "sunrise",
+            "start_offset_h": 1.5,
+            "duration_h": 7,
+            "approx_clock_time": "07:09-14:09"
+          },
+          {
+            "reference_event": "sunset",
+            "start_offset_h": -4.5,
+            "duration_h": 1.5,
+            "approx_clock_time": "16:44-18:14"
+          }
+        ],
+        "recording_h_per_day": 0.66,
+        "effort_pct_24h": 2.75,
+        "richness_pct_of_best": 75.1,
+        "richness_pct_of_24h": 74.5,
+        "mean_daily_richness": 94.14,
+        "omission": {
+          "species_detected_24h": 131,
+          "species_detected": 121,
+          "species_never_detected": 10,
+          "species_never_detected_pct": 7.6,
+          "mean_daily_omission_pct": 25.5,
+          "missed_species": [
+            "Black Kite",
+            "Eurasian Green Woodpecker",
+            "Eurasian Hobby",
+            "Eurasian Jay",
+            "Eurasian Pygmy-Owl",
+            "Golden Eagle",
+            "Northern Goshawk",
+            "Red Kite",
+            "White-backed Woodpecker",
+            "Wood Warbler"
+          ]
+        }
+      },
+      {
+        "target_pct": 80,
+        "reached": true,
+        "duty_cycle": {
+          "record_min": 1,
+          "cycle_min": 7,
+          "label": "1/7 min"
+        },
+        "windows": [
+          {
+            "reference_event": "sunrise",
+            "start_offset_h": 0,
+            "duration_h": 7,
+            "approx_clock_time": "05:39-12:39"
+          }
+        ],
+        "recording_h_per_day": 1,
+        "effort_pct_24h": 4.17,
+        "richness_pct_of_best": 80.6,
+        "richness_pct_of_24h": 80.1,
+        "mean_daily_richness": 101.14,
+        "omission": {
+          "species_detected_24h": 131,
+          "species_detected": 123,
+          "species_never_detected": 8,
+          "species_never_detected_pct": 6.1,
+          "mean_daily_omission_pct": 19.9,
+          "missed_species": [
+            "Black Kite",
+            "Common Raven",
+            "Eurasian Crag-Martin",
+            "Eurasian Pygmy-Owl",
+            "European Honey-buzzard",
+            "Northern Goshawk",
+            "Short-toed Snake-Eagle",
+            "Wood Warbler"
+          ]
+        }
+      },
+      {
+        "target_pct": 85,
+        "reached": true,
+        "duty_cycle": {
+          "record_min": 1,
+          "cycle_min": 7,
+          "label": "1/7 min"
+        },
+        "windows": [
+          {
+            "reference_event": "sunrise",
+            "start_offset_h": 1.5,
+            "duration_h": 8,
+            "approx_clock_time": "07:09-15:09"
+          },
+          {
+            "reference_event": "sunset",
+            "start_offset_h": -5,
+            "duration_h": 2.5,
+            "approx_clock_time": "16:14-18:44"
+          }
+        ],
+        "recording_h_per_day": 1.5,
+        "effort_pct_24h": 6.25,
+        "richness_pct_of_best": 85.2,
+        "richness_pct_of_24h": 84.6,
+        "mean_daily_richness": 106.86,
+        "omission": {
+          "species_detected_24h": 131,
+          "species_detected": 125,
+          "species_never_detected": 6,
+          "species_never_detected_pct": 4.6,
+          "mean_daily_omission_pct": 15.4,
+          "missed_species": [
+            "Black Kite",
+            "Eurasian Crag-Martin",
+            "Eurasian Pygmy-Owl",
+            "Northern Goshawk",
+            "Short-toed Snake-Eagle",
+            "Wood Warbler"
+          ]
+        }
+      },
+      {
+        "target_pct": 90,
+        "reached": true,
+        "duty_cycle": {
+          "record_min": 1,
+          "cycle_min": 1,
+          "label": "continuous"
+        },
+        "windows": [
+          {
+            "reference_event": "sunrise",
+            "start_offset_h": 3,
+            "duration_h": 2.5,
+            "approx_clock_time": "08:39-11:09"
+          }
+        ],
+        "recording_h_per_day": 2.52,
+        "effort_pct_24h": 10.49,
+        "richness_pct_of_best": 90.3,
+        "richness_pct_of_24h": 89.7,
+        "mean_daily_richness": 113.29,
+        "omission": {
+          "species_detected_24h": 131,
+          "species_detected": 127,
+          "species_never_detected": 4,
+          "species_never_detected_pct": 3.1,
+          "mean_daily_omission_pct": 10.3,
+          "missed_species": [
+            "Black Kite",
+            "Eurasian Crag-Martin",
+            "Eurasian Pygmy-Owl",
+            "Short-toed Snake-Eagle"
+          ]
+        }
+      },
+      {
+        "target_pct": 95,
+        "reached": true,
+        "duty_cycle": {
+          "record_min": 1,
+          "cycle_min": 1,
+          "label": "continuous"
+        },
+        "windows": [
+          {
+            "reference_event": "sunrise",
+            "start_offset_h": 1,
+            "duration_h": 4.5,
+            "approx_clock_time": "06:39-11:09"
+          }
+        ],
+        "recording_h_per_day": 4.52,
+        "effort_pct_24h": 18.82,
+        "richness_pct_of_best": 95.2,
+        "richness_pct_of_24h": 94.6,
+        "mean_daily_richness": 119.43,
+        "omission": {
+          "species_detected_24h": 131,
+          "species_detected": 128,
+          "species_never_detected": 3,
+          "species_never_detected_pct": 2.3,
+          "mean_daily_omission_pct": 5.4,
+          "missed_species": [
+            "Black Kite",
+            "Eurasian Crag-Martin",
+            "Eurasian Pygmy-Owl"
+          ]
+        }
+      }
+    ],
+    "pareto_front": [
+      {
+        "effort_pct_24h": 0.01,
+        "richness_pct_of_best": 10.4,
+        "richness_pct_of_24h": 10.3,
+        "window_type": "W2",
+        "cycle_min": 43,
+        "w1": null,
+        "w2": [-1, 0.5]
+      },
+      {
+        "effort_pct_24h": 0.02,
+        "richness_pct_of_best": 19.9,
+        "richness_pct_of_24h": 19.8,
+        "window_type": "W1",
+        "cycle_min": 46,
+        "w1": [0.5, 0.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.03,
+        "richness_pct_of_best": 22.9,
+        "richness_pct_of_24h": 22.7,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [2.5, 0.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.03,
+        "richness_pct_of_best": 22.9,
+        "richness_pct_of_24h": 22.7,
+        "window_type": "W1",
+        "cycle_min": 52,
+        "w1": [2.5, 0.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.1,
+        "richness_pct_of_best": 24,
+        "richness_pct_of_24h": 23.9,
+        "window_type": "W1",
+        "cycle_min": 58,
+        "w1": [3, 1],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.1,
+        "richness_pct_of_best": 24,
+        "richness_pct_of_24h": 23.9,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [4, 1],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.1,
+        "richness_pct_of_best": 24,
+        "richness_pct_of_24h": 23.9,
+        "window_type": "W1",
+        "cycle_min": 58,
+        "w1": [2.5, 1.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.1,
+        "richness_pct_of_best": 24,
+        "richness_pct_of_24h": 23.9,
+        "window_type": "Combined",
+        "cycle_min": 58,
+        "w1": [2.5, 1.5],
+        "w2": [-3.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 0.1,
+        "richness_pct_of_best": 24,
+        "richness_pct_of_24h": 23.9,
+        "window_type": "Combined",
+        "cycle_min": 58,
+        "w1": [2.5, 1.5],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 0.12,
+        "richness_pct_of_best": 25.7,
+        "richness_pct_of_24h": 25.6,
+        "window_type": "W1",
+        "cycle_min": 19,
+        "w1": [0.5, 0.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.13,
+        "richness_pct_of_best": 28.5,
+        "richness_pct_of_24h": 28.3,
+        "window_type": "W1",
+        "cycle_min": 52,
+        "w1": [3, 1],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.13,
+        "richness_pct_of_best": 28.5,
+        "richness_pct_of_24h": 28.3,
+        "window_type": "W1",
+        "cycle_min": 52,
+        "w1": [3, 1.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.14,
+        "richness_pct_of_best": 30,
+        "richness_pct_of_24h": 29.8,
+        "window_type": "W1",
+        "cycle_min": 52,
+        "w1": [2.5, 1.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.14,
+        "richness_pct_of_best": 30,
+        "richness_pct_of_24h": 29.8,
+        "window_type": "W1",
+        "cycle_min": 52,
+        "w1": [2.5, 2],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.14,
+        "richness_pct_of_best": 30,
+        "richness_pct_of_24h": 29.8,
+        "window_type": "Combined",
+        "cycle_min": 52,
+        "w1": [2.5, 1.5],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 0.16,
+        "richness_pct_of_best": 30.1,
+        "richness_pct_of_24h": 29.9,
+        "window_type": "W1",
+        "cycle_min": 37,
+        "w1": [3, 1.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.17,
+        "richness_pct_of_best": 31.9,
+        "richness_pct_of_24h": 31.7,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3.5, 1.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.2,
+        "richness_pct_of_best": 33.9,
+        "richness_pct_of_24h": 33.7,
+        "window_type": "W1",
+        "cycle_min": 52,
+        "w1": [3, 2],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.2,
+        "richness_pct_of_best": 33.9,
+        "richness_pct_of_24h": 33.7,
+        "window_type": "W1",
+        "cycle_min": 52,
+        "w1": [3, 2.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.2,
+        "richness_pct_of_best": 33.9,
+        "richness_pct_of_24h": 33.7,
+        "window_type": "Combined",
+        "cycle_min": 52,
+        "w1": [3, 2],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 0.21,
+        "richness_pct_of_best": 35.4,
+        "richness_pct_of_24h": 35.2,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3.5, 2],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.23,
+        "richness_pct_of_best": 36.2,
+        "richness_pct_of_24h": 36,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3, 2],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.23,
+        "richness_pct_of_best": 36.2,
+        "richness_pct_of_24h": 36,
+        "window_type": "Combined",
+        "cycle_min": 40,
+        "w1": [3, 2],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 0.24,
+        "richness_pct_of_best": 37.1,
+        "richness_pct_of_24h": 36.9,
+        "window_type": "W1",
+        "cycle_min": 25,
+        "w1": [4.5, 1.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.27,
+        "richness_pct_of_best": 39.2,
+        "richness_pct_of_24h": 38.9,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3, 2.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.28,
+        "richness_pct_of_best": 40,
+        "richness_pct_of_24h": 39.7,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3.5, 2.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.31,
+        "richness_pct_of_best": 40.8,
+        "richness_pct_of_24h": 40.5,
+        "window_type": "W1",
+        "cycle_min": 25,
+        "w1": [4, 2],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.34,
+        "richness_pct_of_best": 43.2,
+        "richness_pct_of_24h": 42.9,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3, 3],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.35,
+        "richness_pct_of_best": 43.6,
+        "richness_pct_of_24h": 43.3,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3.5, 3],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.38,
+        "richness_pct_of_best": 44.2,
+        "richness_pct_of_24h": 43.9,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3.5, 3.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.41,
+        "richness_pct_of_best": 46.5,
+        "richness_pct_of_24h": 46.2,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3, 3.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.42,
+        "richness_pct_of_best": 46.8,
+        "richness_pct_of_24h": 46.5,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [2.5, 4],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.44,
+        "richness_pct_of_best": 46.9,
+        "richness_pct_of_24h": 46.6,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3, 4],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.45,
+        "richness_pct_of_best": 47.3,
+        "richness_pct_of_24h": 46.9,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [2.5, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.48,
+        "richness_pct_of_best": 48.2,
+        "richness_pct_of_24h": 47.9,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.49,
+        "richness_pct_of_best": 49,
+        "richness_pct_of_24h": 48.6,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [2, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.52,
+        "richness_pct_of_best": 49.4,
+        "richness_pct_of_24h": 49.1,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [2, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.55,
+        "richness_pct_of_best": 49.7,
+        "richness_pct_of_24h": 49.3,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [3, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.56,
+        "richness_pct_of_best": 51.3,
+        "richness_pct_of_24h": 50.9,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [1.5, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.59,
+        "richness_pct_of_best": 51.7,
+        "richness_pct_of_24h": 51.4,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [1.5, 5.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.62,
+        "richness_pct_of_best": 52.2,
+        "richness_pct_of_24h": 51.8,
+        "window_type": "W1",
+        "cycle_min": 40,
+        "w1": [1, 5.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.62,
+        "richness_pct_of_best": 53.1,
+        "richness_pct_of_24h": 52.7,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [3, 2.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.65,
+        "richness_pct_of_best": 53.5,
+        "richness_pct_of_24h": 53.2,
+        "window_type": "W1",
+        "cycle_min": 25,
+        "w1": [2, 4],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.69,
+        "richness_pct_of_best": 54.1,
+        "richness_pct_of_24h": 53.7,
+        "window_type": "W1",
+        "cycle_min": 31,
+        "w1": [2.5, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.72,
+        "richness_pct_of_best": 54.9,
+        "richness_pct_of_24h": 54.5,
+        "window_type": "W1",
+        "cycle_min": 25,
+        "w1": [1.5, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.76,
+        "richness_pct_of_best": 56.8,
+        "richness_pct_of_24h": 56.4,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [2.5, 3],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.83,
+        "richness_pct_of_best": 57.6,
+        "richness_pct_of_24h": 57.2,
+        "window_type": "W1",
+        "cycle_min": 31,
+        "w1": [1, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.9,
+        "richness_pct_of_best": 59.5,
+        "richness_pct_of_24h": 59,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [2, 3.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 0.97,
+        "richness_pct_of_best": 60,
+        "richness_pct_of_24h": 59.6,
+        "window_type": "W1",
+        "cycle_min": 31,
+        "w1": [0.5, 7],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.03,
+        "richness_pct_of_best": 60.3,
+        "richness_pct_of_24h": 59.8,
+        "window_type": "W1",
+        "cycle_min": 31,
+        "w1": [-0.5, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.04,
+        "richness_pct_of_best": 62.1,
+        "richness_pct_of_24h": 61.7,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [1.5, 4],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.17,
+        "richness_pct_of_best": 63.3,
+        "richness_pct_of_24h": 62.9,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [1, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.18,
+        "richness_pct_of_best": 63.8,
+        "richness_pct_of_24h": 63.3,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [2, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.27,
+        "richness_pct_of_best": 64.4,
+        "richness_pct_of_24h": 63.9,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [0.5, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.31,
+        "richness_pct_of_best": 64.6,
+        "richness_pct_of_24h": 64.1,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [1, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.32,
+        "richness_pct_of_best": 65.7,
+        "richness_pct_of_24h": 65.3,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [1.5, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.39,
+        "richness_pct_of_best": 65.8,
+        "richness_pct_of_24h": 65.4,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [0, 5.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.45,
+        "richness_pct_of_best": 66.7,
+        "richness_pct_of_24h": 66.3,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [1, 5.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.53,
+        "richness_pct_of_best": 67,
+        "richness_pct_of_24h": 66.5,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [0, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.55,
+        "richness_pct_of_best": 67.7,
+        "richness_pct_of_24h": 67.2,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [0.5, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.6,
+        "richness_pct_of_best": 67.9,
+        "richness_pct_of_24h": 67.4,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [1.5, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.67,
+        "richness_pct_of_best": 68.9,
+        "richness_pct_of_24h": 68.4,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [0, 6.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.81,
+        "richness_pct_of_best": 69.7,
+        "richness_pct_of_24h": 69.2,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [-0.5, 7],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.91,
+        "richness_pct_of_best": 70.3,
+        "richness_pct_of_24h": 69.8,
+        "window_type": "W1",
+        "cycle_min": 13,
+        "w1": [1.5, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 1.94,
+        "richness_pct_of_best": 70.7,
+        "richness_pct_of_24h": 70.2,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [0, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 2.01,
+        "richness_pct_of_best": 70.8,
+        "richness_pct_of_24h": 70.4,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 2.08,
+        "richness_pct_of_best": 71.5,
+        "richness_pct_of_24h": 71,
+        "window_type": "W1",
+        "cycle_min": 16,
+        "w1": [-0.5, 8],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 2.15,
+        "richness_pct_of_best": 71.6,
+        "richness_pct_of_24h": 71.2,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [2, 6.5],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 2.22,
+        "richness_pct_of_best": 72,
+        "richness_pct_of_24h": 71.5,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1.5, 8],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 2.24,
+        "richness_pct_of_best": 72.1,
+        "richness_pct_of_24h": 71.6,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1, 8],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 2.29,
+        "richness_pct_of_best": 72.7,
+        "richness_pct_of_24h": 72.2,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 2.37,
+        "richness_pct_of_best": 73,
+        "richness_pct_of_24h": 72.5,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 2.5],
+        "w2": [-4, 1.5]
+      },
+      {
+        "effort_pct_24h": 2.42,
+        "richness_pct_of_best": 73.1,
+        "richness_pct_of_24h": 72.6,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1.5, 7],
+        "w2": [-5, 2]
+      },
+      {
+        "effort_pct_24h": 2.43,
+        "richness_pct_of_best": 73.2,
+        "richness_pct_of_24h": 72.7,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 2.46,
+        "richness_pct_of_best": 73.3,
+        "richness_pct_of_24h": 72.9,
+        "window_type": "Combined",
+        "cycle_min": 13,
+        "w1": [1.5, 7],
+        "w2": [-3.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 2.5,
+        "richness_pct_of_best": 73.6,
+        "richness_pct_of_24h": 73.1,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1.5, 8],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 2.52,
+        "richness_pct_of_best": 73.7,
+        "richness_pct_of_24h": 73.2,
+        "window_type": "Combined",
+        "cycle_min": 16,
+        "w1": [1, 8],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 2.57,
+        "richness_pct_of_best": 73.8,
+        "richness_pct_of_24h": 73.3,
+        "window_type": "W1",
+        "cycle_min": 13,
+        "w1": [-0.5, 8],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 2.6,
+        "richness_pct_of_best": 74,
+        "richness_pct_of_24h": 73.5,
+        "window_type": "Combined",
+        "cycle_min": 13,
+        "w1": [1.5, 7.5],
+        "w2": [-3.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 2.61,
+        "richness_pct_of_best": 74.4,
+        "richness_pct_of_24h": 73.9,
+        "window_type": "Combined",
+        "cycle_min": 13,
+        "w1": [1.5, 7],
+        "w2": [-4, 1]
+      },
+      {
+        "effort_pct_24h": 2.62,
+        "richness_pct_of_best": 74.5,
+        "richness_pct_of_24h": 74,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [2.5, 2.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 2.63,
+        "richness_pct_of_best": 74.6,
+        "richness_pct_of_24h": 74.1,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [3, 2.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 2.66,
+        "richness_pct_of_best": 74.7,
+        "richness_pct_of_24h": 74.2,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 2.5],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 2.75,
+        "richness_pct_of_best": 75.1,
+        "richness_pct_of_24h": 74.5,
+        "window_type": "Combined",
+        "cycle_min": 13,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 2.89,
+        "richness_pct_of_best": 75.6,
+        "richness_pct_of_24h": 75.1,
+        "window_type": "Combined",
+        "cycle_min": 13,
+        "w1": [1.5, 7.5],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 2.94,
+        "richness_pct_of_best": 76.2,
+        "richness_pct_of_24h": 75.7,
+        "window_type": "Combined",
+        "cycle_min": 13,
+        "w1": [1.5, 7],
+        "w2": [-5, 2]
+      },
+      {
+        "effort_pct_24h": 2.97,
+        "richness_pct_of_best": 76.4,
+        "richness_pct_of_24h": 75.9,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 2.5],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 2.99,
+        "richness_pct_of_best": 76.8,
+        "richness_pct_of_24h": 76.2,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [2, 3.5],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 3.14,
+        "richness_pct_of_best": 77.3,
+        "richness_pct_of_24h": 76.8,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [2.5, 3],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 3.26,
+        "richness_pct_of_best": 77.4,
+        "richness_pct_of_24h": 76.9,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 2.5],
+        "w2": [-5, 3]
+      },
+      {
+        "effort_pct_24h": 3.27,
+        "richness_pct_of_best": 78.2,
+        "richness_pct_of_24h": 77.7,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [2, 3.5],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 3.56,
+        "richness_pct_of_best": 78.7,
+        "richness_pct_of_24h": 78.2,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 2.5],
+        "w2": [-5, 3.5]
+      },
+      {
+        "effort_pct_24h": 3.58,
+        "richness_pct_of_best": 79.5,
+        "richness_pct_of_24h": 79,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [2, 3.5],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 3.88,
+        "richness_pct_of_best": 80,
+        "richness_pct_of_24h": 79.4,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [2, 3.5],
+        "w2": [-5, 3]
+      },
+      {
+        "effort_pct_24h": 4.17,
+        "richness_pct_of_best": 80.6,
+        "richness_pct_of_24h": 80.1,
+        "window_type": "W1",
+        "cycle_min": 7,
+        "w1": [0, 7],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 4.18,
+        "richness_pct_of_best": 80.8,
+        "richness_pct_of_24h": 80.2,
+        "window_type": "W1",
+        "cycle_min": 7,
+        "w1": [0.5, 7],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 4.45,
+        "richness_pct_of_best": 81.4,
+        "richness_pct_of_24h": 80.9,
+        "window_type": "W1",
+        "cycle_min": 7,
+        "w1": [0, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 4.71,
+        "richness_pct_of_best": 81.5,
+        "richness_pct_of_24h": 81,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [1, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 4.75,
+        "richness_pct_of_best": 82,
+        "richness_pct_of_24h": 81.4,
+        "window_type": "W1",
+        "cycle_min": 7,
+        "w1": [-0.5, 8],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 4.79,
+        "richness_pct_of_best": 82.1,
+        "richness_pct_of_24h": 81.6,
+        "window_type": "W1",
+        "cycle_min": 7,
+        "w1": [0.5, 8],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 5.05,
+        "richness_pct_of_best": 82.3,
+        "richness_pct_of_24h": 81.8,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 7.5],
+        "w2": [-3.5, 1]
+      },
+      {
+        "effort_pct_24h": 5.07,
+        "richness_pct_of_best": 82.8,
+        "richness_pct_of_24h": 82.2,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 7],
+        "w2": [-4, 1.5]
+      },
+      {
+        "effort_pct_24h": 5.23,
+        "richness_pct_of_best": 82.9,
+        "richness_pct_of_24h": 82.4,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [0.5, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 5.35,
+        "richness_pct_of_best": 83,
+        "richness_pct_of_24h": 82.5,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 7.5],
+        "w2": [-4, 1.5]
+      },
+      {
+        "effort_pct_24h": 5.36,
+        "richness_pct_of_best": 83.4,
+        "richness_pct_of_24h": 82.8,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 5.63,
+        "richness_pct_of_best": 83.6,
+        "richness_pct_of_24h": 83,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 7.5],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 5.65,
+        "richness_pct_of_best": 83.9,
+        "richness_pct_of_24h": 83.4,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 8],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 5.66,
+        "richness_pct_of_best": 84.2,
+        "richness_pct_of_24h": 83.6,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 7],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 5.75,
+        "richness_pct_of_best": 84.4,
+        "richness_pct_of_24h": 83.8,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [0, 5.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 5.96,
+        "richness_pct_of_best": 84.6,
+        "richness_pct_of_24h": 84,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 8],
+        "w2": [-5, 2]
+      },
+      {
+        "effort_pct_24h": 6.24,
+        "richness_pct_of_best": 84.7,
+        "richness_pct_of_24h": 84.2,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 7.5],
+        "w2": [-5, 3]
+      },
+      {
+        "effort_pct_24h": 6.25,
+        "richness_pct_of_best": 85.2,
+        "richness_pct_of_24h": 84.6,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 8],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 6.55,
+        "richness_pct_of_best": 85.5,
+        "richness_pct_of_24h": 85,
+        "window_type": "Combined",
+        "cycle_min": 7,
+        "w1": [1.5, 8],
+        "w2": [-5, 3]
+      },
+      {
+        "effort_pct_24h": 6.8,
+        "richness_pct_of_best": 86,
+        "richness_pct_of_24h": 85.4,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [0, 6.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 7.31,
+        "richness_pct_of_best": 86.4,
+        "richness_pct_of_24h": 85.9,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [-0.5, 7],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 7.83,
+        "richness_pct_of_best": 86.7,
+        "richness_pct_of_24h": 86.1,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [-0.5, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 7.83,
+        "richness_pct_of_best": 86.7,
+        "richness_pct_of_24h": 86.1,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [0.5, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 7.84,
+        "richness_pct_of_best": 87,
+        "richness_pct_of_24h": 86.4,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [0, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 8.35,
+        "richness_pct_of_best": 87.5,
+        "richness_pct_of_24h": 86.9,
+        "window_type": "W1",
+        "cycle_min": 4,
+        "w1": [0, 8],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 8.4,
+        "richness_pct_of_best": 87.7,
+        "richness_pct_of_24h": 87.1,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [2.5, 2],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 8.4,
+        "richness_pct_of_best": 87.7,
+        "richness_pct_of_24h": 87.1,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [3, 2],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 8.47,
+        "richness_pct_of_best": 87.8,
+        "richness_pct_of_24h": 87.2,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 1],
+        "w2": [-4, 1]
+      },
+      {
+        "effort_pct_24h": 8.47,
+        "richness_pct_of_best": 87.8,
+        "richness_pct_of_24h": 87.2,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [2.5, 1.5],
+        "w2": [-3.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 8.9,
+        "richness_pct_of_best": 87.9,
+        "richness_pct_of_24h": 87.3,
+        "window_type": "Combined",
+        "cycle_min": 4,
+        "w1": [1, 8],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 9.4,
+        "richness_pct_of_best": 88,
+        "richness_pct_of_24h": 87.4,
+        "window_type": "Combined",
+        "cycle_min": 4,
+        "w1": [1, 8],
+        "w2": [-3.5, 1]
+      },
+      {
+        "effort_pct_24h": 9.92,
+        "richness_pct_of_best": 88.4,
+        "richness_pct_of_24h": 87.8,
+        "window_type": "Combined",
+        "cycle_min": 4,
+        "w1": [1.5, 7.5],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 9.94,
+        "richness_pct_of_best": 88.6,
+        "richness_pct_of_24h": 88,
+        "window_type": "Combined",
+        "cycle_min": 4,
+        "w1": [1, 8],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 10.45,
+        "richness_pct_of_best": 89,
+        "richness_pct_of_24h": 88.3,
+        "window_type": "Combined",
+        "cycle_min": 4,
+        "w1": [1.5, 7.5],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 10.45,
+        "richness_pct_of_best": 89,
+        "richness_pct_of_24h": 88.3,
+        "window_type": "Combined",
+        "cycle_min": 4,
+        "w1": [1, 8],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 10.49,
+        "richness_pct_of_best": 90.3,
+        "richness_pct_of_24h": 89.7,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [3, 2.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 12.57,
+        "richness_pct_of_best": 92.1,
+        "richness_pct_of_24h": 91.5,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [2.5, 3],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 14.65,
+        "richness_pct_of_best": 93.3,
+        "richness_pct_of_24h": 92.6,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [2.5, 3.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 14.65,
+        "richness_pct_of_best": 93.3,
+        "richness_pct_of_24h": 92.6,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [3, 3.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 16.74,
+        "richness_pct_of_best": 94.5,
+        "richness_pct_of_24h": 93.9,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1.5, 4],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 18.82,
+        "richness_pct_of_best": 95.2,
+        "richness_pct_of_24h": 94.6,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 18.82,
+        "richness_pct_of_best": 95.2,
+        "richness_pct_of_24h": 94.6,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1.5, 4.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 20.9,
+        "richness_pct_of_best": 96,
+        "richness_pct_of_24h": 95.4,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1.5, 5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 22.99,
+        "richness_pct_of_best": 96.6,
+        "richness_pct_of_24h": 95.9,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1, 5.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 25.07,
+        "richness_pct_of_best": 96.8,
+        "richness_pct_of_24h": 96.2,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [0.5, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 25.07,
+        "richness_pct_of_best": 96.8,
+        "richness_pct_of_24h": 96.2,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 25.07,
+        "richness_pct_of_best": 96.8,
+        "richness_pct_of_24h": 96.2,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1.5, 6],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 27.15,
+        "richness_pct_of_best": 97.3,
+        "richness_pct_of_24h": 96.6,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1, 6.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 29.24,
+        "richness_pct_of_best": 97.5,
+        "richness_pct_of_24h": 96.8,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [0.5, 7],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 29.24,
+        "richness_pct_of_best": 97.5,
+        "richness_pct_of_24h": 96.8,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1.5, 7],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 31.32,
+        "richness_pct_of_best": 97.8,
+        "richness_pct_of_24h": 97.2,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [0, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 31.32,
+        "richness_pct_of_best": 97.8,
+        "richness_pct_of_24h": 97.2,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 31.32,
+        "richness_pct_of_best": 97.8,
+        "richness_pct_of_24h": 97.2,
+        "window_type": "W1",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": null
+      },
+      {
+        "effort_pct_24h": 31.39,
+        "richness_pct_of_best": 98.3,
+        "richness_pct_of_24h": 97.6,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 33.47,
+        "richness_pct_of_best": 98.6,
+        "richness_pct_of_24h": 98,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 35.56,
+        "richness_pct_of_best": 98.9,
+        "richness_pct_of_24h": 98.2,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 35.56,
+        "richness_pct_of_best": 98.9,
+        "richness_pct_of_24h": 98.2,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 8],
+        "w2": [-4.5, 0.5]
+      },
+      {
+        "effort_pct_24h": 37.64,
+        "richness_pct_of_best": 99.1,
+        "richness_pct_of_24h": 98.4,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 37.64,
+        "richness_pct_of_best": 99.1,
+        "richness_pct_of_24h": 98.4,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 39.72,
+        "richness_pct_of_best": 99.3,
+        "richness_pct_of_24h": 98.6,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 39.72,
+        "richness_pct_of_best": 99.3,
+        "richness_pct_of_24h": 98.6,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 8],
+        "w2": [-4.5, 1.5]
+      },
+      {
+        "effort_pct_24h": 41.81,
+        "richness_pct_of_best": 99.4,
+        "richness_pct_of_24h": 98.8,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 41.81,
+        "richness_pct_of_best": 99.4,
+        "richness_pct_of_24h": 98.8,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1, 8],
+        "w2": [-4.5, 2]
+      },
+      {
+        "effort_pct_24h": 41.81,
+        "richness_pct_of_best": 99.4,
+        "richness_pct_of_24h": 98.8,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 8],
+        "w2": [-5, 2]
+      },
+      {
+        "effort_pct_24h": 43.89,
+        "richness_pct_of_best": 99.5,
+        "richness_pct_of_24h": 98.9,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7],
+        "w2": [-5, 3.5]
+      },
+      {
+        "effort_pct_24h": 43.89,
+        "richness_pct_of_best": 99.5,
+        "richness_pct_of_24h": 98.9,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7],
+        "w2": [-4.5, 3.5]
+      },
+      {
+        "effort_pct_24h": 43.89,
+        "richness_pct_of_best": 99.5,
+        "richness_pct_of_24h": 98.9,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-5, 3]
+      },
+      {
+        "effort_pct_24h": 43.89,
+        "richness_pct_of_best": 99.5,
+        "richness_pct_of_24h": 98.9,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1, 8],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 43.89,
+        "richness_pct_of_best": 99.5,
+        "richness_pct_of_24h": 98.9,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 8],
+        "w2": [-5, 2.5]
+      },
+      {
+        "effort_pct_24h": 45.97,
+        "richness_pct_of_best": 99.8,
+        "richness_pct_of_24h": 99.1,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-5, 3.5]
+      },
+      {
+        "effort_pct_24h": 45.97,
+        "richness_pct_of_best": 99.8,
+        "richness_pct_of_24h": 99.1,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-4.5, 3.5]
+      },
+      {
+        "effort_pct_24h": 48.06,
+        "richness_pct_of_best": 99.9,
+        "richness_pct_of_24h": 99.2,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1.5, 7.5],
+        "w2": [-5, 4]
+      },
+      {
+        "effort_pct_24h": 48.06,
+        "richness_pct_of_best": 99.9,
+        "richness_pct_of_24h": 99.2,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1, 8],
+        "w2": [-5, 3.5]
+      },
+      {
+        "effort_pct_24h": 48.06,
+        "richness_pct_of_best": 99.9,
+        "richness_pct_of_24h": 99.2,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1, 8],
+        "w2": [-4.5, 3.5]
+      },
+      {
+        "effort_pct_24h": 50.14,
+        "richness_pct_of_best": 100,
+        "richness_pct_of_24h": 99.3,
+        "window_type": "Combined",
+        "cycle_min": 1,
+        "w1": [1, 8],
+        "w2": [-5, 4]
+      }
+    ]
+  },
+  "validation": {
+    "temporal": {
+      "description": "Schedule selected on this pilot (90% target) applied to other days of the same season, same recorders",
+      "in_sample_pct_of_24h": 89.7,
+      "later_days_pct_of_24h": 78.2,
+      "later_days_n": 99,
+      "all_other_days_pct_of_24h": 79.5
+    },
+    "spatial": {
+      "description": "Schedules selected on subsets of these recorders (same 7 days) and applied to the other recorders",
+      "between_sites": {
+        "gondo_to_grengiols": 86.7,
+        "grengiols_to_gondo": 86.5
+      },
+      "random_10_to_4": {
+        "mean": 75.6,
+        "min": 69.6,
+        "max": 82.3,
+        "n_runs": 7
+      },
+      "leave_one_recorder_out": {
+        "mean": 59.2,
+        "min": 46.5,
+        "max": 71.6,
+        "n_runs": 14
+      }
+    },
+    "guidance": "Transfers well within the same season phase and between these two Alpine sites; not to single recorders or to late summer (69-83% from late July)."
+  },
+  "species": [
+    {
+      "common_name": "Alpine Accentor",
+      "n_detections": 299,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 249,
+      "confidence": {
+        "mean": 0.216,
+        "median": 0.166,
+        "max": 0.929
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 0.857,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 0.857,
+        "1/28": 0.571,
+        "1/31": 0.857,
+        "1/34": 0.571,
+        "1/37": 0.429,
+        "1/40": 0.429,
+        "1/43": 0.286,
+        "1/46": 0.429,
+        "1/49": 0.714,
+        "1/52": 0.286,
+        "1/55": 0.571,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.004, 0.012, 0.06, 0.064, 0.088, 0.048, 0.084, 0.06, 0.096, 0.084, 0.064, 0.052, 0.036, 0.044, 0.016, 0.036, 0.032, 0.028, 0.06, 0.024, 0.004, 0]
+    },
+    {
+      "common_name": "Alpine Swift",
+      "n_detections": 1710,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 950,
+      "confidence": {
+        "mean": 0.2,
+        "median": 0.157,
+        "max": 0.973
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 0.857,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 0.857,
+        "1/22": 0.857,
+        "1/25": 0.857,
+        "1/28": 0.857,
+        "1/31": 0.857,
+        "1/34": 0.857,
+        "1/37": 0.857,
+        "1/40": 0.857,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 0.857,
+        "1/52": 0.714,
+        "1/55": 0.714,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0.016, 0.014, 0.02, 0.026, 0.027, 0.002, 0.006, 0.005, 0.002, 0.016, 0.027, 0.078, 0.129, 0.127, 0.111, 0.088, 0.057, 0.035, 0.026, 0.061, 0.028, 0.06, 0.031, 0.006]
+    },
+    {
+      "common_name": "Bank Swallow",
+      "n_detections": 290,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 6,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 245,
+      "confidence": {
+        "mean": 0.212,
+        "median": 0.173,
+        "max": 0.935
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 0.857,
+        "1/16": 1,
+        "1/19": 0.571,
+        "1/22": 1,
+        "1/25": 0.857,
+        "1/28": 0.571,
+        "1/31": 0.714,
+        "1/34": 0.857,
+        "1/37": 0.857,
+        "1/40": 0.571,
+        "1/43": 0.571,
+        "1/46": 0.714,
+        "1/49": 0.571,
+        "1/52": 0.571,
+        "1/55": 0.571,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.004, 0.012, 0.078, 0.041, 0.073, 0.053, 0.049, 0.078, 0.11, 0.073, 0.086, 0.049, 0.073, 0.037, 0.033, 0.016, 0.045, 0.024, 0.065, 0, 0]
+    },
+    {
+      "common_name": "Barn Swallow",
+      "n_detections": 131,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 2,
+        "80%": 3,
+        "85%": 4,
+        "90%": 4,
+        "95%": 6
+      },
+      "n_detection_minutes": 116,
+      "confidence": {
+        "mean": 0.224,
+        "median": 0.17,
+        "max": 0.839
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.714,
+        "1/10": 1,
+        "1/13": 0.571,
+        "1/16": 0.714,
+        "1/19": 0.571,
+        "1/22": 0.286,
+        "1/25": 0.429,
+        "1/28": 0.286,
+        "1/31": 0.571,
+        "1/34": 0.571,
+        "1/37": 0.571,
+        "1/40": 0.143,
+        "1/43": 0.571,
+        "1/46": 0.429,
+        "1/49": 0.286,
+        "1/52": 0.143,
+        "1/55": 0.571,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0.026, 0, 0.026, 0, 0.017, 0.06, 0.078, 0.069, 0.103, 0.06, 0.078, 0.043, 0.086, 0.121, 0.138, 0.086, 0.009, 0]
+    },
+    {
+      "common_name": "Black Grouse",
+      "n_detections": 289,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 3,
+        "85%": 1,
+        "90%": 4,
+        "95%": 7
+      },
+      "n_detection_minutes": 100,
+      "confidence": {
+        "mean": 0.531,
+        "median": 0.498,
+        "max": 0.999
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.429,
+        "1/10": 0.857,
+        "1/13": 0.571,
+        "1/16": 0.857,
+        "1/19": 0.571,
+        "1/22": 0.429,
+        "1/25": 0.286,
+        "1/28": 0.286,
+        "1/31": 0.429,
+        "1/34": 0.429,
+        "1/37": 0.429,
+        "1/40": 0.429,
+        "1/43": 0.286,
+        "1/46": 0.429,
+        "1/49": null,
+        "1/52": 0.429,
+        "1/55": 0.286,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.21, 0.28, 0.2, 0.1, 0.04, 0, 0.02, 0.01, 0, 0, 0.02, 0.09, 0.01, 0.01, 0, 0, 0, 0, 0.01]
+    },
+    {
+      "common_name": "Black Kite",
+      "n_detections": 1,
+      "days_detected_24h": 1,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 0,
+        "85%": 0,
+        "90%": 0,
+        "95%": 0
+      },
+      "n_detection_minutes": 1,
+      "confidence": {
+        "mean": 0.104,
+        "median": 0.104,
+        "max": 0.104
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.143,
+        "1/4": null,
+        "1/7": null,
+        "1/10": null,
+        "1/13": null,
+        "1/16": null,
+        "1/19": null,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": null,
+        "1/37": null,
+        "1/40": null,
+        "1/43": null,
+        "1/46": null,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Black Redstart",
+      "n_detections": 4140,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1490,
+      "confidence": {
+        "mean": 0.445,
+        "median": 0.353,
+        "max": 0.999
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 0.857,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.001, 0.003, 0.003, 0.021, 0.157, 0.031, 0.03, 0.032, 0.058, 0.049, 0.053, 0.052, 0.048, 0.062, 0.068, 0.054, 0.051, 0.07, 0.04, 0.052, 0.06, 0.005, 0]
+    },
+    {
+      "common_name": "Black Woodpecker",
+      "n_detections": 101,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 3,
+        "80%": 6,
+        "85%": 7,
+        "90%": 6,
+        "95%": 7
+      },
+      "n_detection_minutes": 94,
+      "confidence": {
+        "mean": 0.22,
+        "median": 0.132,
+        "max": 0.961
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 0.714,
+        "1/13": 0.571,
+        "1/16": 0.857,
+        "1/19": 0.429,
+        "1/22": 0.571,
+        "1/25": 0.714,
+        "1/28": 0.429,
+        "1/31": 0.571,
+        "1/34": 0.286,
+        "1/37": 0.286,
+        "1/40": 0.286,
+        "1/43": 0.429,
+        "1/46": 0.429,
+        "1/49": null,
+        "1/52": 0.143,
+        "1/55": 0.143,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.011, 0.181, 0.064, 0.064, 0.149, 0.106, 0.074, 0.053, 0.053, 0.021, 0.032, 0.032, 0.032, 0.032, 0.032, 0.011, 0.032, 0.011, 0.011, 0]
+    },
+    {
+      "common_name": "Bluethroat",
+      "n_detections": 3023,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1742,
+      "confidence": {
+        "mean": 0.238,
+        "median": 0.161,
+        "max": 0.977
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.001, 0, 0, 0.006, 0.064, 0.084, 0.113, 0.078, 0.085, 0.088, 0.082, 0.075, 0.04, 0.036, 0.032, 0.025, 0.025, 0.03, 0.032, 0.029, 0.033, 0.039, 0.004, 0]
+    },
+    {
+      "common_name": "Carrion Crow",
+      "n_detections": 833,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 6,
+        "85%": 6,
+        "90%": 6,
+        "95%": 7
+      },
+      "n_detection_minutes": 613,
+      "confidence": {
+        "mean": 0.142,
+        "median": 0.123,
+        "max": 0.567
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 0.857,
+        "1/19": 0.857,
+        "1/22": 0.857,
+        "1/25": 0.857,
+        "1/28": 0.857,
+        "1/31": 0.857,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 0.714,
+        "1/43": 0.714,
+        "1/46": 0.857,
+        "1/49": 0.714,
+        "1/52": 1,
+        "1/55": 0.714,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0.098, 0.08, 0.148, 0.093, 0.051, 0.052, 0.015, 0.018, 0.013, 0.013, 0.008, 0.008, 0.002, 0.01, 0.021, 0.013, 0.018, 0.047, 0.028, 0.038, 0.052, 0.036, 0.082, 0.057]
+    },
+    {
+      "common_name": "Citril Finch",
+      "n_detections": 14,
+      "days_detected_24h": 6,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 2,
+        "85%": 2,
+        "90%": 1,
+        "95%": 4
+      },
+      "n_detection_minutes": 14,
+      "confidence": {
+        "mean": 0.261,
+        "median": 0.193,
+        "max": 0.607
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.857,
+        "1/4": 0.143,
+        "1/7": 0.429,
+        "1/10": null,
+        "1/13": 0.143,
+        "1/16": 0.143,
+        "1/19": 0.571,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": 0.143,
+        "1/37": 0.143,
+        "1/40": null,
+        "1/43": null,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0.143, 0.143, 0.071, 0.071, 0, 0.071, 0.143, 0.071, 0, 0.071, 0.071, 0, 0, 0.071, 0.071, 0, 0]
+    },
+    {
+      "common_name": "Coal Tit",
+      "n_detections": 5271,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2321,
+      "confidence": {
+        "mean": 0.347,
+        "median": 0.242,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.002, 0.039, 0.074, 0.05, 0.053, 0.082, 0.078, 0.087, 0.085, 0.067, 0.062, 0.068, 0.062, 0.059, 0.048, 0.029, 0.028, 0.025, 0.001, 0]
+    },
+    {
+      "common_name": "Common Buzzard",
+      "n_detections": 231,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 4,
+        "80%": 2,
+        "85%": 5,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 168,
+      "confidence": {
+        "mean": 0.272,
+        "median": 0.188,
+        "max": 0.946
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 0.714,
+        "1/13": 0.571,
+        "1/16": 0.857,
+        "1/19": 0.857,
+        "1/22": 0.286,
+        "1/25": 0.571,
+        "1/28": 0.286,
+        "1/31": 0.857,
+        "1/34": 0.857,
+        "1/37": 0.143,
+        "1/40": 0.571,
+        "1/43": 0.286,
+        "1/46": 0.429,
+        "1/49": 0.143,
+        "1/52": 0.429,
+        "1/55": 0.286,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.006, 0.012, 0.054, 0.06, 0.048, 0.006, 0.06, 0.089, 0.065, 0.054, 0.042, 0.054, 0.036, 0.077, 0.054, 0.089, 0.048, 0.048, 0.054, 0.042, 0.006, 0]
+    },
+    {
+      "common_name": "Common Chaffinch",
+      "n_detections": 11745,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3256,
+      "confidence": {
+        "mean": 0.353,
+        "median": 0.27,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.002, 0.003, 0.037, 0.068, 0.071, 0.071, 0.089, 0.084, 0.081, 0.074, 0.068, 0.074, 0.057, 0.041, 0.041, 0.056, 0.039, 0.027, 0.016, 0.001, 0]
+    },
+    {
+      "common_name": "Common Chiffchaff",
+      "n_detections": 3253,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 6,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 926,
+      "confidence": {
+        "mean": 0.466,
+        "median": 0.407,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 0.857,
+        "1/25": 1,
+        "1/28": 0.857,
+        "1/31": 1,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 0.714,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 0.857,
+        "1/52": 0.714,
+        "1/55": 0.857,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.006, 0.024, 0.013, 0.039, 0.055, 0.046, 0.062, 0.083, 0.098, 0.107, 0.062, 0.046, 0.046, 0.056, 0.071, 0.048, 0.081, 0.035, 0.022, 0, 0]
+    },
+    {
+      "common_name": "Common Cuckoo",
+      "n_detections": 4777,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1175,
+      "confidence": {
+        "mean": 0.536,
+        "median": 0.529,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.001, 0.149, 0.131, 0.094, 0.093, 0.102, 0.062, 0.052, 0.04, 0.051, 0.054, 0.026, 0.049, 0.017, 0.015, 0.026, 0.014, 0.025, 0.001, 0.001]
+    },
+    {
+      "common_name": "Common Firecrest",
+      "n_detections": 214,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 173,
+      "confidence": {
+        "mean": 0.221,
+        "median": 0.164,
+        "max": 0.946
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 0.714,
+        "1/13": 0.857,
+        "1/16": 0.857,
+        "1/19": 1,
+        "1/22": 0.571,
+        "1/25": 0.714,
+        "1/28": 0.857,
+        "1/31": 0.429,
+        "1/34": 0.571,
+        "1/37": 0.429,
+        "1/40": 0.286,
+        "1/43": 0.286,
+        "1/46": 0.429,
+        "1/49": 0.286,
+        "1/52": 0.714,
+        "1/55": 0.571,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.04, 0.064, 0.017, 0.104, 0.15, 0.064, 0.075, 0.121, 0.058, 0.035, 0.064, 0.017, 0.064, 0.087, 0.023, 0.006, 0.012, 0, 0]
+    },
+    {
+      "common_name": "Common Greenshank",
+      "n_detections": 3254,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2060,
+      "confidence": {
+        "mean": 0.278,
+        "median": 0.198,
+        "max": 0.983
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.006, 0.023, 0.064, 0.094, 0.047, 0.069, 0.063, 0.06, 0.047, 0.052, 0.041, 0.046, 0.034, 0.042, 0.042, 0.044, 0.051, 0.041, 0.056, 0.065, 0.01, 0]
+    },
+    {
+      "common_name": "Common House-Martin",
+      "n_detections": 741,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 7,
+        "85%": 7,
+        "90%": 6,
+        "95%": 7
+      },
+      "n_detection_minutes": 573,
+      "confidence": {
+        "mean": 0.268,
+        "median": 0.188,
+        "max": 0.978
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 0.857,
+        "1/25": 1,
+        "1/28": 0.857,
+        "1/31": 0.714,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 0.857,
+        "1/49": 0.857,
+        "1/52": 0.571,
+        "1/55": 0.857,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0.002, 0.003, 0.002, 0.009, 0.009, 0.065, 0.045, 0.023, 0.045, 0.044, 0.01, 0.042, 0.042, 0.033, 0.044, 0.052, 0.049, 0.082, 0.044, 0.082, 0.127, 0.134, 0.009, 0.003]
+    },
+    {
+      "common_name": "Common Nightingale",
+      "n_detections": 30,
+      "days_detected_24h": 6,
+      "days_detected_by_schedule": {
+        "75%": 3,
+        "80%": 4,
+        "85%": 3,
+        "90%": 4,
+        "95%": 5
+      },
+      "n_detection_minutes": 26,
+      "confidence": {
+        "mean": 0.186,
+        "median": 0.136,
+        "max": 0.666
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.857,
+        "1/4": 0.429,
+        "1/7": 0.571,
+        "1/10": 0.286,
+        "1/13": 0.571,
+        "1/16": 0.429,
+        "1/19": 0.143,
+        "1/22": 0.286,
+        "1/25": 0.286,
+        "1/28": 0.143,
+        "1/31": 0.143,
+        "1/34": 0.143,
+        "1/37": null,
+        "1/40": 0.143,
+        "1/43": null,
+        "1/46": 0.143,
+        "1/49": 0.143,
+        "1/52": 0.143,
+        "1/55": 0.143,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.038, 0.077, 0.038, 0.077, 0.038, 0.077, 0.154, 0, 0.154, 0, 0.038, 0.038, 0, 0, 0.115, 0.038, 0, 0, 0.115, 0, 0]
+    },
+    {
+      "common_name": "Common Quail",
+      "n_detections": 39083,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 4797,
+      "confidence": {
+        "mean": 0.155,
+        "median": 0.137,
+        "max": 0.993
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.001, 0.002, 0.006, 0.056, 0.086, 0.08, 0.083, 0.084, 0.084, 0.077, 0.059, 0.045, 0.034, 0.023, 0.034, 0.028, 0.035, 0.029, 0.033, 0.038, 0.062, 0.019, 0.001]
+    },
+    {
+      "common_name": "Common Raven",
+      "n_detections": 133,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 3,
+        "80%": 0,
+        "85%": 4,
+        "90%": 2,
+        "95%": 3
+      },
+      "n_detection_minutes": 44,
+      "confidence": {
+        "mean": 0.33,
+        "median": 0.233,
+        "max": 0.914
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.571,
+        "1/7": 0.571,
+        "1/10": 0.286,
+        "1/13": 0.857,
+        "1/16": 0.286,
+        "1/19": 0.286,
+        "1/22": 0.143,
+        "1/25": 0.286,
+        "1/28": 0.143,
+        "1/31": 0.429,
+        "1/34": 0.143,
+        "1/37": 0.429,
+        "1/40": 0.143,
+        "1/43": null,
+        "1/46": null,
+        "1/49": null,
+        "1/52": 0.143,
+        "1/55": null,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.023, 0, 0, 0, 0.091, 0, 0.045, 0, 0.023, 0, 0.045, 0.023, 0.045, 0.091, 0.091, 0.205, 0.159, 0.045, 0.023, 0, 0, 0.091, 0]
+    },
+    {
+      "common_name": "Common Redpoll",
+      "n_detections": 5397,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3373,
+      "confidence": {
+        "mean": 0.254,
+        "median": 0.176,
+        "max": 0.993
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.009, 0.01, 0.008, 0.012, 0.046, 0.038, 0.045, 0.046, 0.045, 0.051, 0.053, 0.053, 0.063, 0.059, 0.068, 0.06, 0.052, 0.052, 0.047, 0.043, 0.057, 0.053, 0.013, 0.017]
+    },
+    {
+      "common_name": "Common Redshank",
+      "n_detections": 535,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 457,
+      "confidence": {
+        "mean": 0.187,
+        "median": 0.144,
+        "max": 0.723
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 0.857,
+        "1/28": 0.857,
+        "1/31": 1,
+        "1/34": 0.714,
+        "1/37": 0.571,
+        "1/40": 0.714,
+        "1/43": 0.714,
+        "1/46": 0.714,
+        "1/49": 0.286,
+        "1/52": 0.857,
+        "1/55": 0.429,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0.002, 0, 0.004, 0.028, 0.088, 0.151, 0.031, 0.07, 0.059, 0.079, 0.022, 0.042, 0.031, 0.05, 0.031, 0.039, 0.037, 0.028, 0.055, 0.028, 0.057, 0.061, 0.007, 0]
+    },
+    {
+      "common_name": "Common Redstart",
+      "n_detections": 301,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 6,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 209,
+      "confidence": {
+        "mean": 0.209,
+        "median": 0.169,
+        "max": 0.806
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 0.714,
+        "1/22": 0.714,
+        "1/25": 0.857,
+        "1/28": 0.571,
+        "1/31": 1,
+        "1/34": 0.714,
+        "1/37": 0.571,
+        "1/40": 0.286,
+        "1/43": 0.857,
+        "1/46": 0.429,
+        "1/49": 0.429,
+        "1/52": 0.714,
+        "1/55": 0.429,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.005, 0, 0.014, 0.081, 0.067, 0.067, 0.081, 0.048, 0.057, 0.062, 0.053, 0.01, 0.072, 0.057, 0.043, 0.043, 0.038, 0.067, 0.038, 0.067, 0.024, 0.005, 0]
+    },
+    {
+      "common_name": "Common Sandpiper",
+      "n_detections": 975,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 849,
+      "confidence": {
+        "mean": 0.218,
+        "median": 0.161,
+        "max": 0.947
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 0.857,
+        "1/49": 0.857,
+        "1/52": 0.857,
+        "1/55": 0.857,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.002, 0, 0, 0, 0.007, 0.033, 0.053, 0.067, 0.079, 0.067, 0.057, 0.057, 0.052, 0.055, 0.045, 0.062, 0.064, 0.069, 0.057, 0.059, 0.06, 0.048, 0.006, 0.001]
+    },
+    {
+      "common_name": "Common Swift",
+      "n_detections": 406,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 370,
+      "confidence": {
+        "mean": 0.231,
+        "median": 0.17,
+        "max": 0.991
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 0.857,
+        "1/19": 1,
+        "1/22": 0.714,
+        "1/25": 0.714,
+        "1/28": 1,
+        "1/31": 0.857,
+        "1/34": 0.571,
+        "1/37": 0.714,
+        "1/40": 1,
+        "1/43": 0.571,
+        "1/46": 0.857,
+        "1/49": 0.286,
+        "1/52": 1,
+        "1/55": 0.429,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.003, 0, 0.008, 0.022, 0.043, 0.081, 0.086, 0.095, 0.07, 0.065, 0.078, 0.049, 0.038, 0.027, 0.051, 0.016, 0.035, 0.059, 0.032, 0.059, 0.062, 0.016, 0.003]
+    },
+    {
+      "common_name": "Common Wood-Pigeon",
+      "n_detections": 545,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 6,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 259,
+      "confidence": {
+        "mean": 0.231,
+        "median": 0.166,
+        "max": 0.925
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 0.857,
+        "1/22": 0.714,
+        "1/25": 0.857,
+        "1/28": 0.857,
+        "1/31": 1,
+        "1/34": 0.857,
+        "1/37": 0.429,
+        "1/40": 1,
+        "1/43": 0.571,
+        "1/46": 0.714,
+        "1/49": 0.429,
+        "1/52": 0.571,
+        "1/55": 0.429,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0.019, 0, 0.023, 0, 0.004, 0.054, 0.035, 0.019, 0.046, 0.062, 0.023, 0.031, 0.05, 0.085, 0.077, 0.031, 0.077, 0.046, 0.069, 0.062, 0.031, 0.039, 0.066, 0.05]
+    },
+    {
+      "common_name": "Crested Tit",
+      "n_detections": 383,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 5,
+        "85%": 5,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 295,
+      "confidence": {
+        "mean": 0.27,
+        "median": 0.169,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.714,
+        "1/10": 1,
+        "1/13": 0.857,
+        "1/16": 0.857,
+        "1/19": 1,
+        "1/22": 0.857,
+        "1/25": 1,
+        "1/28": 0.714,
+        "1/31": 0.857,
+        "1/34": 1,
+        "1/37": 0.857,
+        "1/40": 0.857,
+        "1/43": 0.429,
+        "1/46": 0.714,
+        "1/49": 0.429,
+        "1/52": 0.857,
+        "1/55": 1,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.003, 0.003, 0, 0.024, 0.034, 0.037, 0.075, 0.075, 0.071, 0.058, 0.098, 0.058, 0.105, 0.081, 0.061, 0.064, 0.047, 0.058, 0.037, 0.01, 0, 0]
+    },
+    {
+      "common_name": "Dunnock",
+      "n_detections": 18284,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 4463,
+      "confidence": {
+        "mean": 0.551,
+        "median": 0.564,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.001, 0.005, 0.038, 0.077, 0.074, 0.074, 0.074, 0.067, 0.059, 0.056, 0.058, 0.054, 0.058, 0.052, 0.054, 0.058, 0.051, 0.044, 0.043, 0.001, 0]
+    },
+    {
+      "common_name": "Eurasian Blackbird",
+      "n_detections": 1236,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 908,
+      "confidence": {
+        "mean": 0.224,
+        "median": 0.167,
+        "max": 0.913
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 0.857,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 0.857,
+        "1/52": 0.857,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.002, 0, 0.009, 0.023, 0.05, 0.078, 0.051, 0.076, 0.074, 0.067, 0.081, 0.05, 0.042, 0.043, 0.062, 0.052, 0.068, 0.045, 0.026, 0.036, 0.061, 0.004, 0]
+    },
+    {
+      "common_name": "Eurasian Blackcap",
+      "n_detections": 664,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 252,
+      "confidence": {
+        "mean": 0.244,
+        "median": 0.185,
+        "max": 0.81
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 0.857,
+        "1/16": 0.857,
+        "1/19": 0.714,
+        "1/22": 0.571,
+        "1/25": 0.714,
+        "1/28": 0.857,
+        "1/31": 0.714,
+        "1/34": 0.714,
+        "1/37": 0.714,
+        "1/40": 0.857,
+        "1/43": 0.714,
+        "1/46": 0.571,
+        "1/49": 0.143,
+        "1/52": 0.143,
+        "1/55": 0.571,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.024, 0.087, 0.107, 0.079, 0.06, 0.087, 0.147, 0.052, 0.04, 0.032, 0.056, 0.024, 0.04, 0.071, 0.032, 0.036, 0.024, 0.004, 0]
+    },
+    {
+      "common_name": "Eurasian Blue Tit",
+      "n_detections": 189,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 3,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 172,
+      "confidence": {
+        "mean": 0.202,
+        "median": 0.167,
+        "max": 0.756
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.857,
+        "1/10": 0.857,
+        "1/13": 0.857,
+        "1/16": 0.714,
+        "1/19": 0.857,
+        "1/22": 0.714,
+        "1/25": 0.857,
+        "1/28": 0.714,
+        "1/31": 0.429,
+        "1/34": 0.571,
+        "1/37": 0.857,
+        "1/40": 0.286,
+        "1/43": 0.571,
+        "1/46": 0.429,
+        "1/49": 0.429,
+        "1/52": 0.286,
+        "1/55": 0.429,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.017, 0.029, 0.017, 0.029, 0.047, 0.087, 0.076, 0.093, 0.099, 0.105, 0.087, 0.035, 0.081, 0.076, 0.052, 0.047, 0.023, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Bullfinch",
+      "n_detections": 2946,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2094,
+      "confidence": {
+        "mean": 0.249,
+        "median": 0.175,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.001, 0.002, 0.01, 0.044, 0.067, 0.051, 0.056, 0.07, 0.074, 0.066, 0.058, 0.059, 0.052, 0.058, 0.068, 0.045, 0.053, 0.053, 0.039, 0.04, 0.032, 0.003, 0]
+    },
+    {
+      "common_name": "Eurasian Collared-Dove",
+      "n_detections": 196,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 5,
+        "85%": 5,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 168,
+      "confidence": {
+        "mean": 0.205,
+        "median": 0.154,
+        "max": 0.961
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.714,
+        "1/10": 1,
+        "1/13": 0.857,
+        "1/16": 0.714,
+        "1/19": 0.714,
+        "1/22": 0.714,
+        "1/25": 0.714,
+        "1/28": 0.571,
+        "1/31": 0.571,
+        "1/34": 0.571,
+        "1/37": 0.714,
+        "1/40": 0.571,
+        "1/43": 0.571,
+        "1/46": 0.286,
+        "1/49": 0.286,
+        "1/52": 0.571,
+        "1/55": 0.714,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.006, 0.012, 0, 0.042, 0.054, 0.065, 0.06, 0.071, 0.113, 0.101, 0.065, 0.06, 0.095, 0.03, 0.101, 0.024, 0.036, 0.036, 0.006, 0.018, 0.006, 0]
+    },
+    {
+      "common_name": "Eurasian Crag-Martin",
+      "n_detections": 5,
+      "days_detected_24h": 4,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 0,
+        "85%": 0,
+        "90%": 0,
+        "95%": 0
+      },
+      "n_detection_minutes": 5,
+      "confidence": {
+        "mean": 0.264,
+        "median": 0.151,
+        "max": 0.619
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.571,
+        "1/4": 0.286,
+        "1/7": null,
+        "1/10": null,
+        "1/13": 0.143,
+        "1/16": null,
+        "1/19": null,
+        "1/22": 0.143,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": null,
+        "1/37": null,
+        "1/40": null,
+        "1/43": 0.143,
+        "1/46": null,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.6, 0.2, 0, 0, 0, 0, 0.2, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Dotterel",
+      "n_detections": 17251,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 4464,
+      "confidence": {
+        "mean": 0.195,
+        "median": 0.151,
+        "max": 0.996
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.001, 0.011, 0.063, 0.065, 0.085, 0.088, 0.09, 0.083, 0.074, 0.06, 0.042, 0.041, 0.031, 0.04, 0.032, 0.034, 0.037, 0.041, 0.029, 0.042, 0.011, 0]
+    },
+    {
+      "common_name": "Eurasian Eagle-Owl",
+      "n_detections": 2147,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1429,
+      "confidence": {
+        "mean": 0.226,
+        "median": 0.159,
+        "max": 0.968
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0.034, 0.025, 0.04, 0.041, 0.015, 0.006, 0.008, 0.018, 0.005, 0.017, 0.041, 0.06, 0.083, 0.094, 0.097, 0.087, 0.078, 0.049, 0.051, 0.049, 0.021, 0.022, 0.017, 0.039]
+    },
+    {
+      "common_name": "Eurasian Green Woodpecker",
+      "n_detections": 81,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 3,
+        "85%": 5,
+        "90%": 5,
+        "95%": 7
+      },
+      "n_detection_minutes": 74,
+      "confidence": {
+        "mean": 0.354,
+        "median": 0.254,
+        "max": 0.953
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.857,
+        "1/10": 0.571,
+        "1/13": 0.143,
+        "1/16": 0.286,
+        "1/19": 0.429,
+        "1/22": 0.286,
+        "1/25": 0.429,
+        "1/28": 0.143,
+        "1/31": 0.286,
+        "1/34": null,
+        "1/37": null,
+        "1/40": 0.143,
+        "1/43": 0.143,
+        "1/46": 0.143,
+        "1/49": 0.571,
+        "1/52": null,
+        "1/55": 0.143,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.014, 0.054, 0.068, 0.135, 0.068, 0.135, 0.054, 0.041, 0.041, 0.014, 0.095, 0.027, 0.054, 0.027, 0.027, 0.095, 0.041, 0.014, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Hobby",
+      "n_detections": 27,
+      "days_detected_24h": 6,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 3,
+        "85%": 3,
+        "90%": 4,
+        "95%": 5
+      },
+      "n_detection_minutes": 26,
+      "confidence": {
+        "mean": 0.172,
+        "median": 0.131,
+        "max": 0.59
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.857,
+        "1/4": 0.571,
+        "1/7": 0.429,
+        "1/10": 0.143,
+        "1/13": 0.143,
+        "1/16": 0.286,
+        "1/19": 0.143,
+        "1/22": 0.286,
+        "1/25": null,
+        "1/28": 0.286,
+        "1/31": 0.143,
+        "1/34": 0.143,
+        "1/37": 0.429,
+        "1/40": null,
+        "1/43": 0.143,
+        "1/46": null,
+        "1/49": null,
+        "1/52": 0.143,
+        "1/55": null,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.038, 0, 0.231, 0.115, 0.077, 0.115, 0.077, 0.038, 0.115, 0.038, 0, 0.077, 0, 0.038, 0, 0.038, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Hoopoe",
+      "n_detections": 29,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 1,
+        "85%": 1,
+        "90%": 2,
+        "95%": 3
+      },
+      "n_detection_minutes": 28,
+      "confidence": {
+        "mean": 0.19,
+        "median": 0.156,
+        "max": 0.62
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.429,
+        "1/7": 0.143,
+        "1/10": 0.286,
+        "1/13": 0.143,
+        "1/16": 0.286,
+        "1/19": 0.143,
+        "1/22": 0.143,
+        "1/25": 0.143,
+        "1/28": null,
+        "1/31": 0.286,
+        "1/34": 0.143,
+        "1/37": null,
+        "1/40": null,
+        "1/43": 0.143,
+        "1/46": null,
+        "1/49": 0.143,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.036, 0, 0.036, 0, 0.036, 0, 0.071, 0.071, 0.214, 0.036, 0.071, 0.214, 0.036, 0.071, 0.107, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Jackdaw",
+      "n_detections": 127,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 2,
+        "80%": 4,
+        "85%": 5,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 93,
+      "confidence": {
+        "mean": 0.242,
+        "median": 0.159,
+        "max": 0.939
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.857,
+        "1/10": 0.714,
+        "1/13": 0.429,
+        "1/16": 0.714,
+        "1/19": 0.714,
+        "1/22": 0.714,
+        "1/25": 0.286,
+        "1/28": 0.286,
+        "1/31": 0.571,
+        "1/34": 0.286,
+        "1/37": 0.143,
+        "1/40": 0.429,
+        "1/43": 0.286,
+        "1/46": 0.286,
+        "1/49": 0.143,
+        "1/52": 0.286,
+        "1/55": 0.429,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.011, 0, 0.022, 0.032, 0.075, 0.194, 0.097, 0.108, 0.086, 0.022, 0.086, 0.043, 0.075, 0.032, 0.043, 0.043, 0.032, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Jay",
+      "n_detections": 31,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 2,
+        "85%": 4,
+        "90%": 5,
+        "95%": 5
+      },
+      "n_detection_minutes": 26,
+      "confidence": {
+        "mean": 0.188,
+        "median": 0.165,
+        "max": 0.589
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.571,
+        "1/7": 0.571,
+        "1/10": 0.286,
+        "1/13": null,
+        "1/16": 0.286,
+        "1/19": null,
+        "1/22": 0.143,
+        "1/25": 0.143,
+        "1/28": 0.143,
+        "1/31": 0.143,
+        "1/34": null,
+        "1/37": 0.143,
+        "1/40": 0.286,
+        "1/43": 0.143,
+        "1/46": null,
+        "1/49": 0.143,
+        "1/52": null,
+        "1/55": 0.143,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0.115, 0.038, 0.154, 0.154, 0.038, 0.115, 0, 0, 0.038, 0.115, 0.038, 0.077, 0.038, 0.077, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Kestrel",
+      "n_detections": 145,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 2,
+        "80%": 5,
+        "85%": 6,
+        "90%": 6,
+        "95%": 7
+      },
+      "n_detection_minutes": 106,
+      "confidence": {
+        "mean": 0.381,
+        "median": 0.286,
+        "max": 0.995
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 0.571,
+        "1/13": 0.429,
+        "1/16": 0.571,
+        "1/19": 0.286,
+        "1/22": 0.429,
+        "1/25": 0.714,
+        "1/28": 0.286,
+        "1/31": 0.857,
+        "1/34": 0.286,
+        "1/37": 0.143,
+        "1/40": 0.286,
+        "1/43": 0.429,
+        "1/46": 0.857,
+        "1/49": 0.286,
+        "1/52": 0.286,
+        "1/55": 0.286,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.047, 0.066, 0.038, 0.085, 0.075, 0.094, 0.057, 0.047, 0.028, 0.038, 0.047, 0.057, 0.028, 0.066, 0.019, 0.038, 0.057, 0.104, 0.009, 0]
+    },
+    {
+      "common_name": "Eurasian Linnet",
+      "n_detections": 13486,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3502,
+      "confidence": {
+        "mean": 0.549,
+        "median": 0.56,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.001, 0.005, 0.023, 0.049, 0.083, 0.072, 0.082, 0.081, 0.082, 0.08, 0.071, 0.062, 0.057, 0.055, 0.042, 0.044, 0.032, 0.026, 0.033, 0.02, 0.001, 0]
+    },
+    {
+      "common_name": "Eurasian Magpie",
+      "n_detections": 90,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 4,
+        "85%": 4,
+        "90%": 6,
+        "95%": 7
+      },
+      "n_detection_minutes": 81,
+      "confidence": {
+        "mean": 0.228,
+        "median": 0.17,
+        "max": 0.895
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.571,
+        "1/10": 1,
+        "1/13": 0.286,
+        "1/16": 0.714,
+        "1/19": 0.571,
+        "1/22": 0.286,
+        "1/25": 0.429,
+        "1/28": 0.286,
+        "1/31": 0.286,
+        "1/34": 0.286,
+        "1/37": 0.286,
+        "1/40": 0.429,
+        "1/43": 0.286,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": 0.143,
+        "1/55": 0.286,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.012, 0, 0.012, 0.025, 0.025, 0.074, 0.025, 0.062, 0.049, 0.086, 0.049, 0.086, 0.086, 0.074, 0.062, 0.123, 0.037, 0.049, 0, 0.049, 0.012, 0]
+    },
+    {
+      "common_name": "Eurasian Nightjar",
+      "n_detections": 2718,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1401,
+      "confidence": {
+        "mean": 0.239,
+        "median": 0.171,
+        "max": 0.986
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.029, 0.016, 0.007, 0.001, 0.006, 0.024, 0.044, 0.065, 0.074, 0.077, 0.036, 0.036, 0.054, 0.048, 0.042, 0.048, 0.074, 0.047, 0.056, 0.054, 0.05, 0.035, 0.025, 0.054]
+    },
+    {
+      "common_name": "Eurasian Nutcracker",
+      "n_detections": 81,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 2,
+        "85%": 4,
+        "90%": 5,
+        "95%": 5
+      },
+      "n_detection_minutes": 47,
+      "confidence": {
+        "mean": 0.373,
+        "median": 0.248,
+        "max": 0.984
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.714,
+        "1/7": 0.571,
+        "1/10": 0.429,
+        "1/13": 0.857,
+        "1/16": 0.286,
+        "1/19": 0.571,
+        "1/22": 0.286,
+        "1/25": 0.286,
+        "1/28": 0.143,
+        "1/31": 0.143,
+        "1/34": null,
+        "1/37": 0.286,
+        "1/40": 0.143,
+        "1/43": 0.143,
+        "1/46": 0.143,
+        "1/49": 0.143,
+        "1/52": 0.286,
+        "1/55": 0.143,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.021, 0, 0.043, 0.085, 0.064, 0.128, 0, 0.021, 0.085, 0.149, 0, 0.106, 0.064, 0.17, 0.021, 0, 0, 0.043, 0]
+    },
+    {
+      "common_name": "Eurasian Nuthatch",
+      "n_detections": 88,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 3,
+        "80%": 4,
+        "85%": 5,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 78,
+      "confidence": {
+        "mean": 0.236,
+        "median": 0.176,
+        "max": 0.954
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.857,
+        "1/10": 0.571,
+        "1/13": 0.429,
+        "1/16": 0.286,
+        "1/19": 0.286,
+        "1/22": 0.286,
+        "1/25": 0.286,
+        "1/28": 0.286,
+        "1/31": 0.286,
+        "1/34": 0.286,
+        "1/37": 0.143,
+        "1/40": 0.286,
+        "1/43": 0.429,
+        "1/46": 0.143,
+        "1/49": 0.429,
+        "1/52": null,
+        "1/55": null,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.013, 0.077, 0.064, 0.013, 0.077, 0.167, 0.179, 0.038, 0, 0.077, 0.064, 0, 0.013, 0.09, 0.077, 0.026, 0.026, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Pygmy-Owl",
+      "n_detections": 23,
+      "days_detected_24h": 3,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 0,
+        "85%": 0,
+        "90%": 0,
+        "95%": 0
+      },
+      "n_detection_minutes": 11,
+      "confidence": {
+        "mean": 0.228,
+        "median": 0.148,
+        "max": 0.728
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.429,
+        "1/4": 0.429,
+        "1/7": null,
+        "1/10": 0.143,
+        "1/13": null,
+        "1/16": 0.286,
+        "1/19": 0.143,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": null,
+        "1/37": null,
+        "1/40": null,
+        "1/43": null,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.182, 0.455, 0, 0, 0.091, 0.273, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Siskin",
+      "n_detections": 2199,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1653,
+      "confidence": {
+        "mean": 0.279,
+        "median": 0.192,
+        "max": 0.995
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.001, 0.005, 0.017, 0.09, 0.073, 0.045, 0.072, 0.062, 0.061, 0.054, 0.044, 0.048, 0.039, 0.032, 0.038, 0.03, 0.047, 0.046, 0.051, 0.068, 0.06, 0.016, 0]
+    },
+    {
+      "common_name": "Eurasian Skylark",
+      "n_detections": 202917,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 6419,
+      "confidence": {
+        "mean": 0.481,
+        "median": 0.416,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.007, 0.047, 0.065, 0.065, 0.065, 0.065, 0.065, 0.065, 0.063, 0.06, 0.055, 0.045, 0.048, 0.038, 0.043, 0.046, 0.042, 0.042, 0.056, 0.014, 0]
+    },
+    {
+      "common_name": "Eurasian Three-toed Woodpecker",
+      "n_detections": 193,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 4,
+        "80%": 7,
+        "85%": 5,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 102,
+      "confidence": {
+        "mean": 0.183,
+        "median": 0.15,
+        "max": 0.591
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 1,
+        "1/10": 0.714,
+        "1/13": 0.714,
+        "1/16": 0.571,
+        "1/19": 0.429,
+        "1/22": 0.714,
+        "1/25": 0.286,
+        "1/28": 0.429,
+        "1/31": 0.286,
+        "1/34": 0.571,
+        "1/37": 0.143,
+        "1/40": 0.429,
+        "1/43": 0.143,
+        "1/46": 0.286,
+        "1/49": 0.286,
+        "1/52": 0.286,
+        "1/55": 0.429,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.02, 0.069, 0.059, 0.049, 0.137, 0.108, 0.049, 0.108, 0.039, 0.029, 0.059, 0.049, 0.049, 0.088, 0.039, 0.039, 0, 0.01, 0]
+    },
+    {
+      "common_name": "Eurasian Tree Sparrow",
+      "n_detections": 38,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 2,
+        "80%": 1,
+        "85%": 1,
+        "90%": 5,
+        "95%": 5
+      },
+      "n_detection_minutes": 30,
+      "confidence": {
+        "mean": 0.214,
+        "median": 0.157,
+        "max": 0.633
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.714,
+        "1/7": 0.429,
+        "1/10": 0.429,
+        "1/13": 0.429,
+        "1/16": 0.286,
+        "1/19": null,
+        "1/22": 0.143,
+        "1/25": null,
+        "1/28": 0.143,
+        "1/31": 0.143,
+        "1/34": 0.286,
+        "1/37": null,
+        "1/40": 0.143,
+        "1/43": null,
+        "1/46": null,
+        "1/49": null,
+        "1/52": 0.286,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0, 0.033, 0.133, 0.067, 0.1, 0.2, 0, 0.033, 0.1, 0.067, 0.2, 0, 0.033, 0, 0.033, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Treecreeper",
+      "n_detections": 634,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 340,
+      "confidence": {
+        "mean": 0.384,
+        "median": 0.254,
+        "max": 0.999
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 0.714,
+        "1/19": 0.857,
+        "1/22": 0.714,
+        "1/25": 0.571,
+        "1/28": 0.714,
+        "1/31": 0.857,
+        "1/34": 0.429,
+        "1/37": 0.714,
+        "1/40": 0.429,
+        "1/43": 0.714,
+        "1/46": 0.571,
+        "1/49": 0.286,
+        "1/52": 0.571,
+        "1/55": 0.571,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.021, 0.041, 0.05, 0.082, 0.115, 0.071, 0.062, 0.088, 0.091, 0.065, 0.085, 0.032, 0.082, 0.05, 0.015, 0.047, 0.003, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Woodcock",
+      "n_detections": 1374,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 6,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1098,
+      "confidence": {
+        "mean": 0.202,
+        "median": 0.147,
+        "max": 0.985
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 0.857,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 0.857,
+        "1/55": 0.857,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.052, 0.034, 0.019, 0.025, 0.026, 0.023, 0.014, 0.029, 0.02, 0.019, 0.018, 0.038, 0.043, 0.043, 0.052, 0.051, 0.059, 0.058, 0.064, 0.066, 0.056, 0.069, 0.065, 0.056]
+    },
+    {
+      "common_name": "Eurasian Wren",
+      "n_detections": 17799,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3295,
+      "confidence": {
+        "mean": 0.544,
+        "median": 0.537,
+        "max": 0.999
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.091, 0.114, 0.103, 0.093, 0.092, 0.088, 0.063, 0.047, 0.041, 0.034, 0.051, 0.035, 0.037, 0.035, 0.022, 0.032, 0.024, 0, 0]
+    },
+    {
+      "common_name": "Eurasian Wryneck",
+      "n_detections": 27,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 2,
+        "80%": 4,
+        "85%": 4,
+        "90%": 6,
+        "95%": 6
+      },
+      "n_detection_minutes": 26,
+      "confidence": {
+        "mean": 0.134,
+        "median": 0.123,
+        "max": 0.212
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.714,
+        "1/7": 0.714,
+        "1/10": 0.571,
+        "1/13": 0.286,
+        "1/16": 0.286,
+        "1/19": null,
+        "1/22": 0.143,
+        "1/25": 0.571,
+        "1/28": 0.286,
+        "1/31": 0.143,
+        "1/34": null,
+        "1/37": null,
+        "1/40": 0.429,
+        "1/43": 0.286,
+        "1/46": null,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.231, 0.154, 0.154, 0.154, 0.192, 0.077, 0, 0.038, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "European Bee-eater",
+      "n_detections": 412,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 4,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 229,
+      "confidence": {
+        "mean": 0.326,
+        "median": 0.229,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.857,
+        "1/10": 0.857,
+        "1/13": 1,
+        "1/16": 0.857,
+        "1/19": 0.857,
+        "1/22": 0.571,
+        "1/25": 0.571,
+        "1/28": 0.571,
+        "1/31": 0.286,
+        "1/34": 0.571,
+        "1/37": 0.429,
+        "1/40": 0.571,
+        "1/43": 0.286,
+        "1/46": 0.286,
+        "1/49": 0.571,
+        "1/52": 0.857,
+        "1/55": 0.429,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.004, 0, 0.013, 0.048, 0.044, 0.057, 0.052, 0.057, 0.066, 0.1, 0.1, 0.127, 0.066, 0.1, 0.092, 0.052, 0.017, 0.004, 0, 0]
+    },
+    {
+      "common_name": "European Goldfinch",
+      "n_detections": 600,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 6,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 482,
+      "confidence": {
+        "mean": 0.281,
+        "median": 0.198,
+        "max": 0.975
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 0.857,
+        "1/31": 0.857,
+        "1/34": 0.714,
+        "1/37": 0.714,
+        "1/40": 0.714,
+        "1/43": 0.857,
+        "1/46": 0.857,
+        "1/49": 0.571,
+        "1/52": 0.571,
+        "1/55": 1,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.004, 0, 0.008, 0.008, 0.035, 0.021, 0.015, 0.029, 0.052, 0.091, 0.106, 0.083, 0.108, 0.073, 0.071, 0.052, 0.054, 0.023, 0.044, 0.081, 0.039, 0.004, 0]
+    },
+    {
+      "common_name": "European Greenfinch",
+      "n_detections": 2743,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1796,
+      "confidence": {
+        "mean": 0.256,
+        "median": 0.188,
+        "max": 0.995
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.003, 0.004, 0.004, 0.009, 0.034, 0.033, 0.035, 0.047, 0.063, 0.084, 0.104, 0.1, 0.091, 0.075, 0.056, 0.056, 0.051, 0.039, 0.031, 0.026, 0.03, 0.019, 0.006, 0.003]
+    },
+    {
+      "common_name": "European Honey-buzzard",
+      "n_detections": 8,
+      "days_detected_24h": 4,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 0,
+        "85%": 1,
+        "90%": 1,
+        "95%": 1
+      },
+      "n_detection_minutes": 7,
+      "confidence": {
+        "mean": 0.281,
+        "median": 0.293,
+        "max": 0.491
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.571,
+        "1/4": 0.286,
+        "1/7": 0.143,
+        "1/10": 0.143,
+        "1/13": 0.286,
+        "1/16": 0.143,
+        "1/19": null,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": null,
+        "1/37": null,
+        "1/40": null,
+        "1/43": null,
+        "1/46": null,
+        "1/49": null,
+        "1/52": 0.143,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.143, 0, 0.286, 0, 0, 0, 0, 0.143, 0.286, 0, 0, 0.143, 0, 0]
+    },
+    {
+      "common_name": "European Pied Flycatcher",
+      "n_detections": 510,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 445,
+      "confidence": {
+        "mean": 0.208,
+        "median": 0.159,
+        "max": 0.938
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 0.857,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 0.571,
+        "1/34": 0.571,
+        "1/37": 0.857,
+        "1/40": 0.857,
+        "1/43": 0.714,
+        "1/46": 0.571,
+        "1/49": 0.714,
+        "1/52": 0.857,
+        "1/55": 0.714,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0.004, 0, 0, 0.004, 0.004, 0.121, 0.043, 0.027, 0.04, 0.04, 0.049, 0.047, 0.081, 0.043, 0.047, 0.056, 0.036, 0.045, 0.065, 0.052, 0.099, 0.094, 0, 0]
+    },
+    {
+      "common_name": "European Robin",
+      "n_detections": 6634,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3433,
+      "confidence": {
+        "mean": 0.257,
+        "median": 0.158,
+        "max": 0.995
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.046, 0.046, 0.05, 0.045, 0.047, 0.024, 0.026, 0.018, 0.022, 0.026, 0.042, 0.033, 0.039, 0.035, 0.047, 0.048, 0.035, 0.051, 0.055, 0.06, 0.057, 0.057, 0.037, 0.053]
+    },
+    {
+      "common_name": "European Serin",
+      "n_detections": 42,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 2,
+        "85%": 4,
+        "90%": 5,
+        "95%": 6
+      },
+      "n_detection_minutes": 34,
+      "confidence": {
+        "mean": 0.267,
+        "median": 0.173,
+        "max": 0.829
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.429,
+        "1/7": 0.714,
+        "1/10": 0.143,
+        "1/13": 0.286,
+        "1/16": 0.286,
+        "1/19": 0.429,
+        "1/22": 0.143,
+        "1/25": null,
+        "1/28": 0.143,
+        "1/31": 0.286,
+        "1/34": null,
+        "1/37": 0.143,
+        "1/40": null,
+        "1/43": 0.286,
+        "1/46": null,
+        "1/49": 0.429,
+        "1/52": 0.143,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0.059, 0.029, 0, 0.176, 0, 0.118, 0, 0.088, 0.206, 0.088, 0.029, 0.118, 0, 0.059, 0.029, 0, 0]
+    },
+    {
+      "common_name": "European Starling",
+      "n_detections": 92,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 4,
+        "85%": 4,
+        "90%": 5,
+        "95%": 7
+      },
+      "n_detection_minutes": 83,
+      "confidence": {
+        "mean": 0.169,
+        "median": 0.137,
+        "max": 0.633
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.571,
+        "1/10": 0.571,
+        "1/13": 0.857,
+        "1/16": 0.571,
+        "1/19": 0.429,
+        "1/22": 0.429,
+        "1/25": 0.286,
+        "1/28": 0.143,
+        "1/31": 0.571,
+        "1/34": 0.286,
+        "1/37": 0.286,
+        "1/40": null,
+        "1/43": 0.143,
+        "1/46": 0.429,
+        "1/49": 0.143,
+        "1/52": 0.286,
+        "1/55": 0.286,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0.169, 0.169, 0.169, 0.157, 0.036, 0.072, 0.084, 0.06, 0.06, 0.012, 0, 0.012, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "European Stonechat",
+      "n_detections": 4439,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2674,
+      "confidence": {
+        "mean": 0.217,
+        "median": 0.166,
+        "max": 0.965
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.001, 0.006, 0.05, 0.087, 0.072, 0.071, 0.077, 0.076, 0.056, 0.053, 0.055, 0.048, 0.049, 0.04, 0.05, 0.059, 0.05, 0.053, 0.039, 0.006, 0]
+    },
+    {
+      "common_name": "Fieldfare",
+      "n_detections": 476,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 368,
+      "confidence": {
+        "mean": 0.297,
+        "median": 0.211,
+        "max": 0.983
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 0.714,
+        "1/22": 1,
+        "1/25": 0.714,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 0.429,
+        "1/40": 0.714,
+        "1/43": 0.857,
+        "1/46": 0.714,
+        "1/49": 0.571,
+        "1/52": 1,
+        "1/55": 0.571,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0.003, 0, 0.003, 0.011, 0.027, 0.062, 0.06, 0.079, 0.082, 0.065, 0.038, 0.024, 0.071, 0.049, 0.062, 0.065, 0.016, 0.06, 0.06, 0.043, 0.06, 0.043, 0.016, 0]
+    },
+    {
+      "common_name": "Garden Warbler",
+      "n_detections": 108,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 4,
+        "80%": 6,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 101,
+      "confidence": {
+        "mean": 0.16,
+        "median": 0.134,
+        "max": 0.647
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 1,
+        "1/10": 0.857,
+        "1/13": 0.714,
+        "1/16": 0.714,
+        "1/19": 0.571,
+        "1/22": 0.571,
+        "1/25": 0.571,
+        "1/28": 0.286,
+        "1/31": 0.286,
+        "1/34": 0.143,
+        "1/37": 0.429,
+        "1/40": 0.429,
+        "1/43": 0.143,
+        "1/46": 0.429,
+        "1/49": null,
+        "1/52": 0.429,
+        "1/55": 0.286,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.01, 0.01, 0.059, 0.139, 0.04, 0.109, 0.089, 0.059, 0.099, 0.02, 0.069, 0.03, 0.03, 0.079, 0.02, 0.059, 0.05, 0.01, 0.02, 0, 0, 0]
+    },
+    {
+      "common_name": "Goldcrest",
+      "n_detections": 2663,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 707,
+      "confidence": {
+        "mean": 0.556,
+        "median": 0.508,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 0.857,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 0.714,
+        "1/43": 0.714,
+        "1/46": 0.857,
+        "1/49": 0.857,
+        "1/52": 1,
+        "1/55": 0.571,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.001, 0.008, 0.014, 0.024, 0.106, 0.143, 0.079, 0.059, 0.095, 0.058, 0.106, 0.082, 0.058, 0.057, 0.057, 0.02, 0.024, 0.008, 0, 0]
+    },
+    {
+      "common_name": "Golden Eagle",
+      "n_detections": 32,
+      "days_detected_24h": 6,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 3,
+        "85%": 2,
+        "90%": 2,
+        "95%": 2
+      },
+      "n_detection_minutes": 20,
+      "confidence": {
+        "mean": 0.318,
+        "median": 0.199,
+        "max": 0.888
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.857,
+        "1/4": 0.429,
+        "1/7": 0.571,
+        "1/10": 0.143,
+        "1/13": null,
+        "1/16": 0.143,
+        "1/19": null,
+        "1/22": 0.143,
+        "1/25": null,
+        "1/28": null,
+        "1/31": 0.143,
+        "1/34": 0.143,
+        "1/37": null,
+        "1/40": null,
+        "1/43": null,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": null,
+        "1/55": 0.143,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0.1, 0, 0, 0.1, 0.05, 0.05, 0.05, 0, 0.05, 0.1, 0.2, 0.1, 0.1, 0.1, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Gray Heron",
+      "n_detections": 197,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 2,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 169,
+      "confidence": {
+        "mean": 0.218,
+        "median": 0.157,
+        "max": 0.847
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 0.857,
+        "1/13": 0.714,
+        "1/16": 1,
+        "1/19": 0.857,
+        "1/22": 0.571,
+        "1/25": 0.429,
+        "1/28": 0.571,
+        "1/31": 0.429,
+        "1/34": 0.714,
+        "1/37": null,
+        "1/40": 0.857,
+        "1/43": 0.143,
+        "1/46": 0.143,
+        "1/49": 0.286,
+        "1/52": 0.286,
+        "1/55": 0.286,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0.018, 0.006, 0.018, 0.018, 0.024, 0.024, 0.024, 0.065, 0.024, 0.041, 0.065, 0.047, 0.036, 0.047, 0.065, 0.071, 0.112, 0.077, 0.101, 0.024, 0.012, 0.012, 0.047, 0.024]
+    },
+    {
+      "common_name": "Gray Wagtail",
+      "n_detections": 165,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 2,
+        "80%": 3,
+        "85%": 5,
+        "90%": 5,
+        "95%": 7
+      },
+      "n_detection_minutes": 141,
+      "confidence": {
+        "mean": 0.259,
+        "median": 0.175,
+        "max": 0.98
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.857,
+        "1/10": 0.857,
+        "1/13": 0.429,
+        "1/16": 1,
+        "1/19": 0.571,
+        "1/22": 0.571,
+        "1/25": 0.571,
+        "1/28": 0.714,
+        "1/31": 0.429,
+        "1/34": 0.571,
+        "1/37": 0.143,
+        "1/40": 0.571,
+        "1/43": 0.143,
+        "1/46": 0.429,
+        "1/49": 0.429,
+        "1/52": 0.143,
+        "1/55": 0.286,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0.021, 0, 0.021, 0.014, 0.007, 0.035, 0.028, 0.057, 0.085, 0.028, 0.007, 0.043, 0.085, 0.043, 0.071, 0.05, 0.028, 0.064, 0.057, 0.085, 0.092, 0.078, 0, 0]
+    },
+    {
+      "common_name": "Gray-headed Woodpecker",
+      "n_detections": 37,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 3,
+        "80%": 3,
+        "85%": 2,
+        "90%": 4,
+        "95%": 6
+      },
+      "n_detection_minutes": 34,
+      "confidence": {
+        "mean": 0.154,
+        "median": 0.129,
+        "max": 0.324
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.714,
+        "1/7": 0.429,
+        "1/10": 0.286,
+        "1/13": 0.571,
+        "1/16": 0.286,
+        "1/19": 0.286,
+        "1/22": 0.429,
+        "1/25": 0.286,
+        "1/28": 0.143,
+        "1/31": null,
+        "1/34": null,
+        "1/37": null,
+        "1/40": 0.143,
+        "1/43": 0.286,
+        "1/46": 0.286,
+        "1/49": null,
+        "1/52": 0.286,
+        "1/55": 0.143,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.029, 0.088, 0.088, 0.147, 0.118, 0.118, 0.059, 0.059, 0.059, 0, 0, 0.118, 0.059, 0.029, 0, 0.029, 0, 0, 0]
+    },
+    {
+      "common_name": "Great Spotted Woodpecker",
+      "n_detections": 661,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 5,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 199,
+      "confidence": {
+        "mean": 0.528,
+        "median": 0.545,
+        "max": 0.997
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 0.857,
+        "1/16": 0.714,
+        "1/19": 0.857,
+        "1/22": 0.857,
+        "1/25": 0.571,
+        "1/28": 0.714,
+        "1/31": 0.571,
+        "1/34": 0.714,
+        "1/37": 0.429,
+        "1/40": 0.286,
+        "1/43": 0.286,
+        "1/46": 0.714,
+        "1/49": 1,
+        "1/52": 0.571,
+        "1/55": 0.714,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0.005, 0.005, 0, 0, 0.015, 0.025, 0.09, 0.08, 0.106, 0.095, 0.106, 0.025, 0.09, 0.035, 0.035, 0.05, 0.06, 0.06, 0.065, 0.025, 0.01, 0.015, 0, 0]
+    },
+    {
+      "common_name": "Great Tit",
+      "n_detections": 620,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 490,
+      "confidence": {
+        "mean": 0.184,
+        "median": 0.145,
+        "max": 0.95
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 0.857,
+        "1/25": 1,
+        "1/28": 0.714,
+        "1/31": 0.857,
+        "1/34": 0.714,
+        "1/37": 0.857,
+        "1/40": 0.857,
+        "1/43": 0.714,
+        "1/46": 0.857,
+        "1/49": 0.714,
+        "1/52": 0.429,
+        "1/55": 0.571,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.002, 0, 0.055, 0.033, 0.035, 0.016, 0.078, 0.118, 0.092, 0.1, 0.094, 0.076, 0.059, 0.051, 0.043, 0.033, 0.045, 0.041, 0.022, 0.008, 0]
+    },
+    {
+      "common_name": "Greater Whitethroat",
+      "n_detections": 1668,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1276,
+      "confidence": {
+        "mean": 0.17,
+        "median": 0.138,
+        "max": 0.934
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 0.857,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.001, 0.002, 0.003, 0.035, 0.099, 0.06, 0.046, 0.098, 0.089, 0.092, 0.095, 0.064, 0.053, 0.042, 0.045, 0.026, 0.034, 0.038, 0.017, 0.031, 0.029, 0.002, 0]
+    },
+    {
+      "common_name": "Green Sandpiper",
+      "n_detections": 1290,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1074,
+      "confidence": {
+        "mean": 0.254,
+        "median": 0.183,
+        "max": 0.994
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.001, 0.003, 0.006, 0.016, 0.076, 0.05, 0.035, 0.066, 0.058, 0.072, 0.051, 0.036, 0.039, 0.055, 0.041, 0.054, 0.049, 0.046, 0.061, 0.052, 0.058, 0.069, 0.006, 0]
+    },
+    {
+      "common_name": "Hawfinch",
+      "n_detections": 950,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 834,
+      "confidence": {
+        "mean": 0.224,
+        "median": 0.165,
+        "max": 0.938
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 0.857,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 0.714,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.019, 0.025, 0.02, 0.008, 0.005, 0.012, 0.041, 0.061, 0.043, 0.042, 0.034, 0.031, 0.036, 0.052, 0.049, 0.048, 0.059, 0.083, 0.094, 0.073, 0.073, 0.066, 0.011, 0.016]
+    },
+    {
+      "common_name": "Hazel Grouse",
+      "n_detections": 26,
+      "days_detected_24h": 5,
+      "days_detected_by_schedule": {
+        "75%": 3,
+        "80%": 1,
+        "85%": 2,
+        "90%": 2,
+        "95%": 5
+      },
+      "n_detection_minutes": 23,
+      "confidence": {
+        "mean": 0.158,
+        "median": 0.134,
+        "max": 0.33
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.714,
+        "1/4": 0.143,
+        "1/7": 0.286,
+        "1/10": null,
+        "1/13": 0.429,
+        "1/16": null,
+        "1/19": null,
+        "1/22": null,
+        "1/25": null,
+        "1/28": 0.143,
+        "1/31": null,
+        "1/34": 0.143,
+        "1/37": 0.143,
+        "1/40": null,
+        "1/43": null,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": 0.143,
+        "1/55": null,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0.174, 0.043, 0.348, 0.174, 0, 0.043, 0, 0.13, 0.043, 0, 0, 0, 0.043, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "House Sparrow",
+      "n_detections": 397,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 358,
+      "confidence": {
+        "mean": 0.192,
+        "median": 0.15,
+        "max": 0.744
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 0.857,
+        "1/25": 0.857,
+        "1/28": 1,
+        "1/31": 0.714,
+        "1/34": 0.857,
+        "1/37": 0.857,
+        "1/40": 0.857,
+        "1/43": 0.571,
+        "1/46": 0.857,
+        "1/49": 0.571,
+        "1/52": 0.714,
+        "1/55": 0.571,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0.02, 0.014, 0.017, 0.008, 0.073, 0.017, 0.031, 0.05, 0.075, 0.106, 0.075, 0.053, 0.039, 0.056, 0.042, 0.047, 0.059, 0.039, 0.025, 0.017, 0.034, 0.073, 0.011, 0.02]
+    },
+    {
+      "common_name": "Lesser Redpoll",
+      "n_detections": 964,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 742,
+      "confidence": {
+        "mean": 0.248,
+        "median": 0.177,
+        "max": 0.972
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 0.857,
+        "1/52": 0.857,
+        "1/55": 0.714,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.003, 0, 0.005, 0.04, 0.059, 0.055, 0.082, 0.08, 0.058, 0.066, 0.055, 0.061, 0.05, 0.061, 0.057, 0.042, 0.043, 0.038, 0.036, 0.065, 0.044, 0, 0]
+    },
+    {
+      "common_name": "Lesser Whitethroat",
+      "n_detections": 5390,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2147,
+      "confidence": {
+        "mean": 0.367,
+        "median": 0.24,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.001, 0.004, 0.027, 0.083, 0.091, 0.085, 0.086, 0.081, 0.077, 0.093, 0.064, 0.048, 0.043, 0.05, 0.032, 0.033, 0.032, 0.025, 0.028, 0.017, 0.001, 0]
+    },
+    {
+      "common_name": "Long-eared Owl",
+      "n_detections": 505,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 6,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 408,
+      "confidence": {
+        "mean": 0.187,
+        "median": 0.146,
+        "max": 0.839
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 0.857,
+        "1/16": 1,
+        "1/19": 0.857,
+        "1/22": 1,
+        "1/25": 0.857,
+        "1/28": 0.857,
+        "1/31": 0.857,
+        "1/34": 0.857,
+        "1/37": 0.429,
+        "1/40": 0.714,
+        "1/43": 0.714,
+        "1/46": 0.429,
+        "1/49": 0.571,
+        "1/52": 0.571,
+        "1/55": 0.714,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0.012, 0.012, 0.042, 0.123, 0.02, 0.002, 0.012, 0.002, 0, 0.02, 0.032, 0.042, 0.096, 0.088, 0.12, 0.1, 0.066, 0.051, 0.044, 0.047, 0.02, 0.015, 0.01, 0.025]
+    },
+    {
+      "common_name": "Mallard",
+      "n_detections": 2974,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1986,
+      "confidence": {
+        "mean": 0.2,
+        "median": 0.156,
+        "max": 0.92
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.015, 0.008, 0.016, 0.009, 0.01, 0.01, 0.016, 0.059, 0.055, 0.053, 0.058, 0.065, 0.075, 0.083, 0.072, 0.076, 0.073, 0.054, 0.063, 0.045, 0.033, 0.018, 0.024, 0.012]
+    },
+    {
+      "common_name": "Marsh Tit",
+      "n_detections": 5249,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2736,
+      "confidence": {
+        "mean": 0.247,
+        "median": 0.185,
+        "max": 0.96
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.046, 0.078, 0.046, 0.043, 0.045, 0.056, 0.063, 0.072, 0.06, 0.056, 0.067, 0.062, 0.05, 0.068, 0.052, 0.084, 0.049, 0, 0]
+    },
+    {
+      "common_name": "Marsh Warbler",
+      "n_detections": 79,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 3,
+        "80%": 4,
+        "85%": 4,
+        "90%": 3,
+        "95%": 7
+      },
+      "n_detection_minutes": 54,
+      "confidence": {
+        "mean": 0.14,
+        "median": 0.128,
+        "max": 0.286
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.571,
+        "1/10": 0.857,
+        "1/13": 0.857,
+        "1/16": 0.286,
+        "1/19": 0.143,
+        "1/22": 0.286,
+        "1/25": 0.286,
+        "1/28": 0.143,
+        "1/31": 0.286,
+        "1/34": 0.143,
+        "1/37": null,
+        "1/40": 0.143,
+        "1/43": 0.286,
+        "1/46": 0.143,
+        "1/49": 0.143,
+        "1/52": 0.143,
+        "1/55": 0.286,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.13, 0.167, 0.389, 0.056, 0, 0.056, 0.093, 0.037, 0.019, 0, 0.019, 0, 0.019, 0, 0, 0.019, 0, 0, 0]
+    },
+    {
+      "common_name": "Meadow Pipit",
+      "n_detections": 247476,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 7027,
+      "confidence": {
+        "mean": 0.456,
+        "median": 0.417,
+        "max": 0.996
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.004, 0.05, 0.06, 0.06, 0.06, 0.06, 0.06, 0.06, 0.06, 0.06, 0.06, 0.06, 0.06, 0.059, 0.059, 0.058, 0.06, 0.049, 0.002, 0.001]
+    },
+    {
+      "common_name": "Mistle Thrush",
+      "n_detections": 27195,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3032,
+      "confidence": {
+        "mean": 0.665,
+        "median": 0.77,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.077, 0.083, 0.101, 0.095, 0.077, 0.072, 0.065, 0.059, 0.055, 0.038, 0.047, 0.034, 0.05, 0.049, 0.033, 0.037, 0.027, 0, 0]
+    },
+    {
+      "common_name": "Northern Goshawk",
+      "n_detections": 4,
+      "days_detected_24h": 3,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 0,
+        "85%": 0,
+        "90%": 2,
+        "95%": 2
+      },
+      "n_detection_minutes": 4,
+      "confidence": {
+        "mean": 0.143,
+        "median": 0.128,
+        "max": 0.214
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.429,
+        "1/4": null,
+        "1/7": null,
+        "1/10": null,
+        "1/13": null,
+        "1/16": null,
+        "1/19": null,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": null,
+        "1/37": 0.143,
+        "1/40": null,
+        "1/43": null,
+        "1/46": null,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0.25, 0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0]
+    },
+    {
+      "common_name": "Northern Wheatear",
+      "n_detections": 35274,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 6480,
+      "confidence": {
+        "mean": 0.462,
+        "median": 0.381,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.003, 0.005, 0.014, 0.035, 0.062, 0.061, 0.061, 0.057, 0.059, 0.058, 0.058, 0.052, 0.049, 0.05, 0.045, 0.042, 0.04, 0.041, 0.046, 0.045, 0.048, 0.046, 0.019, 0.001]
+    },
+    {
+      "common_name": "Ortolan Bunting",
+      "n_detections": 7086,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3947,
+      "confidence": {
+        "mean": 0.22,
+        "median": 0.162,
+        "max": 0.978
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.003, 0.005, 0.008, 0.019, 0.048, 0.046, 0.043, 0.047, 0.051, 0.051, 0.042, 0.046, 0.049, 0.045, 0.051, 0.05, 0.055, 0.055, 0.059, 0.06, 0.076, 0.065, 0.018, 0.005]
+    },
+    {
+      "common_name": "Peregrine Falcon",
+      "n_detections": 99,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 2,
+        "85%": 5,
+        "90%": 6,
+        "95%": 6
+      },
+      "n_detection_minutes": 91,
+      "confidence": {
+        "mean": 0.18,
+        "median": 0.148,
+        "max": 0.632
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.714,
+        "1/10": 0.714,
+        "1/13": 0.714,
+        "1/16": 0.571,
+        "1/19": 0.429,
+        "1/22": 0.429,
+        "1/25": 0.143,
+        "1/28": 0.143,
+        "1/31": 0.286,
+        "1/34": 0.286,
+        "1/37": 0.429,
+        "1/40": 0.143,
+        "1/43": 0.286,
+        "1/46": 0.286,
+        "1/49": 0.429,
+        "1/52": 0.143,
+        "1/55": 0.286,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.011, 0.033, 0, 0.066, 0.055, 0.055, 0.099, 0.11, 0.077, 0.033, 0.143, 0.033, 0.077, 0.099, 0.055, 0.011, 0.022, 0.022, 0]
+    },
+    {
+      "common_name": "Red Crossbill",
+      "n_detections": 857,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 640,
+      "confidence": {
+        "mean": 0.231,
+        "median": 0.174,
+        "max": 0.932
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 0.857,
+        "1/46": 0.714,
+        "1/49": 0.714,
+        "1/52": 0.571,
+        "1/55": 0.857,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0.003, 0, 0, 0.003, 0.013, 0.034, 0.038, 0.033, 0.031, 0.055, 0.058, 0.072, 0.08, 0.081, 0.066, 0.05, 0.036, 0.061, 0.05, 0.066, 0.083, 0.08, 0.008, 0.002]
+    },
+    {
+      "common_name": "Red Kite",
+      "n_detections": 18,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 2,
+        "85%": 3,
+        "90%": 4,
+        "95%": 5
+      },
+      "n_detection_minutes": 15,
+      "confidence": {
+        "mean": 0.145,
+        "median": 0.13,
+        "max": 0.265
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.143,
+        "1/7": 0.571,
+        "1/10": 0.143,
+        "1/13": 0.143,
+        "1/16": null,
+        "1/19": null,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": 0.143,
+        "1/34": null,
+        "1/37": 0.143,
+        "1/40": null,
+        "1/43": null,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.067, 0, 0.067, 0.067, 0.067, 0.133, 0.067, 0.133, 0.067, 0, 0.133, 0.067, 0.067, 0.067, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Red-backed Shrike",
+      "n_detections": 191,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 4,
+        "80%": 6,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 172,
+      "confidence": {
+        "mean": 0.188,
+        "median": 0.148,
+        "max": 0.841
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 0.571,
+        "1/16": 0.857,
+        "1/19": 0.857,
+        "1/22": 0.714,
+        "1/25": 0.857,
+        "1/28": 0.571,
+        "1/31": 0.714,
+        "1/34": 0.429,
+        "1/37": 0.571,
+        "1/40": 0.571,
+        "1/43": 0.143,
+        "1/46": 0.286,
+        "1/49": 0.429,
+        "1/52": 0.143,
+        "1/55": 0.429,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0.006, 0, 0, 0, 0.006, 0.029, 0.116, 0.11, 0.081, 0.099, 0.087, 0.081, 0.041, 0.07, 0.035, 0.035, 0.064, 0.052, 0.041, 0.012, 0.017, 0.006, 0.012, 0]
+    },
+    {
+      "common_name": "Red-billed Chough",
+      "n_detections": 3570,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 672,
+      "confidence": {
+        "mean": 0.711,
+        "median": 0.867,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 0.857,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 0.857,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 0.857,
+        "1/52": 1,
+        "1/55": 0.714,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.001, 0.004, 0.001, 0.1, 0.137, 0.176, 0.18, 0.098, 0.067, 0.065, 0.025, 0.024, 0.028, 0.024, 0.025, 0.016, 0.013, 0.013, 0, 0, 0]
+    },
+    {
+      "common_name": "Ring Ouzel",
+      "n_detections": 1296,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 502,
+      "confidence": {
+        "mean": 0.43,
+        "median": 0.31,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 0.857,
+        "1/25": 1,
+        "1/28": 0.857,
+        "1/31": 1,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 0.714,
+        "1/49": 0.714,
+        "1/52": 0.714,
+        "1/55": 0.857,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.002, 0.004, 0.004, 0.014, 0.143, 0.1, 0.11, 0.114, 0.068, 0.048, 0.036, 0.024, 0.046, 0.02, 0.03, 0.02, 0.048, 0.026, 0.032, 0.016, 0.078, 0.02, 0]
+    },
+    {
+      "common_name": "Rock Bunting",
+      "n_detections": 163,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 4,
+        "80%": 6,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 135,
+      "confidence": {
+        "mean": 0.22,
+        "median": 0.162,
+        "max": 0.975
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.857,
+        "1/10": 1,
+        "1/13": 0.571,
+        "1/16": 0.857,
+        "1/19": 0.571,
+        "1/22": 0.429,
+        "1/25": 0.429,
+        "1/28": 0.429,
+        "1/31": 0.571,
+        "1/34": 0.143,
+        "1/37": 0.286,
+        "1/40": 0.286,
+        "1/43": null,
+        "1/46": 0.286,
+        "1/49": 0.286,
+        "1/52": 0.143,
+        "1/55": 0.143,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.007, 0, 0.067, 0.059, 0.074, 0.096, 0.111, 0.074, 0.052, 0.03, 0.044, 0.037, 0.052, 0.022, 0.052, 0.067, 0.03, 0.081, 0.044, 0, 0]
+    },
+    {
+      "common_name": "Rock Partridge",
+      "n_detections": 19978,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 3265,
+      "confidence": {
+        "mean": 0.553,
+        "median": 0.539,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.008, 0.074, 0.08, 0.078, 0.068, 0.067, 0.06, 0.053, 0.058, 0.053, 0.043, 0.046, 0.053, 0.054, 0.058, 0.048, 0.048, 0.034, 0.016, 0]
+    },
+    {
+      "common_name": "Rock Pigeon",
+      "n_detections": 1082,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 4,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 644,
+      "confidence": {
+        "mean": 0.266,
+        "median": 0.2,
+        "max": 0.944
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 0.857,
+        "1/43": 0.857,
+        "1/46": 0.857,
+        "1/49": 0.429,
+        "1/52": 0.857,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.011, 0.006, 0.061, 0.087, 0.025, 0.017, 0.014, 0.002, 0.003, 0.02, 0.056, 0.037, 0.056, 0.093, 0.062, 0.095, 0.092, 0.037, 0.051, 0.056, 0.028, 0.023, 0.034, 0.034]
+    },
+    {
+      "common_name": "Rock Ptarmigan",
+      "n_detections": 1341,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 4,
+        "80%": 6,
+        "85%": 6,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 451,
+      "confidence": {
+        "mean": 0.505,
+        "median": 0.462,
+        "max": 0.999
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 0.857,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 0.857,
+        "1/34": 0.714,
+        "1/37": 0.714,
+        "1/40": 0.857,
+        "1/43": 0.571,
+        "1/46": 0.857,
+        "1/49": 0.714,
+        "1/52": 0.857,
+        "1/55": 1,
+        "1/58": 0.714
+      },
+      "activity_share_by_hour_from_sunrise": [0.009, 0.002, 0.004, 0.007, 0.093, 0.322, 0.171, 0.053, 0.035, 0.02, 0.009, 0.011, 0.016, 0.011, 0.002, 0.013, 0.022, 0.011, 0.016, 0.011, 0.031, 0.029, 0.098, 0.004]
+    },
+    {
+      "common_name": "Rook",
+      "n_detections": 230,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 4,
+        "85%": 5,
+        "90%": 6,
+        "95%": 6
+      },
+      "n_detection_minutes": 155,
+      "confidence": {
+        "mean": 0.196,
+        "median": 0.165,
+        "max": 0.572
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 0.571,
+        "1/16": 1,
+        "1/19": 0.714,
+        "1/22": 0.286,
+        "1/25": 0.857,
+        "1/28": 0.714,
+        "1/31": 0.714,
+        "1/34": 0.857,
+        "1/37": 0.429,
+        "1/40": 0.571,
+        "1/43": 0.571,
+        "1/46": 0.571,
+        "1/49": 0.571,
+        "1/52": 0.286,
+        "1/55": 0.143,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0.019, 0, 0.006, 0.019, 0.09, 0.148, 0.026, 0.006, 0.019, 0.026, 0.019, 0.032, 0.032, 0.09, 0.052, 0.09, 0.065, 0.052, 0.032, 0.013, 0.019, 0.026, 0.116, 0]
+    },
+    {
+      "common_name": "Rufous-tailed Rock-Thrush",
+      "n_detections": 561,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 447,
+      "confidence": {
+        "mean": 0.227,
+        "median": 0.18,
+        "max": 0.934
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 0.857,
+        "1/34": 0.857,
+        "1/37": 0.571,
+        "1/40": 0.571,
+        "1/43": 1,
+        "1/46": 0.571,
+        "1/49": 1,
+        "1/52": 0.571,
+        "1/55": 0.571,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.011, 0.011, 0.056, 0.101, 0.105, 0.096, 0.072, 0.081, 0.06, 0.043, 0.027, 0.02, 0.022, 0.04, 0.025, 0.049, 0.051, 0.034, 0.036, 0.058, 0.002, 0]
+    },
+    {
+      "common_name": "Sardinian Warbler",
+      "n_detections": 1075,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 801,
+      "confidence": {
+        "mean": 0.209,
+        "median": 0.158,
+        "max": 0.958
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 0.857,
+        "1/40": 0.857,
+        "1/43": 1,
+        "1/46": 0.857,
+        "1/49": 1,
+        "1/52": 0.857,
+        "1/55": 0.857,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0.001, 0, 0.005, 0.029, 0.116, 0.13, 0.091, 0.05, 0.05, 0.036, 0.061, 0.059, 0.04, 0.039, 0.045, 0.04, 0.027, 0.024, 0.044, 0.029, 0.047, 0.035, 0.002, 0]
+    },
+    {
+      "common_name": "Short-toed Snake-Eagle",
+      "n_detections": 2,
+      "days_detected_24h": 2,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 0,
+        "85%": 0,
+        "90%": 0,
+        "95%": 1
+      },
+      "n_detection_minutes": 2,
+      "confidence": {
+        "mean": 0.189,
+        "median": 0.189,
+        "max": 0.271
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.286,
+        "1/4": 0.143,
+        "1/7": null,
+        "1/10": null,
+        "1/13": 0.143,
+        "1/16": null,
+        "1/19": null,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": null,
+        "1/37": 0.143,
+        "1/40": null,
+        "1/43": null,
+        "1/46": null,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Short-toed Treecreeper",
+      "n_detections": 597,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 474,
+      "confidence": {
+        "mean": 0.184,
+        "median": 0.149,
+        "max": 0.72
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 0.714,
+        "1/25": 0.857,
+        "1/28": 1,
+        "1/31": 0.714,
+        "1/34": 0.714,
+        "1/37": 0.857,
+        "1/40": 0.857,
+        "1/43": 0.714,
+        "1/46": 1,
+        "1/49": 0.857,
+        "1/52": 1,
+        "1/55": 0.714,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.021, 0.072, 0.044, 0.059, 0.108, 0.131, 0.127, 0.097, 0.055, 0.061, 0.053, 0.055, 0.051, 0.027, 0.015, 0.002, 0.023, 0, 0]
+    },
+    {
+      "common_name": "Song Thrush",
+      "n_detections": 3229,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2302,
+      "confidence": {
+        "mean": 0.191,
+        "median": 0.144,
+        "max": 0.974
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.043, 0.049, 0.048, 0.053, 0.066, 0.041, 0.041, 0.036, 0.032, 0.03, 0.031, 0.023, 0.025, 0.033, 0.033, 0.046, 0.049, 0.043, 0.046, 0.05, 0.044, 0.064, 0.031, 0.042]
+    },
+    {
+      "common_name": "Spectacled Warbler",
+      "n_detections": 1079,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 823,
+      "confidence": {
+        "mean": 0.202,
+        "median": 0.156,
+        "max": 0.821
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 0.857,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 0.857,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.002, 0, 0.007, 0.018, 0.053, 0.113, 0.062, 0.046, 0.05, 0.064, 0.091, 0.066, 0.049, 0.058, 0.032, 0.046, 0.019, 0.041, 0.043, 0.039, 0.045, 0.045, 0.009, 0.001]
+    },
+    {
+      "common_name": "Spotted Flycatcher",
+      "n_detections": 26,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 1,
+        "85%": 5,
+        "90%": 4,
+        "95%": 5
+      },
+      "n_detection_minutes": 25,
+      "confidence": {
+        "mean": 0.185,
+        "median": 0.136,
+        "max": 0.37
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.429,
+        "1/7": 0.714,
+        "1/10": 0.143,
+        "1/13": 0.286,
+        "1/16": 0.286,
+        "1/19": null,
+        "1/22": 0.143,
+        "1/25": null,
+        "1/28": 0.143,
+        "1/31": 0.286,
+        "1/34": null,
+        "1/37": null,
+        "1/40": 0.143,
+        "1/43": null,
+        "1/46": 0.286,
+        "1/49": null,
+        "1/52": 0.286,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0.04, 0, 0.08, 0.08, 0.08, 0, 0.04, 0.04, 0.12, 0.04, 0.2, 0.12, 0.04, 0.08, 0.04, 0, 0]
+    },
+    {
+      "common_name": "Stock Dove",
+      "n_detections": 119,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 6,
+        "85%": 5,
+        "90%": 6,
+        "95%": 7
+      },
+      "n_detection_minutes": 96,
+      "confidence": {
+        "mean": 0.145,
+        "median": 0.123,
+        "max": 0.638
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.857,
+        "1/7": 0.857,
+        "1/10": 0.429,
+        "1/13": 1,
+        "1/16": 0.429,
+        "1/19": 0.143,
+        "1/22": 0.286,
+        "1/25": 0.286,
+        "1/28": 0.429,
+        "1/31": 0.286,
+        "1/34": 0.429,
+        "1/37": 0.429,
+        "1/40": 0.143,
+        "1/43": 0.143,
+        "1/46": 0.143,
+        "1/49": 0.286,
+        "1/52": 0.286,
+        "1/55": 0.143,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0.01, 0, 0, 0.01, 0, 0.042, 0.115, 0.229, 0.198, 0.115, 0.042, 0.042, 0.031, 0, 0.01, 0.021, 0.021, 0.01, 0.021, 0, 0.042, 0.01, 0.021, 0.01]
+    },
+    {
+      "common_name": "Tawny Owl",
+      "n_detections": 3355,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1759,
+      "confidence": {
+        "mean": 0.217,
+        "median": 0.148,
+        "max": 0.997
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.028, 0.011, 0.014, 0.01, 0.014, 0.007, 0.008, 0.023, 0.02, 0.019, 0.039, 0.052, 0.061, 0.07, 0.083, 0.085, 0.099, 0.06, 0.044, 0.067, 0.055, 0.035, 0.051, 0.045]
+    },
+    {
+      "common_name": "Tawny Pipit",
+      "n_detections": 3787,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2533,
+      "confidence": {
+        "mean": 0.201,
+        "median": 0.151,
+        "max": 0.987
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.001, 0.004, 0.036, 0.054, 0.059, 0.084, 0.099, 0.098, 0.086, 0.072, 0.053, 0.051, 0.049, 0.046, 0.037, 0.032, 0.03, 0.027, 0.037, 0.044, 0.005, 0]
+    },
+    {
+      "common_name": "Tree Pipit",
+      "n_detections": 116927,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 7773,
+      "confidence": {
+        "mean": 0.349,
+        "median": 0.233,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.014, 0.014, 0.015, 0.014, 0.016, 0.048, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.054, 0.053, 0.054, 0.046, 0.012, 0.014]
+    },
+    {
+      "common_name": "Water Pipit",
+      "n_detections": 162815,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 6909,
+      "confidence": {
+        "mean": 0.34,
+        "median": 0.278,
+        "max": 0.999
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.001, 0.049, 0.061, 0.061, 0.061, 0.061, 0.061, 0.061, 0.061, 0.061, 0.061, 0.06, 0.06, 0.06, 0.059, 0.058, 0.059, 0.047, 0, 0]
+    },
+    {
+      "common_name": "Western Bonelli's Warbler",
+      "n_detections": 260,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 6,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 226,
+      "confidence": {
+        "mean": 0.194,
+        "median": 0.124,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 0.857,
+        "1/19": 0.857,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 0.429,
+        "1/31": 1,
+        "1/34": 0.286,
+        "1/37": 0.857,
+        "1/40": 0.714,
+        "1/43": 0.571,
+        "1/46": 0.429,
+        "1/49": 0.286,
+        "1/52": 0.571,
+        "1/55": 0.571,
+        "1/58": 0.429
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.004, 0, 0.009, 0.022, 0.066, 0.128, 0.142, 0.128, 0.111, 0.04, 0.111, 0.035, 0.027, 0.027, 0.013, 0, 0.053, 0.031, 0.009, 0.027, 0.018, 0, 0]
+    },
+    {
+      "common_name": "Western Capercaillie",
+      "n_detections": 2299,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1168,
+      "confidence": {
+        "mean": 0.288,
+        "median": 0.211,
+        "max": 0.988
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 0.857,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0.006, 0.004, 0.008, 0.002, 0.007, 0.035, 0.068, 0.083, 0.059, 0.062, 0.071, 0.06, 0.039, 0.058, 0.036, 0.049, 0.068, 0.064, 0.064, 0.057, 0.036, 0.018, 0.037, 0.011]
+    },
+    {
+      "common_name": "Western Subalpine Warbler",
+      "n_detections": 1003,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 458,
+      "confidence": {
+        "mean": 0.226,
+        "median": 0.173,
+        "max": 0.889
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 0.857,
+        "1/28": 0.857,
+        "1/31": 0.714,
+        "1/34": 0.857,
+        "1/37": 0.857,
+        "1/40": 1,
+        "1/43": 0.714,
+        "1/46": 0.714,
+        "1/49": 0.714,
+        "1/52": 0.714,
+        "1/55": 0.571,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.009, 0.033, 0.07, 0.079, 0.052, 0.05, 0.105, 0.159, 0.061, 0.061, 0.059, 0.057, 0.035, 0.048, 0.028, 0.033, 0.031, 0.028, 0.002, 0]
+    },
+    {
+      "common_name": "Western Yellow Wagtail",
+      "n_detections": 3619,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 2186,
+      "confidence": {
+        "mean": 0.21,
+        "median": 0.161,
+        "max": 0.895
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.103, 0.093, 0.058, 0.052, 0.044, 0.048, 0.044, 0.043, 0.052, 0.043, 0.043, 0.037, 0.047, 0.063, 0.052, 0.093, 0.081, 0.002, 0]
+    },
+    {
+      "common_name": "Whinchat",
+      "n_detections": 14674,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 4023,
+      "confidence": {
+        "mean": 0.249,
+        "median": 0.149,
+        "max": 0.999
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.004, 0.035, 0.094, 0.086, 0.082, 0.088, 0.088, 0.075, 0.066, 0.049, 0.04, 0.033, 0.033, 0.027, 0.033, 0.036, 0.038, 0.035, 0.048, 0.011, 0]
+    },
+    {
+      "common_name": "White Wagtail",
+      "n_detections": 821,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 6,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 566,
+      "confidence": {
+        "mean": 0.331,
+        "median": 0.202,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 0.857,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 0.714,
+        "1/40": 0.857,
+        "1/43": 1,
+        "1/46": 0.857,
+        "1/49": 0.714,
+        "1/52": 0.714,
+        "1/55": 0.571,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.002, 0.011, 0.053, 0.044, 0.049, 0.049, 0.044, 0.049, 0.053, 0.069, 0.081, 0.069, 0.08, 0.058, 0.067, 0.067, 0.101, 0.049, 0.004, 0]
+    },
+    {
+      "common_name": "White-backed Woodpecker",
+      "n_detections": 50,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 3,
+        "85%": 3,
+        "90%": 5,
+        "95%": 6
+      },
+      "n_detection_minutes": 36,
+      "confidence": {
+        "mean": 0.176,
+        "median": 0.129,
+        "max": 0.622
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 0.714,
+        "1/7": 0.571,
+        "1/10": 0.286,
+        "1/13": 0.143,
+        "1/16": 0.286,
+        "1/19": 0.429,
+        "1/22": 0.143,
+        "1/25": 0.143,
+        "1/28": 0.143,
+        "1/31": 0.143,
+        "1/34": null,
+        "1/37": 0.143,
+        "1/40": 0.143,
+        "1/43": null,
+        "1/46": null,
+        "1/49": 0.143,
+        "1/52": null,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0.028, 0.056, 0.056, 0.139, 0.139, 0.056, 0.056, 0.056, 0.056, 0.028, 0.028, 0.083, 0.139, 0.028, 0.056, 0, 0, 0]
+    },
+    {
+      "common_name": "White-throated Dipper",
+      "n_detections": 41,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 1,
+        "80%": 1,
+        "85%": 1,
+        "90%": 3,
+        "95%": 6
+      },
+      "n_detection_minutes": 39,
+      "confidence": {
+        "mean": 0.195,
+        "median": 0.158,
+        "max": 0.43
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 0.571,
+        "1/10": 0.571,
+        "1/13": 0.143,
+        "1/16": 0.143,
+        "1/19": null,
+        "1/22": 0.286,
+        "1/25": 0.143,
+        "1/28": 0.143,
+        "1/31": 0.429,
+        "1/34": null,
+        "1/37": 0.143,
+        "1/40": null,
+        "1/43": 0.143,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": 0.143,
+        "1/55": null,
+        "1/58": null
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0.077, 0.077, 0.154, 0.103, 0.077, 0, 0.026, 0, 0.026, 0, 0.026, 0.026, 0.026, 0.103, 0.077, 0.103, 0.103, 0, 0]
+    },
+    {
+      "common_name": "White-winged Snowfinch",
+      "n_detections": 1044,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 393,
+      "confidence": {
+        "mean": 0.48,
+        "median": 0.413,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 0.714,
+        "1/34": 0.857,
+        "1/37": 1,
+        "1/40": 0.857,
+        "1/43": 0.857,
+        "1/46": 0.286,
+        "1/49": 0.857,
+        "1/52": 0.857,
+        "1/55": 0.571,
+        "1/58": 0.857
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.003, 0.003, 0.326, 0.076, 0.036, 0.13, 0.079, 0.079, 0.066, 0.033, 0.038, 0.031, 0.025, 0.01, 0.008, 0.018, 0.018, 0.015, 0.008, 0, 0]
+    },
+    {
+      "common_name": "Willow Tit",
+      "n_detections": 3286,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 1129,
+      "confidence": {
+        "mean": 0.392,
+        "median": 0.287,
+        "max": 0.998
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 0.857,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.001, 0.066, 0.035, 0.061, 0.075, 0.086, 0.108, 0.075, 0.11, 0.09, 0.08, 0.062, 0.05, 0.035, 0.035, 0.023, 0.005, 0.002, 0, 0]
+    },
+    {
+      "common_name": "Willow Warbler",
+      "n_detections": 230,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 4,
+        "80%": 6,
+        "85%": 7,
+        "90%": 6,
+        "95%": 7
+      },
+      "n_detection_minutes": 196,
+      "confidence": {
+        "mean": 0.179,
+        "median": 0.141,
+        "max": 0.535
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 0.857,
+        "1/16": 0.857,
+        "1/19": 0.714,
+        "1/22": 0.857,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 0.571,
+        "1/34": 0.571,
+        "1/37": 0.571,
+        "1/40": 0.429,
+        "1/43": 0.571,
+        "1/46": 0.286,
+        "1/49": 0.286,
+        "1/52": 0.571,
+        "1/55": 0.286,
+        "1/58": 0.286
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0.005, 0.031, 0.189, 0.071, 0.066, 0.112, 0.066, 0.061, 0.036, 0.061, 0.066, 0.051, 0.02, 0.036, 0.02, 0.026, 0.031, 0.02, 0.026, 0.005, 0]
+    },
+    {
+      "common_name": "Wood Lark",
+      "n_detections": 11915,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 4994,
+      "confidence": {
+        "mean": 0.215,
+        "median": 0.161,
+        "max": 0.991
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.002, 0.003, 0.015, 0.048, 0.077, 0.074, 0.067, 0.068, 0.064, 0.061, 0.059, 0.054, 0.049, 0.047, 0.052, 0.044, 0.037, 0.042, 0.037, 0.048, 0.044, 0.006, 0]
+    },
+    {
+      "common_name": "Wood Sandpiper",
+      "n_detections": 393,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 365,
+      "confidence": {
+        "mean": 0.242,
+        "median": 0.19,
+        "max": 0.876
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 0.857,
+        "1/28": 0.714,
+        "1/31": 0.857,
+        "1/34": 0.714,
+        "1/37": 0.429,
+        "1/40": 0.857,
+        "1/43": 0.857,
+        "1/46": 0.571,
+        "1/49": 0.714,
+        "1/52": 0.714,
+        "1/55": 0.571,
+        "1/58": 0.571
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0.003, 0.011, 0.038, 0.033, 0.049, 0.071, 0.058, 0.071, 0.118, 0.063, 0.068, 0.052, 0.047, 0.049, 0.038, 0.047, 0.038, 0.025, 0.06, 0.06, 0, 0]
+    },
+    {
+      "common_name": "Wood Warbler",
+      "n_detections": 15,
+      "days_detected_24h": 5,
+      "days_detected_by_schedule": {
+        "75%": 0,
+        "80%": 0,
+        "85%": 0,
+        "90%": 3,
+        "95%": 4
+      },
+      "n_detection_minutes": 14,
+      "confidence": {
+        "mean": 0.172,
+        "median": 0.135,
+        "max": 0.495
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 0.714,
+        "1/4": 0.429,
+        "1/7": null,
+        "1/10": 0.143,
+        "1/13": null,
+        "1/16": 0.286,
+        "1/19": 0.143,
+        "1/22": null,
+        "1/25": null,
+        "1/28": null,
+        "1/31": null,
+        "1/34": 0.143,
+        "1/37": null,
+        "1/40": null,
+        "1/43": null,
+        "1/46": 0.143,
+        "1/49": null,
+        "1/52": null,
+        "1/55": null,
+        "1/58": 0.143
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0, 0, 0, 0.143, 0.071, 0.286, 0, 0.143, 0.214, 0, 0.071, 0, 0, 0, 0.071, 0, 0, 0, 0, 0]
+    },
+    {
+      "common_name": "Yellow-billed Chough",
+      "n_detections": 64376,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 4146,
+      "confidence": {
+        "mean": 0.687,
+        "median": 0.825,
+        "max": 1
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 1,
+        "1/46": 1,
+        "1/49": 1,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0, 0, 0, 0.002, 0.002, 0.036, 0.097, 0.101, 0.1, 0.1, 0.096, 0.095, 0.089, 0.073, 0.068, 0.057, 0.04, 0.027, 0.011, 0.005, 0.002, 0, 0]
+    },
+    {
+      "common_name": "Yellowhammer",
+      "n_detections": 1131,
+      "days_detected_24h": 7,
+      "days_detected_by_schedule": {
+        "75%": 7,
+        "80%": 7,
+        "85%": 7,
+        "90%": 7,
+        "95%": 7
+      },
+      "n_detection_minutes": 951,
+      "confidence": {
+        "mean": 0.224,
+        "median": 0.166,
+        "max": 0.964
+      },
+      "p_day_detected_by_cycle": {
+        "1/1": 1,
+        "1/4": 1,
+        "1/7": 1,
+        "1/10": 1,
+        "1/13": 1,
+        "1/16": 1,
+        "1/19": 1,
+        "1/22": 1,
+        "1/25": 1,
+        "1/28": 1,
+        "1/31": 1,
+        "1/34": 1,
+        "1/37": 1,
+        "1/40": 1,
+        "1/43": 0.857,
+        "1/46": 0.857,
+        "1/49": 0.857,
+        "1/52": 1,
+        "1/55": 1,
+        "1/58": 1
+      },
+      "activity_share_by_hour_from_sunrise": [0, 0.001, 0, 0, 0.005, 0.108, 0.108, 0.076, 0.06, 0.08, 0.065, 0.055, 0.052, 0.084, 0.053, 0.032, 0.046, 0.032, 0.044, 0.027, 0.041, 0.032, 0, 0]
+    }
+  ],
+  "notes": "Reference preset from Serrurier et al. (JAV, in revision); same settings as in the paper.",
+  "provenance": {
+    "generated_by": "dev/SCORE_batch.R (CHAPTER C), same workflow as the app, verified against the app code path",
+    "data_files": "GON_GRE_2023.csv"
+  }
+}

@@ -3,12 +3,13 @@
 Recording schedules optimised with [SCORE](../README.md) and shared by users.
 Click a preset to see its recommended schedules, the species missed by each schedule, the study context and validation.
 
-**2 preset(s)** · last update 2026-11-11
+**3 preset(s)** · last update 2026-11-12
 
 | Preset | Country | Habitat | Timing | Start | Days | Recorders | 90 % target reached with |
 |---|---|---|---|---|---|---|---|
-| [–](pages/XX_2024-06-12_35d.md) | – | B | – | 2024-06-12 | 35 | 1 | 572 min/day (continuous) |
-| [edw](pages/CH_w_2024-05-22_8d.md) | Switzerland | E | post-breeding | 2024-05-22 | 8 | 1 | 391 min/day (continuous) |
+| [Alpine bird community, Valais (CH): early breeding season](pages/CH_Valais_2023-06-01_7d.md) | Switzerland | E, South faced Alpine grassland, above treeline | breeding, June | 2023-06-01 | 7 | 14 | 151 min/day (continuous) |
+| [Alpine bird community, Valais (CH): late breeding season](pages/CH_Valais_2023-07-01_7d.md) | Switzerland | E, South faced Alpine grassland, above treeline | breeding, July | 2023-07-01 | 7 | 14 | 181 min/day (continuous) |
+| [Alpine bird community, Valais (CH): post-breeding season](pages/CH_Valais_2023-08-25_7d.md) | Switzerland | E, South faced Alpine grassland, above treeline | post-breeding, August | 2023-08-25 | 7 | 11 | 391 min/day (continuous) |
 
 ## Share your own preset
 

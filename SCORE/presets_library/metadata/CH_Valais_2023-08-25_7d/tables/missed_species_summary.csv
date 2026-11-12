@@ -1,0 +1,2101 @@
+species_missed,period,N
+Alpine Accentor,1,0
+Alpine Accentor,4,17
+Alpine Accentor,7,22
+Alpine Accentor,10,66
+Alpine Accentor,13,78
+Alpine Accentor,16,17
+Alpine Accentor,19,17
+Alpine Accentor,22,66
+Alpine Accentor,25,78
+Alpine Accentor,28,66
+Alpine Accentor,31,58
+Alpine Accentor,34,66
+Alpine Accentor,37,200
+Alpine Accentor,40,200
+Alpine Accentor,43,66
+Alpine Accentor,46,200
+Alpine Accentor,49,22
+Alpine Accentor,52,78
+Alpine Accentor,55,200
+Alpine Accentor,58,200
+Alpine Swift,1,0
+Alpine Swift,4,0
+Alpine Swift,7,0
+Alpine Swift,10,0
+Alpine Swift,13,0
+Alpine Swift,16,0
+Alpine Swift,19,0
+Alpine Swift,22,0
+Alpine Swift,25,3
+Alpine Swift,28,0
+Alpine Swift,31,0
+Alpine Swift,34,0
+Alpine Swift,37,5
+Alpine Swift,40,5
+Alpine Swift,43,3
+Alpine Swift,46,0
+Alpine Swift,49,0
+Alpine Swift,52,1
+Alpine Swift,55,3
+Alpine Swift,58,5
+Bank Swallow,1,0
+Bank Swallow,4,0
+Bank Swallow,7,0
+Bank Swallow,10,0
+Bank Swallow,13,4
+Bank Swallow,16,1
+Bank Swallow,19,4
+Bank Swallow,22,4
+Bank Swallow,25,1
+Bank Swallow,28,0
+Bank Swallow,31,1
+Bank Swallow,34,1
+Bank Swallow,37,6
+Bank Swallow,40,1
+Bank Swallow,43,20
+Bank Swallow,46,20
+Bank Swallow,49,4
+Bank Swallow,52,4
+Bank Swallow,55,15
+Bank Swallow,58,27
+Barn Swallow,1,0
+Barn Swallow,4,0
+Barn Swallow,7,199
+Barn Swallow,10,199
+Barn Swallow,13,17
+Barn Swallow,16,199
+Barn Swallow,19,199
+Barn Swallow,22,57
+Barn Swallow,25,199
+Barn Swallow,28,199
+Barn Swallow,31,199
+Barn Swallow,34,57
+Barn Swallow,37,199
+Barn Swallow,40,199
+Barn Swallow,43,199
+Barn Swallow,46,199
+Barn Swallow,49,199
+Barn Swallow,52,68
+Barn Swallow,55,74
+Barn Swallow,58,199
+Black Grouse,1,0
+Black Grouse,4,18
+Black Grouse,7,4
+Black Grouse,10,5
+Black Grouse,13,5
+Black Grouse,16,18
+Black Grouse,19,18
+Black Grouse,22,18
+Black Grouse,25,3
+Black Grouse,28,18
+Black Grouse,31,18
+Black Grouse,34,0
+Black Grouse,37,69
+Black Grouse,40,18
+Black Grouse,43,18
+Black Grouse,46,15
+Black Grouse,49,18
+Black Grouse,52,18
+Black Grouse,55,18
+Black Grouse,58,69
+Black Kite,1,0
+Black Kite,4,3
+Black Kite,7,17
+Black Kite,10,19
+Black Kite,13,19
+Black Kite,16,19
+Black Kite,19,74
+Black Kite,22,74
+Black Kite,25,57
+Black Kite,28,199
+Black Kite,31,74
+Black Kite,34,74
+Black Kite,37,19
+Black Kite,40,57
+Black Kite,43,74
+Black Kite,46,74
+Black Kite,49,199
+Black Kite,52,19
+Black Kite,55,199
+Black Kite,58,199
+Black Redstart,1,0
+Black Redstart,4,0
+Black Redstart,7,0
+Black Redstart,10,0
+Black Redstart,13,0
+Black Redstart,16,0
+Black Redstart,19,0
+Black Redstart,22,1
+Black Redstart,25,0
+Black Redstart,28,1
+Black Redstart,31,5
+Black Redstart,34,6
+Black Redstart,37,6
+Black Redstart,40,6
+Black Redstart,43,1
+Black Redstart,46,18
+Black Redstart,49,1
+Black Redstart,52,0
+Black Redstart,55,1
+Black Redstart,58,75
+Black Woodpecker,1,0
+Black Woodpecker,4,0
+Black Woodpecker,7,0
+Black Woodpecker,10,0
+Black Woodpecker,13,0
+Black Woodpecker,16,0
+Black Woodpecker,19,0
+Black Woodpecker,22,0
+Black Woodpecker,25,0
+Black Woodpecker,28,0
+Black Woodpecker,31,0
+Black Woodpecker,34,0
+Black Woodpecker,37,0
+Black Woodpecker,40,0
+Black Woodpecker,43,0
+Black Woodpecker,46,0
+Black Woodpecker,49,1
+Black Woodpecker,52,0
+Black Woodpecker,55,0
+Black Woodpecker,58,0
+Bluethroat,1,0
+Bluethroat,4,1
+Bluethroat,7,1
+Bluethroat,10,1
+Bluethroat,13,6
+Bluethroat,16,75
+Bluethroat,19,1
+Bluethroat,22,27
+Bluethroat,25,78
+Bluethroat,28,78
+Bluethroat,31,58
+Bluethroat,34,27
+Bluethroat,37,78
+Bluethroat,40,27
+Bluethroat,43,20
+Bluethroat,46,75
+Bluethroat,49,75
+Bluethroat,52,27
+Bluethroat,55,27
+Bluethroat,58,75
+Carrion Crow,1,0
+Carrion Crow,4,0
+Carrion Crow,7,0
+Carrion Crow,10,0
+Carrion Crow,13,0
+Carrion Crow,16,0
+Carrion Crow,19,0
+Carrion Crow,22,1
+Carrion Crow,25,4
+Carrion Crow,28,0
+Carrion Crow,31,0
+Carrion Crow,34,4
+Carrion Crow,37,1
+Carrion Crow,40,1
+Carrion Crow,43,0
+Carrion Crow,46,17
+Carrion Crow,49,58
+Carrion Crow,52,1
+Carrion Crow,55,24
+Carrion Crow,58,58
+Common Buzzard,1,0
+Common Buzzard,4,0
+Common Buzzard,7,0
+Common Buzzard,10,0
+Common Buzzard,13,0
+Common Buzzard,16,0
+Common Buzzard,19,0
+Common Buzzard,22,24
+Common Buzzard,25,1
+Common Buzzard,28,1
+Common Buzzard,31,1
+Common Buzzard,34,0
+Common Buzzard,37,0
+Common Buzzard,40,1
+Common Buzzard,43,4
+Common Buzzard,46,5
+Common Buzzard,49,20
+Common Buzzard,52,0
+Common Buzzard,55,20
+Common Buzzard,58,0
+Common Chaffinch,1,0
+Common Chaffinch,4,0
+Common Chaffinch,7,0
+Common Chaffinch,10,0
+Common Chaffinch,13,0
+Common Chaffinch,16,0
+Common Chaffinch,19,1
+Common Chaffinch,22,0
+Common Chaffinch,25,22
+Common Chaffinch,28,64
+Common Chaffinch,31,5
+Common Chaffinch,34,19
+Common Chaffinch,37,4
+Common Chaffinch,40,4
+Common Chaffinch,43,0
+Common Chaffinch,46,69
+Common Chaffinch,49,64
+Common Chaffinch,52,75
+Common Chaffinch,55,2
+Common Chaffinch,58,200
+Common Chiffchaff,1,0
+Common Chiffchaff,4,0
+Common Chiffchaff,7,0
+Common Chiffchaff,10,0
+Common Chiffchaff,13,0
+Common Chiffchaff,16,4
+Common Chiffchaff,19,18
+Common Chiffchaff,22,18
+Common Chiffchaff,25,5
+Common Chiffchaff,28,6
+Common Chiffchaff,31,27
+Common Chiffchaff,34,200
+Common Chiffchaff,37,27
+Common Chiffchaff,40,20
+Common Chiffchaff,43,4
+Common Chiffchaff,46,15
+Common Chiffchaff,49,18
+Common Chiffchaff,52,69
+Common Chiffchaff,55,27
+Common Chiffchaff,58,27
+Common Cuckoo,1,0
+Common Cuckoo,4,0
+Common Cuckoo,7,5
+Common Cuckoo,10,58
+Common Cuckoo,13,6
+Common Cuckoo,16,14
+Common Cuckoo,19,18
+Common Cuckoo,22,66
+Common Cuckoo,25,200
+Common Cuckoo,28,78
+Common Cuckoo,31,15
+Common Cuckoo,34,64
+Common Cuckoo,37,200
+Common Cuckoo,40,200
+Common Cuckoo,43,200
+Common Cuckoo,46,17
+Common Cuckoo,49,58
+Common Cuckoo,52,27
+Common Cuckoo,55,200
+Common Cuckoo,58,75
+Common Greenshank,1,0
+Common Greenshank,4,0
+Common Greenshank,7,0
+Common Greenshank,10,0
+Common Greenshank,13,0
+Common Greenshank,16,0
+Common Greenshank,19,1
+Common Greenshank,22,0
+Common Greenshank,25,0
+Common Greenshank,28,1
+Common Greenshank,31,5
+Common Greenshank,34,0
+Common Greenshank,37,0
+Common Greenshank,40,1
+Common Greenshank,43,13
+Common Greenshank,46,200
+Common Greenshank,49,27
+Common Greenshank,52,4
+Common Greenshank,55,6
+Common Greenshank,58,23
+Common House-Martin,1,0
+Common House-Martin,4,0
+Common House-Martin,7,1
+Common House-Martin,10,1
+Common House-Martin,13,1
+Common House-Martin,16,14
+Common House-Martin,19,4
+Common House-Martin,22,5
+Common House-Martin,25,23
+Common House-Martin,28,78
+Common House-Martin,31,23
+Common House-Martin,34,3
+Common House-Martin,37,64
+Common House-Martin,40,75
+Common House-Martin,43,200
+Common House-Martin,46,75
+Common House-Martin,49,75
+Common House-Martin,52,200
+Common House-Martin,55,58
+Common House-Martin,58,75
+Common Nightingale,1,0
+Common Nightingale,4,0
+Common Nightingale,7,125
+Common Nightingale,10,125
+Common Nightingale,13,125
+Common Nightingale,16,125
+Common Nightingale,19,125
+Common Nightingale,22,125
+Common Nightingale,25,125
+Common Nightingale,28,125
+Common Nightingale,31,125
+Common Nightingale,34,125
+Common Nightingale,37,0
+Common Nightingale,40,125
+Common Nightingale,43,125
+Common Nightingale,46,125
+Common Nightingale,49,125
+Common Nightingale,52,125
+Common Nightingale,55,125
+Common Nightingale,58,125
+Common Quail,1,0
+Common Quail,4,0
+Common Quail,7,0
+Common Quail,10,0
+Common Quail,13,0
+Common Quail,16,0
+Common Quail,19,0
+Common Quail,22,0
+Common Quail,25,0
+Common Quail,28,0
+Common Quail,31,0
+Common Quail,34,0
+Common Quail,37,0
+Common Quail,40,0
+Common Quail,43,0
+Common Quail,46,0
+Common Quail,49,0
+Common Quail,52,24
+Common Quail,55,0
+Common Quail,58,0
+Common Raven,1,0
+Common Raven,4,0
+Common Raven,7,0
+Common Raven,10,0
+Common Raven,13,0
+Common Raven,16,0
+Common Raven,19,0
+Common Raven,22,4
+Common Raven,25,1
+Common Raven,28,4
+Common Raven,31,14
+Common Raven,34,4
+Common Raven,37,4
+Common Raven,40,58
+Common Raven,43,200
+Common Raven,46,69
+Common Raven,49,3
+Common Raven,52,200
+Common Raven,55,3
+Common Raven,58,69
+Common Redshank,1,0
+Common Redshank,4,0
+Common Redshank,7,0
+Common Redshank,10,0
+Common Redshank,13,0
+Common Redshank,16,0
+Common Redshank,19,0
+Common Redshank,22,1
+Common Redshank,25,0
+Common Redshank,28,0
+Common Redshank,31,0
+Common Redshank,34,2
+Common Redshank,37,0
+Common Redshank,40,0
+Common Redshank,43,0
+Common Redshank,46,5
+Common Redshank,49,6
+Common Redshank,52,0
+Common Redshank,55,18
+Common Redshank,58,0
+Common Sandpiper,1,0
+Common Sandpiper,4,0
+Common Sandpiper,7,1
+Common Sandpiper,10,1
+Common Sandpiper,13,4
+Common Sandpiper,16,18
+Common Sandpiper,19,5
+Common Sandpiper,22,18
+Common Sandpiper,25,200
+Common Sandpiper,28,200
+Common Sandpiper,31,6
+Common Sandpiper,34,75
+Common Sandpiper,37,14
+Common Sandpiper,40,18
+Common Sandpiper,43,200
+Common Sandpiper,46,27
+Common Sandpiper,49,75
+Common Sandpiper,52,69
+Common Sandpiper,55,6
+Common Sandpiper,58,200
+Common Swift,1,0
+Common Swift,4,0
+Common Swift,7,23
+Common Swift,10,3
+Common Swift,13,68
+Common Swift,16,23
+Common Swift,19,77
+Common Swift,22,23
+Common Swift,25,14
+Common Swift,28,68
+Common Swift,31,57
+Common Swift,34,77
+Common Swift,37,77
+Common Swift,40,199
+Common Swift,43,199
+Common Swift,46,74
+Common Swift,49,199
+Common Swift,52,68
+Common Swift,55,199
+Common Swift,58,23
+Common Wood-Pigeon,1,0
+Common Wood-Pigeon,4,0
+Common Wood-Pigeon,7,0
+Common Wood-Pigeon,10,0
+Common Wood-Pigeon,13,0
+Common Wood-Pigeon,16,0
+Common Wood-Pigeon,19,0
+Common Wood-Pigeon,22,0
+Common Wood-Pigeon,25,0
+Common Wood-Pigeon,28,0
+Common Wood-Pigeon,31,0
+Common Wood-Pigeon,34,1
+Common Wood-Pigeon,37,0
+Common Wood-Pigeon,40,0
+Common Wood-Pigeon,43,0
+Common Wood-Pigeon,46,0
+Common Wood-Pigeon,49,0
+Common Wood-Pigeon,52,0
+Common Wood-Pigeon,55,1
+Common Wood-Pigeon,58,0
+Crested Tit,1,0
+Crested Tit,4,182
+Crested Tit,7,40
+Crested Tit,10,182
+Crested Tit,13,182
+Crested Tit,16,182
+Crested Tit,19,182
+Crested Tit,22,40
+Crested Tit,25,182
+Crested Tit,28,182
+Crested Tit,31,182
+Crested Tit,34,40
+Crested Tit,37,182
+Crested Tit,40,182
+Crested Tit,43,182
+Crested Tit,46,182
+Crested Tit,49,182
+Crested Tit,52,182
+Crested Tit,55,182
+Crested Tit,58,182
+Dunnock,1,0
+Dunnock,4,4
+Dunnock,7,3
+Dunnock,10,15
+Dunnock,13,200
+Dunnock,16,4
+Dunnock,19,69
+Dunnock,22,200
+Dunnock,25,200
+Dunnock,28,69
+Dunnock,31,200
+Dunnock,34,69
+Dunnock,37,200
+Dunnock,40,58
+Dunnock,43,58
+Dunnock,46,200
+Dunnock,49,200
+Dunnock,52,200
+Dunnock,55,200
+Dunnock,58,58
+Eurasian Blackbird,1,0
+Eurasian Blackbird,4,0
+Eurasian Blackbird,7,0
+Eurasian Blackbird,10,0
+Eurasian Blackbird,13,0
+Eurasian Blackbird,16,0
+Eurasian Blackbird,19,0
+Eurasian Blackbird,22,0
+Eurasian Blackbird,25,0
+Eurasian Blackbird,28,0
+Eurasian Blackbird,31,0
+Eurasian Blackbird,34,0
+Eurasian Blackbird,37,0
+Eurasian Blackbird,40,0
+Eurasian Blackbird,43,0
+Eurasian Blackbird,46,0
+Eurasian Blackbird,49,0
+Eurasian Blackbird,52,0
+Eurasian Blackbird,55,0
+Eurasian Blackbird,58,1
+Eurasian Blue Tit,1,0
+Eurasian Blue Tit,4,142
+Eurasian Blue Tit,7,142
+Eurasian Blue Tit,10,142
+Eurasian Blue Tit,13,142
+Eurasian Blue Tit,16,142
+Eurasian Blue Tit,19,142
+Eurasian Blue Tit,22,142
+Eurasian Blue Tit,25,142
+Eurasian Blue Tit,28,142
+Eurasian Blue Tit,31,142
+Eurasian Blue Tit,34,142
+Eurasian Blue Tit,37,142
+Eurasian Blue Tit,40,142
+Eurasian Blue Tit,43,142
+Eurasian Blue Tit,46,142
+Eurasian Blue Tit,49,142
+Eurasian Blue Tit,52,142
+Eurasian Blue Tit,55,142
+Eurasian Blue Tit,58,142
+Eurasian Collared-Dove,1,0
+Eurasian Collared-Dove,4,0
+Eurasian Collared-Dove,7,0
+Eurasian Collared-Dove,10,0
+Eurasian Collared-Dove,13,0
+Eurasian Collared-Dove,16,1
+Eurasian Collared-Dove,19,1
+Eurasian Collared-Dove,22,0
+Eurasian Collared-Dove,25,1
+Eurasian Collared-Dove,28,3
+Eurasian Collared-Dove,31,5
+Eurasian Collared-Dove,34,0
+Eurasian Collared-Dove,37,0
+Eurasian Collared-Dove,40,0
+Eurasian Collared-Dove,43,1
+Eurasian Collared-Dove,46,0
+Eurasian Collared-Dove,49,58
+Eurasian Collared-Dove,52,4
+Eurasian Collared-Dove,55,1
+Eurasian Collared-Dove,58,15
+Eurasian Crag-Martin,1,0
+Eurasian Crag-Martin,4,63
+Eurasian Crag-Martin,7,199
+Eurasian Crag-Martin,10,199
+Eurasian Crag-Martin,13,199
+Eurasian Crag-Martin,16,199
+Eurasian Crag-Martin,19,199
+Eurasian Crag-Martin,22,199
+Eurasian Crag-Martin,25,199
+Eurasian Crag-Martin,28,199
+Eurasian Crag-Martin,31,199
+Eurasian Crag-Martin,34,199
+Eurasian Crag-Martin,37,199
+Eurasian Crag-Martin,40,199
+Eurasian Crag-Martin,43,199
+Eurasian Crag-Martin,46,199
+Eurasian Crag-Martin,49,199
+Eurasian Crag-Martin,52,199
+Eurasian Crag-Martin,55,199
+Eurasian Crag-Martin,58,199
+Eurasian Green Woodpecker,1,0
+Eurasian Green Woodpecker,4,0
+Eurasian Green Woodpecker,7,0
+Eurasian Green Woodpecker,10,0
+Eurasian Green Woodpecker,13,0
+Eurasian Green Woodpecker,16,0
+Eurasian Green Woodpecker,19,0
+Eurasian Green Woodpecker,22,0
+Eurasian Green Woodpecker,25,0
+Eurasian Green Woodpecker,28,64
+Eurasian Green Woodpecker,31,1
+Eurasian Green Woodpecker,34,0
+Eurasian Green Woodpecker,37,2
+Eurasian Green Woodpecker,40,1
+Eurasian Green Woodpecker,43,6
+Eurasian Green Woodpecker,46,58
+Eurasian Green Woodpecker,49,23
+Eurasian Green Woodpecker,52,2
+Eurasian Green Woodpecker,55,4
+Eurasian Green Woodpecker,58,75
+Eurasian Hobby,1,0
+Eurasian Hobby,4,14
+Eurasian Hobby,7,12
+Eurasian Hobby,10,14
+Eurasian Hobby,13,12
+Eurasian Hobby,16,69
+Eurasian Hobby,19,72
+Eurasian Hobby,22,14
+Eurasian Hobby,25,52
+Eurasian Hobby,28,52
+Eurasian Hobby,31,194
+Eurasian Hobby,34,194
+Eurasian Hobby,37,194
+Eurasian Hobby,40,69
+Eurasian Hobby,43,194
+Eurasian Hobby,46,194
+Eurasian Hobby,49,194
+Eurasian Hobby,52,52
+Eurasian Hobby,55,194
+Eurasian Hobby,58,194
+Eurasian Hoopoe,1,0
+Eurasian Hoopoe,4,0
+Eurasian Hoopoe,7,0
+Eurasian Hoopoe,10,27
+Eurasian Hoopoe,13,4
+Eurasian Hoopoe,16,1
+Eurasian Hoopoe,19,0
+Eurasian Hoopoe,22,58
+Eurasian Hoopoe,25,200
+Eurasian Hoopoe,28,14
+Eurasian Hoopoe,31,23
+Eurasian Hoopoe,34,19
+Eurasian Hoopoe,37,75
+Eurasian Hoopoe,40,78
+Eurasian Hoopoe,43,66
+Eurasian Hoopoe,46,6
+Eurasian Hoopoe,49,18
+Eurasian Hoopoe,52,19
+Eurasian Hoopoe,55,64
+Eurasian Hoopoe,58,66
+Eurasian Jackdaw,1,0
+Eurasian Jackdaw,4,0
+Eurasian Jackdaw,7,0
+Eurasian Jackdaw,10,0
+Eurasian Jackdaw,13,0
+Eurasian Jackdaw,16,0
+Eurasian Jackdaw,19,1
+Eurasian Jackdaw,22,1
+Eurasian Jackdaw,25,4
+Eurasian Jackdaw,28,0
+Eurasian Jackdaw,31,0
+Eurasian Jackdaw,34,0
+Eurasian Jackdaw,37,0
+Eurasian Jackdaw,40,20
+Eurasian Jackdaw,43,3
+Eurasian Jackdaw,46,20
+Eurasian Jackdaw,49,14
+Eurasian Jackdaw,52,2
+Eurasian Jackdaw,55,1
+Eurasian Jackdaw,58,5
+Eurasian Jay,1,0
+Eurasian Jay,4,5
+Eurasian Jay,7,14
+Eurasian Jay,10,58
+Eurasian Jay,13,75
+Eurasian Jay,16,58
+Eurasian Jay,19,200
+Eurasian Jay,22,64
+Eurasian Jay,25,200
+Eurasian Jay,28,200
+Eurasian Jay,31,64
+Eurasian Jay,34,200
+Eurasian Jay,37,200
+Eurasian Jay,40,200
+Eurasian Jay,43,58
+Eurasian Jay,46,200
+Eurasian Jay,49,58
+Eurasian Jay,52,200
+Eurasian Jay,55,200
+Eurasian Jay,58,200
+Eurasian Kestrel,1,0
+Eurasian Kestrel,4,1
+Eurasian Kestrel,7,1
+Eurasian Kestrel,10,1
+Eurasian Kestrel,13,0
+Eurasian Kestrel,16,1
+Eurasian Kestrel,19,1
+Eurasian Kestrel,22,6
+Eurasian Kestrel,25,4
+Eurasian Kestrel,28,1
+Eurasian Kestrel,31,6
+Eurasian Kestrel,34,5
+Eurasian Kestrel,37,1
+Eurasian Kestrel,40,20
+Eurasian Kestrel,43,69
+Eurasian Kestrel,46,6
+Eurasian Kestrel,49,58
+Eurasian Kestrel,52,18
+Eurasian Kestrel,55,58
+Eurasian Kestrel,58,75
+Eurasian Magpie,1,0
+Eurasian Magpie,4,0
+Eurasian Magpie,7,1
+Eurasian Magpie,10,15
+Eurasian Magpie,13,4
+Eurasian Magpie,16,12
+Eurasian Magpie,19,69
+Eurasian Magpie,22,64
+Eurasian Magpie,25,15
+Eurasian Magpie,28,64
+Eurasian Magpie,31,75
+Eurasian Magpie,34,58
+Eurasian Magpie,37,200
+Eurasian Magpie,40,200
+Eurasian Magpie,43,69
+Eurasian Magpie,46,200
+Eurasian Magpie,49,200
+Eurasian Magpie,52,69
+Eurasian Magpie,55,200
+Eurasian Magpie,58,200
+Eurasian Nightjar,1,0
+Eurasian Nightjar,4,0
+Eurasian Nightjar,7,0
+Eurasian Nightjar,10,0
+Eurasian Nightjar,13,0
+Eurasian Nightjar,16,0
+Eurasian Nightjar,19,0
+Eurasian Nightjar,22,0
+Eurasian Nightjar,25,0
+Eurasian Nightjar,28,0
+Eurasian Nightjar,31,0
+Eurasian Nightjar,34,0
+Eurasian Nightjar,37,0
+Eurasian Nightjar,40,0
+Eurasian Nightjar,43,0
+Eurasian Nightjar,46,0
+Eurasian Nightjar,49,0
+Eurasian Nightjar,52,1
+Eurasian Nightjar,55,3
+Eurasian Nightjar,58,0
+Eurasian Nutcracker,1,0
+Eurasian Nutcracker,4,0
+Eurasian Nutcracker,7,0
+Eurasian Nutcracker,10,0
+Eurasian Nutcracker,13,0
+Eurasian Nutcracker,16,1
+Eurasian Nutcracker,19,18
+Eurasian Nutcracker,22,0
+Eurasian Nutcracker,25,1
+Eurasian Nutcracker,28,0
+Eurasian Nutcracker,31,0
+Eurasian Nutcracker,34,1
+Eurasian Nutcracker,37,6
+Eurasian Nutcracker,40,6
+Eurasian Nutcracker,43,0
+Eurasian Nutcracker,46,18
+Eurasian Nutcracker,49,20
+Eurasian Nutcracker,52,1
+Eurasian Nutcracker,55,5
+Eurasian Nutcracker,58,18
+Eurasian Nuthatch,1,0
+Eurasian Nuthatch,4,199
+Eurasian Nuthatch,7,199
+Eurasian Nuthatch,10,74
+Eurasian Nuthatch,13,57
+Eurasian Nuthatch,16,199
+Eurasian Nuthatch,19,199
+Eurasian Nuthatch,22,74
+Eurasian Nuthatch,25,74
+Eurasian Nuthatch,28,199
+Eurasian Nuthatch,31,199
+Eurasian Nuthatch,34,199
+Eurasian Nuthatch,37,199
+Eurasian Nuthatch,40,199
+Eurasian Nuthatch,43,199
+Eurasian Nuthatch,46,199
+Eurasian Nuthatch,49,199
+Eurasian Nuthatch,52,199
+Eurasian Nuthatch,55,74
+Eurasian Nuthatch,58,199
+Eurasian Pygmy-Owl,1,0
+Eurasian Pygmy-Owl,4,0
+Eurasian Pygmy-Owl,7,0
+Eurasian Pygmy-Owl,10,0
+Eurasian Pygmy-Owl,13,0
+Eurasian Pygmy-Owl,16,0
+Eurasian Pygmy-Owl,19,1
+Eurasian Pygmy-Owl,22,18
+Eurasian Pygmy-Owl,25,0
+Eurasian Pygmy-Owl,28,0
+Eurasian Pygmy-Owl,31,0
+Eurasian Pygmy-Owl,34,0
+Eurasian Pygmy-Owl,37,64
+Eurasian Pygmy-Owl,40,19
+Eurasian Pygmy-Owl,43,19
+Eurasian Pygmy-Owl,46,64
+Eurasian Pygmy-Owl,49,17
+Eurasian Pygmy-Owl,52,66
+Eurasian Pygmy-Owl,55,12
+Eurasian Pygmy-Owl,58,3
+Eurasian Siskin,1,0
+Eurasian Siskin,4,2
+Eurasian Siskin,7,12
+Eurasian Siskin,10,12
+Eurasian Siskin,13,200
+Eurasian Siskin,16,23
+Eurasian Siskin,19,58
+Eurasian Siskin,22,12
+Eurasian Siskin,25,58
+Eurasian Siskin,28,64
+Eurasian Siskin,31,64
+Eurasian Siskin,34,64
+Eurasian Siskin,37,200
+Eurasian Siskin,40,64
+Eurasian Siskin,43,200
+Eurasian Siskin,46,200
+Eurasian Siskin,49,200
+Eurasian Siskin,52,200
+Eurasian Siskin,55,12
+Eurasian Siskin,58,200
+Eurasian Skylark,1,0
+Eurasian Skylark,4,0
+Eurasian Skylark,7,0
+Eurasian Skylark,10,0
+Eurasian Skylark,13,0
+Eurasian Skylark,16,0
+Eurasian Skylark,19,0
+Eurasian Skylark,22,0
+Eurasian Skylark,25,0
+Eurasian Skylark,28,0
+Eurasian Skylark,31,1
+Eurasian Skylark,34,0
+Eurasian Skylark,37,0
+Eurasian Skylark,40,0
+Eurasian Skylark,43,0
+Eurasian Skylark,46,0
+Eurasian Skylark,49,1
+Eurasian Skylark,52,0
+Eurasian Skylark,55,1
+Eurasian Skylark,58,0
+Eurasian Sparrowhawk,1,0
+Eurasian Sparrowhawk,4,185
+Eurasian Sparrowhawk,7,185
+Eurasian Sparrowhawk,10,185
+Eurasian Sparrowhawk,13,185
+Eurasian Sparrowhawk,16,185
+Eurasian Sparrowhawk,19,185
+Eurasian Sparrowhawk,22,185
+Eurasian Sparrowhawk,25,185
+Eurasian Sparrowhawk,28,185
+Eurasian Sparrowhawk,31,185
+Eurasian Sparrowhawk,34,185
+Eurasian Sparrowhawk,37,185
+Eurasian Sparrowhawk,40,185
+Eurasian Sparrowhawk,43,185
+Eurasian Sparrowhawk,46,185
+Eurasian Sparrowhawk,49,185
+Eurasian Sparrowhawk,52,185
+Eurasian Sparrowhawk,55,185
+Eurasian Sparrowhawk,58,185
+Eurasian Three-toed Woodpecker,1,0
+Eurasian Three-toed Woodpecker,4,0
+Eurasian Three-toed Woodpecker,7,0
+Eurasian Three-toed Woodpecker,10,47
+Eurasian Three-toed Woodpecker,13,181
+Eurasian Three-toed Woodpecker,16,181
+Eurasian Three-toed Woodpecker,19,0
+Eurasian Three-toed Woodpecker,22,181
+Eurasian Three-toed Woodpecker,25,47
+Eurasian Three-toed Woodpecker,28,47
+Eurasian Three-toed Woodpecker,31,181
+Eurasian Three-toed Woodpecker,34,181
+Eurasian Three-toed Woodpecker,37,45
+Eurasian Three-toed Woodpecker,40,181
+Eurasian Three-toed Woodpecker,43,47
+Eurasian Three-toed Woodpecker,46,181
+Eurasian Three-toed Woodpecker,49,181
+Eurasian Three-toed Woodpecker,52,181
+Eurasian Three-toed Woodpecker,55,181
+Eurasian Three-toed Woodpecker,58,181
+Eurasian Tree Sparrow,1,0
+Eurasian Tree Sparrow,4,6
+Eurasian Tree Sparrow,7,18
+Eurasian Tree Sparrow,10,200
+Eurasian Tree Sparrow,13,200
+Eurasian Tree Sparrow,16,75
+Eurasian Tree Sparrow,19,200
+Eurasian Tree Sparrow,22,200
+Eurasian Tree Sparrow,25,200
+Eurasian Tree Sparrow,28,200
+Eurasian Tree Sparrow,31,75
+Eurasian Tree Sparrow,34,200
+Eurasian Tree Sparrow,37,200
+Eurasian Tree Sparrow,40,200
+Eurasian Tree Sparrow,43,200
+Eurasian Tree Sparrow,46,200
+Eurasian Tree Sparrow,49,69
+Eurasian Tree Sparrow,52,200
+Eurasian Tree Sparrow,55,200
+Eurasian Tree Sparrow,58,200
+Eurasian Wren,1,0
+Eurasian Wren,4,0
+Eurasian Wren,7,3
+Eurasian Wren,10,3
+Eurasian Wren,13,19
+Eurasian Wren,16,199
+Eurasian Wren,19,3
+Eurasian Wren,22,74
+Eurasian Wren,25,19
+Eurasian Wren,28,19
+Eurasian Wren,31,57
+Eurasian Wren,34,74
+Eurasian Wren,37,57
+Eurasian Wren,40,57
+Eurasian Wren,43,19
+Eurasian Wren,46,74
+Eurasian Wren,49,19
+Eurasian Wren,52,57
+Eurasian Wren,55,57
+Eurasian Wren,58,57
+Eurasian Wryneck,1,0
+Eurasian Wryneck,4,180
+Eurasian Wryneck,7,180
+Eurasian Wryneck,10,180
+Eurasian Wryneck,13,55
+Eurasian Wryneck,16,180
+Eurasian Wryneck,19,180
+Eurasian Wryneck,22,55
+Eurasian Wryneck,25,180
+Eurasian Wryneck,28,180
+Eurasian Wryneck,31,180
+Eurasian Wryneck,34,180
+Eurasian Wryneck,37,180
+Eurasian Wryneck,40,180
+Eurasian Wryneck,43,180
+Eurasian Wryneck,46,55
+Eurasian Wryneck,49,180
+Eurasian Wryneck,52,180
+Eurasian Wryneck,55,180
+Eurasian Wryneck,58,180
+European Bee-eater,1,0
+European Bee-eater,4,0
+European Bee-eater,7,1
+European Bee-eater,10,1
+European Bee-eater,13,1
+European Bee-eater,16,5
+European Bee-eater,19,5
+European Bee-eater,22,20
+European Bee-eater,25,5
+European Bee-eater,28,18
+European Bee-eater,31,69
+European Bee-eater,34,200
+European Bee-eater,37,19
+European Bee-eater,40,200
+European Bee-eater,43,18
+European Bee-eater,46,69
+European Bee-eater,49,24
+European Bee-eater,52,58
+European Bee-eater,55,75
+European Bee-eater,58,24
+European Goldfinch,1,0
+European Goldfinch,4,14
+European Goldfinch,7,72
+European Goldfinch,10,12
+European Goldfinch,13,21
+European Goldfinch,16,52
+European Goldfinch,19,0
+European Goldfinch,22,69
+European Goldfinch,25,0
+European Goldfinch,28,194
+European Goldfinch,31,194
+European Goldfinch,34,69
+European Goldfinch,37,194
+European Goldfinch,40,52
+European Goldfinch,43,69
+European Goldfinch,46,194
+European Goldfinch,49,194
+European Goldfinch,52,194
+European Goldfinch,55,194
+European Goldfinch,58,194
+European Greenfinch,1,0
+European Greenfinch,4,0
+European Greenfinch,7,0
+European Greenfinch,10,0
+European Greenfinch,13,0
+European Greenfinch,16,0
+European Greenfinch,19,0
+European Greenfinch,22,0
+European Greenfinch,25,3
+European Greenfinch,28,69
+European Greenfinch,31,4
+European Greenfinch,34,0
+European Greenfinch,37,0
+European Greenfinch,40,0
+European Greenfinch,43,2
+European Greenfinch,46,19
+European Greenfinch,49,20
+European Greenfinch,52,20
+European Greenfinch,55,1
+European Greenfinch,58,69
+European Honey-buzzard,1,0
+European Honey-buzzard,4,0
+European Honey-buzzard,7,1
+European Honey-buzzard,10,64
+European Honey-buzzard,13,0
+European Honey-buzzard,16,64
+European Honey-buzzard,19,64
+European Honey-buzzard,22,64
+European Honey-buzzard,25,64
+European Honey-buzzard,28,15
+European Honey-buzzard,31,23
+European Honey-buzzard,34,64
+European Honey-buzzard,37,64
+European Honey-buzzard,40,64
+European Honey-buzzard,43,23
+European Honey-buzzard,46,64
+European Honey-buzzard,49,15
+European Honey-buzzard,52,64
+European Honey-buzzard,55,2
+European Honey-buzzard,58,64
+European Pied Flycatcher,1,0
+European Pied Flycatcher,4,4
+European Pied Flycatcher,7,3
+European Pied Flycatcher,10,6
+European Pied Flycatcher,13,20
+European Pied Flycatcher,16,69
+European Pied Flycatcher,19,200
+European Pied Flycatcher,22,78
+European Pied Flycatcher,25,75
+European Pied Flycatcher,28,200
+European Pied Flycatcher,31,24
+European Pied Flycatcher,34,64
+European Pied Flycatcher,37,69
+European Pied Flycatcher,40,75
+European Pied Flycatcher,43,78
+European Pied Flycatcher,46,64
+European Pied Flycatcher,49,200
+European Pied Flycatcher,52,200
+European Pied Flycatcher,55,200
+European Pied Flycatcher,58,75
+European Robin,1,0
+European Robin,4,0
+European Robin,7,0
+European Robin,10,0
+European Robin,13,0
+European Robin,16,0
+European Robin,19,0
+European Robin,22,0
+European Robin,25,0
+European Robin,28,0
+European Robin,31,0
+European Robin,34,0
+European Robin,37,0
+European Robin,40,0
+European Robin,43,1
+European Robin,46,0
+European Robin,49,1
+European Robin,52,1
+European Robin,55,0
+European Robin,58,0
+European Serin,1,0
+European Serin,4,125
+European Serin,7,125
+European Serin,10,125
+European Serin,13,125
+European Serin,16,125
+European Serin,19,125
+European Serin,22,125
+European Serin,25,125
+European Serin,28,125
+European Serin,31,125
+European Serin,34,125
+European Serin,37,125
+European Serin,40,125
+European Serin,43,125
+European Serin,46,125
+European Serin,49,125
+European Serin,52,125
+European Serin,55,125
+European Serin,58,125
+European Starling,1,0
+European Starling,4,2
+European Starling,7,14
+European Starling,10,199
+European Starling,13,199
+European Starling,16,13
+European Starling,19,68
+European Starling,22,57
+European Starling,25,199
+European Starling,28,199
+European Starling,31,199
+European Starling,34,63
+European Starling,37,68
+European Starling,40,199
+European Starling,43,199
+European Starling,46,199
+European Starling,49,199
+European Starling,52,199
+European Starling,55,199
+European Starling,58,199
+European Stonechat,1,0
+European Stonechat,4,0
+European Stonechat,7,0
+European Stonechat,10,0
+European Stonechat,13,0
+European Stonechat,16,0
+European Stonechat,19,0
+European Stonechat,22,0
+European Stonechat,25,0
+European Stonechat,28,0
+European Stonechat,31,0
+European Stonechat,34,0
+European Stonechat,37,0
+European Stonechat,40,6
+European Stonechat,43,0
+European Stonechat,46,0
+European Stonechat,49,1
+European Stonechat,52,0
+European Stonechat,55,0
+European Stonechat,58,1
+Fieldfare,1,0
+Fieldfare,4,5
+Fieldfare,7,2
+Fieldfare,10,2
+Fieldfare,13,58
+Fieldfare,16,200
+Fieldfare,19,75
+Fieldfare,22,64
+Fieldfare,25,200
+Fieldfare,28,75
+Fieldfare,31,58
+Fieldfare,34,75
+Fieldfare,37,64
+Fieldfare,40,200
+Fieldfare,43,58
+Fieldfare,46,200
+Fieldfare,49,75
+Fieldfare,52,200
+Fieldfare,55,200
+Fieldfare,58,200
+Goldcrest,1,0
+Goldcrest,4,136
+Goldcrest,7,0
+Goldcrest,10,136
+Goldcrest,13,136
+Goldcrest,16,136
+Goldcrest,19,0
+Goldcrest,22,136
+Goldcrest,25,136
+Goldcrest,28,136
+Goldcrest,31,136
+Goldcrest,34,136
+Goldcrest,37,136
+Goldcrest,40,136
+Goldcrest,43,136
+Goldcrest,46,136
+Goldcrest,49,0
+Goldcrest,52,136
+Goldcrest,55,136
+Goldcrest,58,136
+Golden Eagle,1,0
+Golden Eagle,4,14
+Golden Eagle,7,20
+Golden Eagle,10,58
+Golden Eagle,13,5
+Golden Eagle,16,58
+Golden Eagle,19,15
+Golden Eagle,22,64
+Golden Eagle,25,200
+Golden Eagle,28,58
+Golden Eagle,31,200
+Golden Eagle,34,64
+Golden Eagle,37,200
+Golden Eagle,40,58
+Golden Eagle,43,200
+Golden Eagle,46,58
+Golden Eagle,49,200
+Golden Eagle,52,58
+Golden Eagle,55,58
+Golden Eagle,58,200
+Gray Heron,1,0
+Gray Heron,4,0
+Gray Heron,7,0
+Gray Heron,10,0
+Gray Heron,13,0
+Gray Heron,16,0
+Gray Heron,19,0
+Gray Heron,22,64
+Gray Heron,25,5
+Gray Heron,28,14
+Gray Heron,31,14
+Gray Heron,34,4
+Gray Heron,37,23
+Gray Heron,40,14
+Gray Heron,43,12
+Gray Heron,46,64
+Gray Heron,49,69
+Gray Heron,52,14
+Gray Heron,55,6
+Gray Heron,58,14
+Gray Wagtail,1,0
+Gray Wagtail,4,0
+Gray Wagtail,7,1
+Gray Wagtail,10,3
+Gray Wagtail,13,58
+Gray Wagtail,16,66
+Gray Wagtail,19,58
+Gray Wagtail,22,19
+Gray Wagtail,25,58
+Gray Wagtail,28,14
+Gray Wagtail,31,58
+Gray Wagtail,34,66
+Gray Wagtail,37,69
+Gray Wagtail,40,19
+Gray Wagtail,43,58
+Gray Wagtail,46,17
+Gray Wagtail,49,58
+Gray Wagtail,52,58
+Gray Wagtail,55,19
+Gray Wagtail,58,14
+Gray-headed Woodpecker,1,0
+Gray-headed Woodpecker,4,0
+Gray-headed Woodpecker,7,0
+Gray-headed Woodpecker,10,19
+Gray-headed Woodpecker,13,3
+Gray-headed Woodpecker,16,66
+Gray-headed Woodpecker,19,200
+Gray-headed Woodpecker,22,200
+Gray-headed Woodpecker,25,58
+Gray-headed Woodpecker,28,66
+Gray-headed Woodpecker,31,200
+Gray-headed Woodpecker,34,200
+Gray-headed Woodpecker,37,58
+Gray-headed Woodpecker,40,66
+Gray-headed Woodpecker,43,75
+Gray-headed Woodpecker,46,66
+Gray-headed Woodpecker,49,64
+Gray-headed Woodpecker,52,17
+Gray-headed Woodpecker,55,200
+Gray-headed Woodpecker,58,66
+Great Spotted Woodpecker,1,0
+Great Spotted Woodpecker,4,4
+Great Spotted Woodpecker,7,14
+Great Spotted Woodpecker,10,57
+Great Spotted Woodpecker,13,57
+Great Spotted Woodpecker,16,57
+Great Spotted Woodpecker,19,57
+Great Spotted Woodpecker,22,57
+Great Spotted Woodpecker,25,57
+Great Spotted Woodpecker,28,57
+Great Spotted Woodpecker,31,68
+Great Spotted Woodpecker,34,199
+Great Spotted Woodpecker,37,68
+Great Spotted Woodpecker,40,57
+Great Spotted Woodpecker,43,57
+Great Spotted Woodpecker,46,199
+Great Spotted Woodpecker,49,199
+Great Spotted Woodpecker,52,199
+Great Spotted Woodpecker,55,199
+Great Spotted Woodpecker,58,199
+Great Tit,1,0
+Great Tit,4,0
+Great Tit,7,0
+Great Tit,10,0
+Great Tit,13,0
+Great Tit,16,0
+Great Tit,19,0
+Great Tit,22,0
+Great Tit,25,1
+Great Tit,28,4
+Great Tit,31,0
+Great Tit,34,0
+Great Tit,37,1
+Great Tit,40,4
+Great Tit,43,0
+Great Tit,46,4
+Great Tit,49,4
+Great Tit,52,1
+Great Tit,55,0
+Great Tit,58,4
+Greater Whitethroat,1,0
+Greater Whitethroat,4,5
+Greater Whitethroat,7,64
+Greater Whitethroat,10,64
+Greater Whitethroat,13,200
+Greater Whitethroat,16,200
+Greater Whitethroat,19,75
+Greater Whitethroat,22,69
+Greater Whitethroat,25,200
+Greater Whitethroat,28,64
+Greater Whitethroat,31,75
+Greater Whitethroat,34,200
+Greater Whitethroat,37,18
+Greater Whitethroat,40,200
+Greater Whitethroat,43,200
+Greater Whitethroat,46,200
+Greater Whitethroat,49,200
+Greater Whitethroat,52,200
+Greater Whitethroat,55,200
+Greater Whitethroat,58,64
+Green Sandpiper,1,0
+Green Sandpiper,4,0
+Green Sandpiper,7,6
+Green Sandpiper,10,1
+Green Sandpiper,13,1
+Green Sandpiper,16,6
+Green Sandpiper,19,6
+Green Sandpiper,22,6
+Green Sandpiper,25,5
+Green Sandpiper,28,6
+Green Sandpiper,31,23
+Green Sandpiper,34,27
+Green Sandpiper,37,4
+Green Sandpiper,40,18
+Green Sandpiper,43,69
+Green Sandpiper,46,6
+Green Sandpiper,49,75
+Green Sandpiper,52,69
+Green Sandpiper,55,78
+Green Sandpiper,58,20
+Hazel Grouse,1,0
+Hazel Grouse,4,142
+Hazel Grouse,7,142
+Hazel Grouse,10,0
+Hazel Grouse,13,142
+Hazel Grouse,16,142
+Hazel Grouse,19,142
+Hazel Grouse,22,142
+Hazel Grouse,25,142
+Hazel Grouse,28,142
+Hazel Grouse,31,142
+Hazel Grouse,34,142
+Hazel Grouse,37,142
+Hazel Grouse,40,142
+Hazel Grouse,43,0
+Hazel Grouse,46,142
+Hazel Grouse,49,142
+Hazel Grouse,52,142
+Hazel Grouse,55,142
+Hazel Grouse,58,142
+House Sparrow,1,0
+House Sparrow,4,0
+House Sparrow,7,23
+House Sparrow,10,3
+House Sparrow,13,69
+House Sparrow,16,24
+House Sparrow,19,15
+House Sparrow,22,200
+House Sparrow,25,58
+House Sparrow,28,64
+House Sparrow,31,69
+House Sparrow,34,200
+House Sparrow,37,64
+House Sparrow,40,58
+House Sparrow,43,200
+House Sparrow,46,69
+House Sparrow,49,200
+House Sparrow,52,200
+House Sparrow,55,200
+House Sparrow,58,200
+Lesser Redpoll,1,0
+Lesser Redpoll,4,0
+Lesser Redpoll,7,1
+Lesser Redpoll,10,75
+Lesser Redpoll,13,0
+Lesser Redpoll,16,0
+Lesser Redpoll,19,18
+Lesser Redpoll,22,0
+Lesser Redpoll,25,2
+Lesser Redpoll,28,14
+Lesser Redpoll,31,200
+Lesser Redpoll,34,0
+Lesser Redpoll,37,15
+Lesser Redpoll,40,75
+Lesser Redpoll,43,4
+Lesser Redpoll,46,64
+Lesser Redpoll,49,75
+Lesser Redpoll,52,17
+Lesser Redpoll,55,4
+Lesser Redpoll,58,200
+Lesser Whitethroat,1,0
+Lesser Whitethroat,4,22
+Lesser Whitethroat,7,19
+Lesser Whitethroat,10,200
+Lesser Whitethroat,13,75
+Lesser Whitethroat,16,200
+Lesser Whitethroat,19,200
+Lesser Whitethroat,22,200
+Lesser Whitethroat,25,64
+Lesser Whitethroat,28,200
+Lesser Whitethroat,31,200
+Lesser Whitethroat,34,200
+Lesser Whitethroat,37,200
+Lesser Whitethroat,40,200
+Lesser Whitethroat,43,200
+Lesser Whitethroat,46,200
+Lesser Whitethroat,49,200
+Lesser Whitethroat,52,200
+Lesser Whitethroat,55,200
+Lesser Whitethroat,58,64
+Long-eared Owl,1,0
+Long-eared Owl,4,0
+Long-eared Owl,7,0
+Long-eared Owl,10,0
+Long-eared Owl,13,0
+Long-eared Owl,16,0
+Long-eared Owl,19,0
+Long-eared Owl,22,0
+Long-eared Owl,25,0
+Long-eared Owl,28,1
+Long-eared Owl,31,0
+Long-eared Owl,34,0
+Long-eared Owl,37,0
+Long-eared Owl,40,18
+Long-eared Owl,43,5
+Long-eared Owl,46,0
+Long-eared Owl,49,0
+Long-eared Owl,52,0
+Long-eared Owl,55,1
+Long-eared Owl,58,1
+Marsh Tit,1,0
+Marsh Tit,4,14
+Marsh Tit,7,68
+Marsh Tit,10,17
+Marsh Tit,13,199
+Marsh Tit,16,199
+Marsh Tit,19,199
+Marsh Tit,22,74
+Marsh Tit,25,57
+Marsh Tit,28,199
+Marsh Tit,31,199
+Marsh Tit,34,199
+Marsh Tit,37,199
+Marsh Tit,40,199
+Marsh Tit,43,199
+Marsh Tit,46,199
+Marsh Tit,49,199
+Marsh Tit,52,199
+Marsh Tit,55,199
+Marsh Tit,58,199
+Marsh Warbler,1,0
+Marsh Warbler,4,136
+Marsh Warbler,7,136
+Marsh Warbler,10,136
+Marsh Warbler,13,136
+Marsh Warbler,16,136
+Marsh Warbler,19,136
+Marsh Warbler,22,136
+Marsh Warbler,25,136
+Marsh Warbler,28,136
+Marsh Warbler,31,136
+Marsh Warbler,34,136
+Marsh Warbler,37,136
+Marsh Warbler,40,136
+Marsh Warbler,43,136
+Marsh Warbler,46,136
+Marsh Warbler,49,136
+Marsh Warbler,52,136
+Marsh Warbler,55,136
+Marsh Warbler,58,136
+Mistle Thrush,1,0
+Mistle Thrush,4,0
+Mistle Thrush,7,0
+Mistle Thrush,10,1
+Mistle Thrush,13,5
+Mistle Thrush,16,6
+Mistle Thrush,19,1
+Mistle Thrush,22,20
+Mistle Thrush,25,20
+Mistle Thrush,28,4
+Mistle Thrush,31,20
+Mistle Thrush,34,58
+Mistle Thrush,37,58
+Mistle Thrush,40,4
+Mistle Thrush,43,4
+Mistle Thrush,46,19
+Mistle Thrush,49,20
+Mistle Thrush,52,58
+Mistle Thrush,55,20
+Mistle Thrush,58,58
+Northern Wheatear,1,0
+Northern Wheatear,4,0
+Northern Wheatear,7,0
+Northern Wheatear,10,0
+Northern Wheatear,13,0
+Northern Wheatear,16,0
+Northern Wheatear,19,1
+Northern Wheatear,22,6
+Northern Wheatear,25,0
+Northern Wheatear,28,0
+Northern Wheatear,31,6
+Northern Wheatear,34,1
+Northern Wheatear,37,0
+Northern Wheatear,40,0
+Northern Wheatear,43,1
+Northern Wheatear,46,0
+Northern Wheatear,49,1
+Northern Wheatear,52,0
+Northern Wheatear,55,1
+Northern Wheatear,58,0
+Ortolan Bunting,1,0
+Ortolan Bunting,4,0
+Ortolan Bunting,7,0
+Ortolan Bunting,10,0
+Ortolan Bunting,13,0
+Ortolan Bunting,16,0
+Ortolan Bunting,19,0
+Ortolan Bunting,22,0
+Ortolan Bunting,25,1
+Ortolan Bunting,28,0
+Ortolan Bunting,31,3
+Ortolan Bunting,34,0
+Ortolan Bunting,37,4
+Ortolan Bunting,40,0
+Ortolan Bunting,43,0
+Ortolan Bunting,46,1
+Ortolan Bunting,49,0
+Ortolan Bunting,52,0
+Ortolan Bunting,55,3
+Ortolan Bunting,58,2
+Red Crossbill,1,0
+Red Crossbill,4,0
+Red Crossbill,7,0
+Red Crossbill,10,0
+Red Crossbill,13,0
+Red Crossbill,16,27
+Red Crossbill,19,4
+Red Crossbill,22,0
+Red Crossbill,25,0
+Red Crossbill,28,78
+Red Crossbill,31,2
+Red Crossbill,34,5
+Red Crossbill,37,17
+Red Crossbill,40,78
+Red Crossbill,43,1
+Red Crossbill,46,17
+Red Crossbill,49,18
+Red Crossbill,52,20
+Red Crossbill,55,78
+Red Crossbill,58,0
+Red Kite,1,0
+Red Kite,4,0
+Red Kite,7,0
+Red Kite,10,6
+Red Kite,13,0
+Red Kite,16,3
+Red Kite,19,1
+Red Kite,22,0
+Red Kite,25,18
+Red Kite,28,4
+Red Kite,31,4
+Red Kite,34,12
+Red Kite,37,200
+Red Kite,40,75
+Red Kite,43,75
+Red Kite,46,15
+Red Kite,49,58
+Red Kite,52,75
+Red Kite,55,14
+Red Kite,58,66
+Red-backed Shrike,1,0
+Red-backed Shrike,4,0
+Red-backed Shrike,7,1
+Red-backed Shrike,10,0
+Red-backed Shrike,13,1
+Red-backed Shrike,16,4
+Red-backed Shrike,19,1
+Red-backed Shrike,22,6
+Red-backed Shrike,25,1
+Red-backed Shrike,28,78
+Red-backed Shrike,31,200
+Red-backed Shrike,34,18
+Red-backed Shrike,37,4
+Red-backed Shrike,40,18
+Red-backed Shrike,43,69
+Red-backed Shrike,46,200
+Red-backed Shrike,49,78
+Red-backed Shrike,52,78
+Red-backed Shrike,55,78
+Red-backed Shrike,58,75
+Ring Ouzel,1,0
+Ring Ouzel,4,0
+Ring Ouzel,7,0
+Ring Ouzel,10,0
+Ring Ouzel,13,0
+Ring Ouzel,16,0
+Ring Ouzel,19,6
+Ring Ouzel,22,0
+Ring Ouzel,25,0
+Ring Ouzel,28,2
+Ring Ouzel,31,0
+Ring Ouzel,34,27
+Ring Ouzel,37,0
+Ring Ouzel,40,6
+Ring Ouzel,43,18
+Ring Ouzel,46,5
+Ring Ouzel,49,4
+Ring Ouzel,52,75
+Ring Ouzel,55,24
+Ring Ouzel,58,78
+Rock Bunting,1,0
+Rock Bunting,4,1
+Rock Bunting,7,4
+Rock Bunting,10,4
+Rock Bunting,13,64
+Rock Bunting,16,58
+Rock Bunting,19,20
+Rock Bunting,22,75
+Rock Bunting,25,20
+Rock Bunting,28,20
+Rock Bunting,31,200
+Rock Bunting,34,20
+Rock Bunting,37,64
+Rock Bunting,40,58
+Rock Bunting,43,200
+Rock Bunting,46,200
+Rock Bunting,49,75
+Rock Bunting,52,200
+Rock Bunting,55,200
+Rock Bunting,58,200
+Rock Partridge,1,0
+Rock Partridge,4,0
+Rock Partridge,7,0
+Rock Partridge,10,1
+Rock Partridge,13,4
+Rock Partridge,16,6
+Rock Partridge,19,78
+Rock Partridge,22,6
+Rock Partridge,25,78
+Rock Partridge,28,18
+Rock Partridge,31,23
+Rock Partridge,34,75
+Rock Partridge,37,78
+Rock Partridge,40,5
+Rock Partridge,43,24
+Rock Partridge,46,78
+Rock Partridge,49,64
+Rock Partridge,52,18
+Rock Partridge,55,20
+Rock Partridge,58,64
+Rock Ptarmigan,1,0
+Rock Ptarmigan,4,0
+Rock Ptarmigan,7,2
+Rock Ptarmigan,10,2
+Rock Ptarmigan,13,5
+Rock Ptarmigan,16,2
+Rock Ptarmigan,19,78
+Rock Ptarmigan,22,17
+Rock Ptarmigan,25,2
+Rock Ptarmigan,28,2
+Rock Ptarmigan,31,66
+Rock Ptarmigan,34,64
+Rock Ptarmigan,37,75
+Rock Ptarmigan,40,14
+Rock Ptarmigan,43,17
+Rock Ptarmigan,46,66
+Rock Ptarmigan,49,78
+Rock Ptarmigan,52,66
+Rock Ptarmigan,55,17
+Rock Ptarmigan,58,78
+Rook,1,0
+Rook,4,0
+Rook,7,0
+Rook,10,0
+Rook,13,1
+Rook,16,0
+Rook,19,0
+Rook,22,0
+Rook,25,1
+Rook,28,0
+Rook,31,0
+Rook,34,1
+Rook,37,1
+Rook,40,1
+Rook,43,1
+Rook,46,1
+Rook,49,0
+Rook,52,18
+Rook,55,4
+Rook,58,4
+Rufous-tailed Rock-Thrush,1,0
+Rufous-tailed Rock-Thrush,4,134
+Rufous-tailed Rock-Thrush,7,134
+Rufous-tailed Rock-Thrush,10,134
+Rufous-tailed Rock-Thrush,13,134
+Rufous-tailed Rock-Thrush,16,134
+Rufous-tailed Rock-Thrush,19,134
+Rufous-tailed Rock-Thrush,22,134
+Rufous-tailed Rock-Thrush,25,134
+Rufous-tailed Rock-Thrush,28,134
+Rufous-tailed Rock-Thrush,31,134
+Rufous-tailed Rock-Thrush,34,134
+Rufous-tailed Rock-Thrush,37,134
+Rufous-tailed Rock-Thrush,40,134
+Rufous-tailed Rock-Thrush,43,134
+Rufous-tailed Rock-Thrush,46,134
+Rufous-tailed Rock-Thrush,49,134
+Rufous-tailed Rock-Thrush,52,134
+Rufous-tailed Rock-Thrush,55,134
+Rufous-tailed Rock-Thrush,58,134
+Sardinian Warbler,1,0
+Sardinian Warbler,4,11
+Sardinian Warbler,7,71
+Sardinian Warbler,10,196
+Sardinian Warbler,13,16
+Sardinian Warbler,16,54
+Sardinian Warbler,19,71
+Sardinian Warbler,22,54
+Sardinian Warbler,25,54
+Sardinian Warbler,28,196
+Sardinian Warbler,31,16
+Sardinian Warbler,34,196
+Sardinian Warbler,37,196
+Sardinian Warbler,40,196
+Sardinian Warbler,43,196
+Sardinian Warbler,46,196
+Sardinian Warbler,49,196
+Sardinian Warbler,52,196
+Sardinian Warbler,55,196
+Sardinian Warbler,58,196
+Short-toed Snake-Eagle,1,0
+Short-toed Snake-Eagle,4,0
+Short-toed Snake-Eagle,7,70
+Short-toed Snake-Eagle,10,70
+Short-toed Snake-Eagle,13,53
+Short-toed Snake-Eagle,16,15
+Short-toed Snake-Eagle,19,195
+Short-toed Snake-Eagle,22,59
+Short-toed Snake-Eagle,25,195
+Short-toed Snake-Eagle,28,70
+Short-toed Snake-Eagle,31,195
+Short-toed Snake-Eagle,34,59
+Short-toed Snake-Eagle,37,195
+Short-toed Snake-Eagle,40,195
+Short-toed Snake-Eagle,43,195
+Short-toed Snake-Eagle,46,195
+Short-toed Snake-Eagle,49,70
+Short-toed Snake-Eagle,52,53
+Short-toed Snake-Eagle,55,195
+Short-toed Snake-Eagle,58,70
+Short-toed Treecreeper,1,0
+Short-toed Treecreeper,4,142
+Short-toed Treecreeper,7,0
+Short-toed Treecreeper,10,142
+Short-toed Treecreeper,13,142
+Short-toed Treecreeper,16,142
+Short-toed Treecreeper,19,142
+Short-toed Treecreeper,22,0
+Short-toed Treecreeper,25,142
+Short-toed Treecreeper,28,142
+Short-toed Treecreeper,31,142
+Short-toed Treecreeper,34,142
+Short-toed Treecreeper,37,142
+Short-toed Treecreeper,40,142
+Short-toed Treecreeper,43,142
+Short-toed Treecreeper,46,142
+Short-toed Treecreeper,49,0
+Short-toed Treecreeper,52,142
+Short-toed Treecreeper,55,142
+Short-toed Treecreeper,58,142
+Spectacled Warbler,1,0
+Spectacled Warbler,4,38
+Spectacled Warbler,7,180
+Spectacled Warbler,10,38
+Spectacled Warbler,13,55
+Spectacled Warbler,16,38
+Spectacled Warbler,19,55
+Spectacled Warbler,22,38
+Spectacled Warbler,25,180
+Spectacled Warbler,28,180
+Spectacled Warbler,31,180
+Spectacled Warbler,34,180
+Spectacled Warbler,37,180
+Spectacled Warbler,40,38
+Spectacled Warbler,43,55
+Spectacled Warbler,46,180
+Spectacled Warbler,49,180
+Spectacled Warbler,52,180
+Spectacled Warbler,55,38
+Spectacled Warbler,58,180
+Spotted Flycatcher,1,0
+Spotted Flycatcher,4,52
+Spotted Flycatcher,7,194
+Spotted Flycatcher,10,52
+Spotted Flycatcher,13,194
+Spotted Flycatcher,16,194
+Spotted Flycatcher,19,194
+Spotted Flycatcher,22,72
+Spotted Flycatcher,25,52
+Spotted Flycatcher,28,194
+Spotted Flycatcher,31,194
+Spotted Flycatcher,34,194
+Spotted Flycatcher,37,194
+Spotted Flycatcher,40,194
+Spotted Flycatcher,43,194
+Spotted Flycatcher,46,52
+Spotted Flycatcher,49,194
+Spotted Flycatcher,52,194
+Spotted Flycatcher,55,194
+Spotted Flycatcher,58,194
+Stock Dove,1,0
+Stock Dove,4,0
+Stock Dove,7,0
+Stock Dove,10,0
+Stock Dove,13,0
+Stock Dove,16,0
+Stock Dove,19,6
+Stock Dove,22,6
+Stock Dove,25,1
+Stock Dove,28,1
+Stock Dove,31,0
+Stock Dove,34,1
+Stock Dove,37,1
+Stock Dove,40,4
+Stock Dove,43,4
+Stock Dove,46,20
+Stock Dove,49,6
+Stock Dove,52,18
+Stock Dove,55,58
+Stock Dove,58,1
+Tawny Pipit,1,0
+Tawny Pipit,4,0
+Tawny Pipit,7,0
+Tawny Pipit,10,0
+Tawny Pipit,13,0
+Tawny Pipit,16,0
+Tawny Pipit,19,0
+Tawny Pipit,22,1
+Tawny Pipit,25,4
+Tawny Pipit,28,0
+Tawny Pipit,31,0
+Tawny Pipit,34,58
+Tawny Pipit,37,16
+Tawny Pipit,40,5
+Tawny Pipit,43,3
+Tawny Pipit,46,1
+Tawny Pipit,49,16
+Tawny Pipit,52,18
+Tawny Pipit,55,15
+Tawny Pipit,58,4
+Western Capercaillie,1,0
+Western Capercaillie,4,0
+Western Capercaillie,7,0
+Western Capercaillie,10,0
+Western Capercaillie,13,0
+Western Capercaillie,16,0
+Western Capercaillie,19,0
+Western Capercaillie,22,0
+Western Capercaillie,25,0
+Western Capercaillie,28,3
+Western Capercaillie,31,0
+Western Capercaillie,34,0
+Western Capercaillie,37,1
+Western Capercaillie,40,0
+Western Capercaillie,43,17
+Western Capercaillie,46,0
+Western Capercaillie,49,1
+Western Capercaillie,52,0
+Western Capercaillie,55,1
+Western Capercaillie,58,0
+Western Subalpine Warbler,1,0
+Western Subalpine Warbler,4,6
+Western Subalpine Warbler,7,0
+Western Subalpine Warbler,10,1
+Western Subalpine Warbler,13,4
+Western Subalpine Warbler,16,27
+Western Subalpine Warbler,19,0
+Western Subalpine Warbler,22,58
+Western Subalpine Warbler,25,20
+Western Subalpine Warbler,28,58
+Western Subalpine Warbler,31,18
+Western Subalpine Warbler,34,20
+Western Subalpine Warbler,37,20
+Western Subalpine Warbler,40,78
+Western Subalpine Warbler,43,15
+Western Subalpine Warbler,46,75
+Western Subalpine Warbler,49,200
+Western Subalpine Warbler,52,75
+Western Subalpine Warbler,55,69
+Western Subalpine Warbler,58,75
+Western Yellow Wagtail,1,0
+Western Yellow Wagtail,4,0
+Western Yellow Wagtail,7,1
+Western Yellow Wagtail,10,4
+Western Yellow Wagtail,13,1
+Western Yellow Wagtail,16,1
+Western Yellow Wagtail,19,1
+Western Yellow Wagtail,22,6
+Western Yellow Wagtail,25,4
+Western Yellow Wagtail,28,4
+Western Yellow Wagtail,31,15
+Western Yellow Wagtail,34,6
+Western Yellow Wagtail,37,4
+Western Yellow Wagtail,40,58
+Western Yellow Wagtail,43,4
+Western Yellow Wagtail,46,58
+Western Yellow Wagtail,49,4
+Western Yellow Wagtail,52,1
+Western Yellow Wagtail,55,58
+Western Yellow Wagtail,58,4
+Whinchat,1,0
+Whinchat,4,4
+Whinchat,7,4
+Whinchat,10,4
+Whinchat,13,75
+Whinchat,16,20
+Whinchat,19,4
+Whinchat,22,18
+Whinchat,25,20
+Whinchat,28,4
+Whinchat,31,58
+Whinchat,34,75
+Whinchat,37,66
+Whinchat,40,75
+Whinchat,43,23
+Whinchat,46,75
+Whinchat,49,200
+Whinchat,52,200
+Whinchat,55,75
+Whinchat,58,5
+White Wagtail,1,0
+White Wagtail,4,0
+White Wagtail,7,0
+White Wagtail,10,6
+White Wagtail,13,1
+White Wagtail,16,58
+White Wagtail,19,3
+White Wagtail,22,78
+White Wagtail,25,78
+White Wagtail,28,1
+White Wagtail,31,20
+White Wagtail,34,4
+White Wagtail,37,3
+White Wagtail,40,200
+White Wagtail,43,6
+White Wagtail,46,75
+White Wagtail,49,5
+White Wagtail,52,200
+White Wagtail,55,18
+White Wagtail,58,200
+White-backed Woodpecker,1,0
+White-backed Woodpecker,4,177
+White-backed Woodpecker,7,177
+White-backed Woodpecker,10,177
+White-backed Woodpecker,13,177
+White-backed Woodpecker,16,177
+White-backed Woodpecker,19,177
+White-backed Woodpecker,22,177
+White-backed Woodpecker,25,177
+White-backed Woodpecker,28,177
+White-backed Woodpecker,31,177
+White-backed Woodpecker,34,177
+White-backed Woodpecker,37,177
+White-backed Woodpecker,40,177
+White-backed Woodpecker,43,177
+White-backed Woodpecker,46,177
+White-backed Woodpecker,49,177
+White-backed Woodpecker,52,177
+White-backed Woodpecker,55,177
+White-backed Woodpecker,58,177
+White-throated Dipper,1,0
+White-throated Dipper,4,26
+White-throated Dipper,7,17
+White-throated Dipper,10,199
+White-throated Dipper,13,199
+White-throated Dipper,16,199
+White-throated Dipper,19,57
+White-throated Dipper,22,199
+White-throated Dipper,25,199
+White-throated Dipper,28,77
+White-throated Dipper,31,199
+White-throated Dipper,34,77
+White-throated Dipper,37,199
+White-throated Dipper,40,199
+White-throated Dipper,43,199
+White-throated Dipper,46,199
+White-throated Dipper,49,57
+White-throated Dipper,52,199
+White-throated Dipper,55,199
+White-throated Dipper,58,199
+White-winged Snowfinch,1,0
+White-winged Snowfinch,4,12
+White-winged Snowfinch,7,1
+White-winged Snowfinch,10,200
+White-winged Snowfinch,13,58
+White-winged Snowfinch,16,200
+White-winged Snowfinch,19,200
+White-winged Snowfinch,22,200
+White-winged Snowfinch,25,200
+White-winged Snowfinch,28,64
+White-winged Snowfinch,31,64
+White-winged Snowfinch,34,200
+White-winged Snowfinch,37,200
+White-winged Snowfinch,40,200
+White-winged Snowfinch,43,200
+White-winged Snowfinch,46,200
+White-winged Snowfinch,49,58
+White-winged Snowfinch,52,200
+White-winged Snowfinch,55,200
+White-winged Snowfinch,58,200
+Willow Tit,1,0
+Willow Tit,4,53
+Willow Tit,7,195
+Willow Tit,10,53
+Willow Tit,13,195
+Willow Tit,16,195
+Willow Tit,19,195
+Willow Tit,22,195
+Willow Tit,25,195
+Willow Tit,28,195
+Willow Tit,31,195
+Willow Tit,34,195
+Willow Tit,37,195
+Willow Tit,40,53
+Willow Tit,43,195
+Willow Tit,46,195
+Willow Tit,49,195
+Willow Tit,52,195
+Willow Tit,55,195
+Willow Tit,58,195
+Willow Warbler,1,0
+Willow Warbler,4,17
+Willow Warbler,7,199
+Willow Warbler,10,4
+Willow Warbler,13,5
+Willow Warbler,16,199
+Willow Warbler,19,199
+Willow Warbler,22,199
+Willow Warbler,25,77
+Willow Warbler,28,199
+Willow Warbler,31,74
+Willow Warbler,34,199
+Willow Warbler,37,199
+Willow Warbler,40,17
+Willow Warbler,43,199
+Willow Warbler,46,199
+Willow Warbler,49,199
+Willow Warbler,52,57
+Willow Warbler,55,199
+Willow Warbler,58,199
+Wood Lark,1,0
+Wood Lark,4,14
+Wood Lark,7,3
+Wood Lark,10,14
+Wood Lark,13,66
+Wood Lark,16,75
+Wood Lark,19,64
+Wood Lark,22,200
+Wood Lark,25,69
+Wood Lark,28,200
+Wood Lark,31,200
+Wood Lark,34,200
+Wood Lark,37,200
+Wood Lark,40,200
+Wood Lark,43,200
+Wood Lark,46,64
+Wood Lark,49,69
+Wood Lark,52,200
+Wood Lark,55,200
+Wood Lark,58,75
+Wood Sandpiper,1,0
+Wood Sandpiper,4,0
+Wood Sandpiper,7,4
+Wood Sandpiper,10,0
+Wood Sandpiper,13,75
+Wood Sandpiper,16,200
+Wood Sandpiper,19,200
+Wood Sandpiper,22,58
+Wood Sandpiper,25,12
+Wood Sandpiper,28,4
+Wood Sandpiper,31,18
+Wood Sandpiper,34,200
+Wood Sandpiper,37,200
+Wood Sandpiper,40,58
+Wood Sandpiper,43,12
+Wood Sandpiper,46,14
+Wood Sandpiper,49,58
+Wood Sandpiper,52,200
+Wood Sandpiper,55,58
+Wood Sandpiper,58,200
+Yellowhammer,1,0
+Yellowhammer,4,15
+Yellowhammer,7,15
+Yellowhammer,10,15
+Yellowhammer,13,195
+Yellowhammer,16,53
+Yellowhammer,19,195
+Yellowhammer,22,195
+Yellowhammer,25,195
+Yellowhammer,28,195
+Yellowhammer,31,195
+Yellowhammer,34,70
+Yellowhammer,37,195
+Yellowhammer,40,195
+Yellowhammer,43,53
+Yellowhammer,46,195
+Yellowhammer,49,195
+Yellowhammer,52,195
+Yellowhammer,55,195
+Yellowhammer,58,195

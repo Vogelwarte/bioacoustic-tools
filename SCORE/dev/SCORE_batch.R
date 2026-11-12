@@ -22,12 +22,15 @@
 # (schedule rows + block_in_window() + compute_richness()) and stops if any
 # value differs. So the speed-up cannot change the results silently.
 #
-# Two chapters, which can be run separately (switches in section 0a):
+# Three chapters, which can be run separately (switches in section 0a):
 #   CHAPTER A  Temporal pilots: select on each pilot (start date x length) and
 #              save the run (then validate with validate_pilots.R)
 #   CHAPTER B  Spatial validation: on the same days, select on a subset of the
 #              recorders (training) and evaluate the selected schedule on the
 #              other recorders (test), relative to continuous 24-h recording
+#   CHAPTER C  SCORE presets: runs Tabs 2-4 on chosen periods and saves a preset
+#              (.zip with the .json and the figures), identical to the one of the
+#              app tab "6. Share results" (same code: preset_functions.R)
 #
 # Not included: Tab 5 (target species), which is not used for the pilots.
 # =============================================================================
@@ -36,7 +39,8 @@
 
 ## 0a. What to run -------------------------------------------------------------
 run_temporal <- FALSE     # CHAPTER A: temporal pilots
-run_spatial  <- TRUE   # CHAPTER B: spatial validation
+run_spatial  <- FALSE     # CHAPTER B: spatial validation
+run_presets  <- TRUE      # CHAPTER C: SCORE presets (.zip, as in the app)
 
 ## 0b. CHAPTER A: pilot start dates x pilot lengths (12 pilots as planned) -----
 pilot_starts  <- c("2023-05-12", "2023-06-01", "2023-07-01")
@@ -59,12 +63,62 @@ n_train         <- 10               # recorders used for selection in each rando
 # If the recorder is a folder of Begin.Path instead, give its V index (as in the app's path parser):
 unit_path_col   <- NULL
 
+## 0c'. CHAPTER C: presets -------------------------------------------------------
+# Fields of the app form, common to all presets (each preset below can override any of them)
+preset_common <- list(
+  name = "Amandine Serrurier", affiliation = "Swiss Ornithological Institute", orcid = "0009-0006-4618-576X", contact = "amandine.serrurier@vogelwarte,ch",
+  project_description = "15 recorders in 2 sites of swiss alps",
+  objective      = "community",            # or "target species", or your own text
+  target_taxa    = "birds",
+  target_species = NULL,                   # e.g. c("Rock Ptarmigan", "Alpine Accentor")
+  country        = "Switzerland",          # full name, as in the app list (COUNTRIES)
+  region         = "Valais",
+  habitat_codes  = c("E"),                 # EUNIS level 1 codes, e.g. c("E", "H")
+  habitat_desc   = "South faced Alpine grassland, above treeline",
+  elevation_mean = 2200,                     # m
+  share_location = TRUE,  round_location = TRUE,   # coordinates of 0e, rounded to ~10 km
+  timing         = "Breeding, post breeding, may - september ",                   # e.g. c("breeding", "June")
+  recorder_model = "SMMini 2", sample_rate = "48000", height = "1",
+  raw_recording  = "continuous 24 h",
+  classifier     = "BirdNET-Analyzer", classifier_version = "2.4",
+  notes          = "")
+# One element per preset: period + fields that differ from preset_common.
+# Optional: s_override = list(...) changes settings of section 0e-0h for this preset only
+#           (e.g. list(period_step = 1) to also test 1/2 and 1/3 min; ~3x slower than step 3)
+# Optional: validation = list(...) is copied into the preset (shown on the GitHub page)
+presets_to_make <- list(
+  list(start = "2023-06-01", end = "2023-06-07",
+       title = "Alpine bird community, Valais (CH): early breeding season",
+       timing = c("breeding", "June"),
+       notes = "Reference preset from Serrurier et al. (JAV, in revision); same settings as in the paper.",
+       validation = list(      # results of validate_pilots.R and CHAPTER B for this pilot (paper settings)
+         temporal = list(description = "Schedule selected on this pilot (90% target) applied to other days of the same season, same recorders",
+                         in_sample_pct_of_24h = 89.7, later_days_pct_of_24h = 78.2, later_days_n = 99,
+                         all_other_days_pct_of_24h = 79.5),
+         spatial = list(description = "Schedules selected on subsets of these recorders (same 7 days) and applied to the other recorders",
+                        between_sites = list(gondo_to_grengiols = 86.7, grengiols_to_gondo = 86.5),
+                        random_10_to_4 = list(mean = 75.6, min = 69.6, max = 82.3, n_runs = 7),
+                        leave_one_recorder_out = list(mean = 59.2, min = 46.5, max = 71.6, n_runs = 14)),
+         guidance = "Transfers well within the same season phase and between these two Alpine sites; not to single recorders or to late summer (69-83% from late July).")),
+  list(start = "2023-07-01", end = "2023-07-07",
+       title = "Alpine bird community, Valais (CH): late breeding season",
+       timing = c("breeding", "July")),
+  list(start = "2023-08-25", end = "2023-08-31",
+       title = "Alpine bird community, Valais (CH): post-breeding season",
+       timing = c("post-breeding", "August"))
+)
+preset_content <- list(targets = c(75, 80, 85, 90, 95), include_pareto = TRUE,
+                       include_species = TRUE, species_min_conf = 0)
+SCORE_VERSION <- "1.1.0"
+
 ## 0d. Files ------------------------------------------------------------------
 score_dir  <-  "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE"   # folder with functions.R
 data_files <- "/Users/amandine.serrurier/Documents/traning_data_complete_bn_2024_GG/PVP_2023_24h/GON_GRE_2023.csv"
 runs_dir         <- "/Users/amandine.serrurier/Documents/SCORE_runs/batch_runs"   # CHAPTER A, one sub-folder per run
 spatial_runs_dir <- "/Users/amandine.serrurier/Documents/SCORE_runs/spatial_runs" # CHAPTER B
-skip_existing_runs <- TRUE      # TRUE = a selection already saved is not recomputed
+presets_out_dir  <- "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE/presets_library"
+library_presets_dir <- "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE/presets_library/presets"  # NULL = ne rien copier# CHAPTER C: one .zip per preset
+skip_existing_runs <- TRUE      # TRUE = a selection (or preset .zip) already saved is not recomputed
 
 ## 0e. Tab 1: import, filters, coordinates (same meaning as in the app) -------
 s <- list(
@@ -126,6 +180,7 @@ if (requireNamespace("shiny", quietly = TRUE)) { validate <- shiny::validate; ne
   validate <- function(...) { m <- unlist(list(...)); if (length(m)) stop(m, call. = FALSE); invisible(TRUE) }
 }
 source(file.path(score_dir, "functions.R"))
+if (run_presets) source(file.path(score_dir, "preset_functions.R"))   # same code as the app (Tab 6)
 if (!isTRUE(all.equal(block_in_window(1:3, 1:3, c(0, 2, 2), c(1, 3, 3)), c(TRUE, TRUE, TRUE))))
   stop("functions.R still contains the ORIGINAL block_in_window(). Use the corrected version.")
 
@@ -607,7 +662,7 @@ save_plot <- function(p, dir, name, w = 8, h = 6) {
 
 ## ---- 6. One selection run: Tabs 2-4, verification, saving ----------------------
 # Returns the selected schedule; saves everything in folder d and one line in index_file
-select_and_save <- function(dt, run_id, d, index_file, extra = list()) {
+select_and_save <- function(dt, run_id, d, index_file, extra = list(), return_all = FALSE) {
   t_run <- Sys.time()
   set.seed(s$seed)
   pilot_days <- sort(unique(dt$date))
@@ -683,6 +738,7 @@ select_and_save <- function(dt, run_id, d, index_file, extra = list()) {
   if (!is.null(old)) old <- old[run_id != idx$run_id]          # a re-run replaces its old line
   fwrite(rbind(old, idx, fill = TRUE), index_file)
   msg("  Saved in ", d, " (", round(as.numeric(difftime(Sys.time(), t_run, units = "mins")), 1), " min)")
+  if (return_all) return(list(best = best, t2 = t2, grid = grid, res = res, sol_all = sol_all))
   best
 }
 
@@ -797,5 +853,78 @@ if (run_spatial) {
   print(sp[, .(run_id, n_train, n_test, effort_pct_24h, in_sample_richness_pct_24h,
                out_of_sample_richness_pct_24h, difference)], digits = 3)
   msg("Chapter B finished. Results: ", file.path(spatial_runs_dir, "spatial_validation_summary.csv"))
+}
+
+## ---- 9. CHAPTER C: SCORE presets ------------------------------------------------------
+if (run_presets) {
+  msg("######## CHAPTER C: SCORE presets ########")
+  dir.create(presets_out_dir, recursive = TRUE, showWarnings = FALSE)
+  if (!exists("%||%")) `%||%` <- function(a, b) if (is.null(a)) b else a
+  s_default <- s
+  for (pr in presets_to_make) {
+    meta <- modifyList(preset_common, pr[setdiff(names(pr), c("start", "end", "s_override", "validation"))])
+    s <- if (is.null(pr$s_override)) s_default else modifyList(s_default, pr$s_override)   # used by run_tab2-4
+    dt <- dtA[date >= as.Date(pr$start) & date <= as.Date(pr$end)]
+    if (nrow(dt) == 0) { msg("No data between ", pr$start, " and ", pr$end); next }
+    dts <- sort(unique(dt$date))
+    # preset ID as in the app: country code_region_first date_n days
+    code <- if (nzchar(meta$country %||% "")) unname(COUNTRIES[meta$country]) else "XX"
+    if (is.na(code)) stop("Country '", meta$country, "' is not in the app list (COUNTRIES)")
+    region <- gsub("[^A-Za-z0-9]+", "-", trimws(meta$region %||% ""))
+    meta$preset_id <- paste(c(code, if (nzchar(region)) region, format(min(dts)), paste0(length(dts), "d")), collapse = "_")
+    zip_file <- file.path(presets_out_dir, paste0("SCORE_preset_", meta$preset_id, ".zip"))
+    if (skip_existing_runs && file.exists(zip_file)) { msg("Skip ", meta$preset_id, " (already done)"); next }
+    msg("=== Preset ", meta$preset_id, " (", pr$start, " to ", pr$end, ")")
+
+    run <- select_and_save(dt, meta$preset_id, file.path(presets_out_dir, meta$preset_id),
+                           file.path(presets_out_dir, "index.csv"), return_all = TRUE)
+
+    settings <- list(
+      grid_event = s$grid_event, grid_event2 = s$grid_event2, use_window2_grid = s$use_window2_grid,
+      duty_duration = as.numeric(s$duty_duration),
+      lat = if (s$coord_mode == "single") s$single_lat else NA, lon = if (s$coord_mode == "single") s$single_lon else NA,
+      timezone = s$timezone, min_conf = s$min_conf,
+      species_filter = if (is.null(s$species_file)) "none" else paste("species list:", basename(s$species_file)),
+      n_units = uniqueN(dt$unit),
+      window_grid = list(
+        w1 = list(reference_event = s$grid_event, start_offset_h = c(s$grid_start_min, s$grid_start_max),
+                  step_h = s$grid_start_step, duration_h = c(s$grid_dur_min, s$grid_dur_max), duration_step_h = s$grid_dur_step),
+        w2 = if (isTRUE(s$use_window2_grid)) list(reference_event = s$grid_event2,
+                  start_offset_h = c(s$grid_start_min2, s$grid_start_max2), step_h = s$grid_start_step2,
+                  duration_h = c(s$grid_dur_min2, s$grid_dur_max2), duration_step_h = s$grid_dur_step2),
+        top_n_combined = s$top_n_combined))
+
+    core <- build_preset_core(settings = settings, dt = dt, combo = run$res, solar = run$sol_all,
+                              schedules = run$t2$schedules, targets = preset_content$targets,
+                              include_pareto = preset_content$include_pareto,
+                              include_species = preset_content$include_species,
+                              species_min_conf = preset_content$species_min_conf, score_version = SCORE_VERSION)
+    preset <- add_preset_meta(core, meta, settings)
+    if (!is.null(pr$validation)) preset$validation <- pr$validation
+    preset$provenance <- list(generated_by = "dev/SCORE_batch.R (CHAPTER C), same workflow as the app, verified against the app code path",
+                              data_files = basename(data_files))
+
+    # check: the 90 % schedule of the preset is the best schedule of the run (same rule)
+    r90 <- Filter(function(z) z$target_pct == s$threshold, preset$results$recommended_schedules)
+    if (length(r90) && isTRUE(r90[[1]]$reached) && abs(r90[[1]]$mean_daily_richness - round(run$best$richness, 2)) > 0.01)
+      stop("Preset and run disagree on the ", s$threshold, " % schedule for ", meta$preset_id)
+
+    n_rd <- uniqueN(dt[, .(recorder, date)])
+    plots <- list(
+      duty_cycle_rarefaction    = if (!is.null(run$t2$summary)) plot_raref(run$t2$summary),
+      duty_cycle_missed_species = if (!is.null(run$t2$missed))  plot_missed(run$t2$missed),
+      time_window_w1            = plot_window(run$grid$w1, "Window 1", s$grid_event, "oslo"),
+      time_window_w2            = if (!is.null(run$grid$w2)) plot_window(run$grid$w2, "Window 2", s$grid_event2, "bilbao"),
+      time_window_combined      = if (!is.null(run$grid$w2)) plot_comb(run$grid, n_rd),
+      multi_optimum             = plot_optimum(run$res))
+    write_score_preset_zip(preset, plots, zip_file)
+    if (!is.null(library_presets_dir)) {
+      utils::unzip(zip_file, exdir = library_presets_dir)           # dossier <id>/ avec .json + figures/
+      msg("  Preset unzipped into ", library_presets_dir)
+    }
+    msg("  Preset saved: ", zip_file)
+  }
+  s <- s_default
+  msg("Chapter C finished. Unzip the presets into preset_library/presets/ and run render_all_presets().")
 }
 msg("Finished in ", round(as.numeric(difftime(Sys.time(), t_start, units = "mins")), 1), " min.")

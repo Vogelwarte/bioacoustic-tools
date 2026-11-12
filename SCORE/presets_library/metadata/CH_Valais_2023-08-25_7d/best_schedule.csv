@@ -1,0 +1,2 @@
+window_type,start1_hour,dur1_h,start2_hour,dur2_h,duty_period,effort,richness,n_species_detected,richness_pct,pareto,dominated,effort_pct_24h,effort_reduction_pct,effort_pct_max,richness_pct_24h
+W1,2,6.5,,,1,2737,86,117,90.6626506024096,TRUE,FALSE,27.1527777777778,72.8472222222222,40.6444906444906,88.2697947214076
