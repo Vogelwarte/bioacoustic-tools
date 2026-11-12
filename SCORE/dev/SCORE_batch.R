@@ -66,54 +66,59 @@ unit_path_col   <- NULL
 ## 0c'. CHAPTER C: presets -------------------------------------------------------
 # Fields of the app form, common to all presets (each preset below can override any of them)
 preset_common <- list(
-  name = "Amandine Serrurier", affiliation = "Swiss Ornithological Institute", orcid = "0009-0006-4618-576X", contact = "amandine.serrurier@vogelwarte,ch",
-  project_description = "15 recorders in 2 sites of swiss alps",
+  name = "Gabriel Marcacci", affiliation = "Swiss Ornithological Institute", orcid = "", contact = "gabriel.marcacci@vogelwarte.ch; amandine.serrurier@vogelwarte.ch",
+  project_description = "17 in Burkina Faso 24h for 3 days",
   objective      = "community",            # or "target species", or your own text
   target_taxa    = "birds",
   target_species = NULL,                   # e.g. c("Rock Ptarmigan", "Alpine Accentor")
-  country        = "Switzerland",          # full name, as in the app list (COUNTRIES)
-  region         = "Valais",
-  habitat_codes  = c("E"),                 # EUNIS level 1 codes, e.g. c("E", "H")
-  habitat_desc   = "South faced Alpine grassland, above treeline",
-  elevation_mean = 2200,                     # m
+  country        = "Burkina Faso",          # full name, as in the app list (COUNTRIES)
+  region         = "",
+  habitat_codes  = c("E", "G"),                 # EUNIS level 1 codes, e.g. c("E", "H")
+  habitat_desc   = "Sudanian savanna",
+  elevation_mean = 200,                     # m
   share_location = TRUE,  round_location = TRUE,   # coordinates of 0e, rounded to ~10 km
-  timing         = "Breeding, post breeding, may - september ",                   # e.g. c("breeding", "June")
-  recorder_model = "SMMini 2", sample_rate = "48000", height = "1",
+  timing         = "December",                   # e.g. c("breeding", "June")
+  recorder_model = "SMMicro", sample_rate = "", height = "",
   raw_recording  = "continuous 24 h",
   classifier     = "BirdNET-Analyzer", classifier_version = "2.4",
-  notes          = "")
+  notes          = "no confidence threshold")
 # One element per preset: period + fields that differ from preset_common.
 # Optional: s_override = list(...) changes settings of section 0e-0h for this preset only
 #           (e.g. list(period_step = 1) to also test 1/2 and 1/3 min; ~3x slower than step 3)
 # Optional: validation = list(...) is copied into the preset (shown on the GitHub page)
+
 presets_to_make <- list(
-  list(start = "2023-06-01", end = "2023-06-07",
-       title = "Alpine bird community, Valais (CH): early breeding season",
-       timing = c("breeding", "June"),
-       notes = "Reference preset from Serrurier et al. (JAV, in revision); same settings as in the paper.",
-       validation = list(      # results of validate_pilots.R and CHAPTER B for this pilot (paper settings)
-         temporal = list(description = "Schedule selected on this pilot (90% target) applied to other days of the same season, same recorders",
-                         in_sample_pct_of_24h = 89.7, later_days_pct_of_24h = 78.2, later_days_n = 99,
-                         all_other_days_pct_of_24h = 79.5),
-         spatial = list(description = "Schedules selected on subsets of these recorders (same 7 days) and applied to the other recorders",
-                        between_sites = list(gondo_to_grengiols = 86.7, grengiols_to_gondo = 86.5),
-                        random_10_to_4 = list(mean = 75.6, min = 69.6, max = 82.3, n_runs = 7),
-                        leave_one_recorder_out = list(mean = 59.2, min = 46.5, max = 71.6, n_runs = 14)),
-         guidance = "Transfers well within the same season phase and between these two Alpine sites; not to single recorders or to late summer (69-83% from late July).")),
-  list(start = "2023-07-01", end = "2023-07-07",
-       title = "Alpine bird community, Valais (CH): late breeding season",
-       timing = c("breeding", "July")),
-  list(start = "2023-08-25", end = "2023-08-31",
-       title = "Alpine bird community, Valais (CH): post-breeding season",
-       timing = c("post-breeding", "August"))
+  list(start = "2025-12-31", end = "2026-01-02",          # tes 3 jours de décembre 2025
+       title = "Sudanian savanna bird community, Burkina Faso: December")
 )
+# presets_to_make <- list(
+#   list(start = "2023-06-01", end = "2026-06-07",
+#        title = "Burkina Faso community, 3 days, December",
+#        timing = c("December"),
+#        notes = "Reference preset from Serrurier et al. (JAV, in revision); same settings as in the paper.",
+#        validation = list(      # results of validate_pilots.R and CHAPTER B for this pilot (paper settings)
+#          temporal = list(description = "Schedule selected on this pilot (90% target) applied to other days of the same season, same recorders",
+#                          in_sample_pct_of_24h = 89.7, later_days_pct_of_24h = 78.2, later_days_n = 99,
+#                          all_other_days_pct_of_24h = 79.5),
+#          spatial = list(description = "Schedules selected on subsets of these recorders (same 7 days) and applied to the other recorders",
+#                         between_sites = list(gondo_to_grengiols = 86.7, grengiols_to_gondo = 86.5),
+#                         random_10_to_4 = list(mean = 75.6, min = 69.6, max = 82.3, n_runs = 7),
+#                         leave_one_recorder_out = list(mean = 59.2, min = 46.5, max = 71.6, n_runs = 14)),
+#          guidance = "Transfers well within the same season phase and between these two Alpine sites; not to single recorders or to late summer (69-83% from late July).")),
+#   list(start = "2023-07-01", end = "2023-07-07",
+#        title = "Alpine bird community, Valais (CH): late breeding season",
+#        timing = c("breeding", "July")),
+#   list(start = "2023-08-25", end = "2023-08-31",
+#        title = "Alpine bird community, Valais (CH): post-breeding season",
+#        timing = c("post-breeding", "August"))
+# )
 preset_content <- list(targets = c(75, 80, 85, 90, 95), include_pareto = TRUE,
                        include_species = TRUE, species_min_conf = 0)
 SCORE_VERSION <- "1.1.0"
 
 ## 0d. Files ------------------------------------------------------------------
 score_dir  <-  "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE"   # folder with functions.R
-data_files <- "/Users/amandine.serrurier/Documents/traning_data_complete_bn_2024_GG/PVP_2023_24h/GON_GRE_2023.csv"
+data_files <- "/Users/amandine.serrurier/Documents/traning_data_complete_bn_2024_GG/BurkinaGM_2025-12/all_data_filtered_BF_1225.txt"
 runs_dir         <- "/Users/amandine.serrurier/Documents/SCORE_runs/batch_runs"   # CHAPTER A, one sub-folder per run
 spatial_runs_dir <- "/Users/amandine.serrurier/Documents/SCORE_runs/spatial_runs" # CHAPTER B
 presets_out_dir  <- "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE/presets_library"
@@ -122,18 +127,16 @@ skip_existing_runs <- TRUE      # TRUE = a selection (or preset .zip) already sa
 
 ## 0e. Tab 1: import, filters, coordinates (same meaning as in the app) -------
 s <- list(
-  timezone          = "Europe/Zurich",
+  timezone          = "Africa/Ouagadougou",
   min_conf          = 0,
-  species_file      = NULL,      # NULL = no species filter; or a .txt ("Scientific_Common" per
-                                 # line) or a .csv/.xlsx with a column "species" (as in the app)
-  exclude_recorders = c("RUB6-ROLLE"),  # matched on the file-name prefix (the app cannot do this
-                                        # in "global" mode; RUB6-ROLLE only has 2 May)
-  site_col          = NULL,      # NULL = "all" (as "None" in the app), or the V index of Begin.Path
-  rec_col           = NULL,      # NULL = "global" (as "None" in the app), or the V index of Begin.Path
-  coord_mode        = "single",  # "single" or "multiple"
-  single_lat        = 46.19,
-  single_lon        = 8.13,
-  coord_file        = NULL,      # for "multiple": csv/txt/xlsx with recorder, latitude, longitude
+  species_file      = NULL,   
+  exclude_recorders = NULL,
+  site_col          = NULL,
+  rec_col           = NULL,
+  coord_mode        = "single",
+  single_lat        = 12.25,    
+  single_lon        = -0.63,    
+
 
 ## 0f. Tab 2: duty cycle ----------------------------------------------------
   record_24h        = TRUE,
