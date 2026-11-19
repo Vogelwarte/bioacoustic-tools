@@ -679,13 +679,14 @@ server <- function(input, output, session) {
     }
     
     wav_base64 <- tryCatch(base64enc::base64encode(file_path), error = function(e) NULL)
-    if (is.null(wav_base64)) return(tags$p("Erreur encodage", style="color:red;"))
+    if (is.null(wav_base64)) return(tags$p("Erreur encodage", style = "color: red;"))
     
-    tags$audio(src = paste0("data:audio/wav;base64,", wav_base64), controls = TRUE, style = "width: 100%;")
+    tags$audio(src = paste0("data:audio/wav;base64,", wav_base64),
+               controls = TRUE, style = "width: 100%;")
   })
   
   session$onSessionEnded(function() {
-    f <- audio_file_path()
+    f <- isolate(audio_file_path())   # <-- isolate() pour lire hors contexte réactif
     if (!is.null(f) && file.exists(f)) file.remove(f)
   })
   
@@ -769,13 +770,16 @@ server <- function(input, output, session) {
   
 
   output$download_audio <- downloadHandler(
-    filename = function() { paste0(clean_text(Name_reac()), "_segment_", Date_reac(), ".wav") },
+    filename = function() {
+      paste0(clean_text(Name_reac()), "_segment_", Date_reac(),
+             "_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".wav")
+    },
     content = function(file) {
       req(wav_segment_stock_export())
       if (exists("export_selected_audio")) {
-        wav_out <- export_selected_audio(wav = wav_segment_stock_export(), 
-                                         Samp_rate = Samp_rate_stock(), 
-                                         bit = bit_depth_reac(), 
+        wav_out <- export_selected_audio(wav = wav_segment_stock_export(),
+                                         Samp_rate = Samp_rate_stock(),
+                                         bit = bit_depth_reac(),
                                          highpass = input$Highpass)
         writeWave(wav_out, file)
       } else {
@@ -785,16 +789,16 @@ server <- function(input, output, session) {
   )
   
   output$download_audio_mp3 <- downloadHandler(
-    filename = function() { 
-
-      paste0(clean_text(Name_reac()), "_segment_", Date_reac(), ".mp3") 
+    filename = function() {
+      paste0(clean_text(Name_reac()), "_segment_", Date_reac(),
+             "_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".wav")
     },
     content = function(file) {
       req(wav_segment_stock_export())
       if (exists("export_selected_audio")) {
-        wav_out <- export_selected_audio(wav = wav_segment_stock_export(), 
-                                         Samp_rate = Samp_rate_stock(), 
-                                         bit = bit_depth_reac(), 
+        wav_out <- export_selected_audio(wav = wav_segment_stock_export(),
+                                         Samp_rate = Samp_rate_stock(),
+                                         bit = bit_depth_reac(),
                                          highpass = input$Highpass)
         writeWave(wav_out, file)
       } else {
