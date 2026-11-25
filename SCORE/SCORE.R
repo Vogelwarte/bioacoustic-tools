@@ -527,7 +527,16 @@ ui <- fluidPage(
           h4("Share your results as a SCORE preset"),
           helpText("Run Tabs 2, 3 and 4 first. Analysis settings and results are filled in automatically;",
                    "please describe your study below."),
-          
+          helpText("To share your preset, submit the .zip on ",
+                   tags$a(href = "https://github.com/Vogelwarte/bioacoustic-tools/issues/new/choose",
+                          target = "_blank", "GitHub"),
+                   " (Issues > 'Submit a SCORE preset') or send it by e-mail to ",
+                   tags$a(href = "mailto:amandine.serrurier@vogelwarte.ch", "amandine.serrurier@vogelwarte.ch"),
+                   "."),
+          # h4("Share your results as a SCORE preset"),
+          # helpText("Run Tabs 2, 3 and 4 first. Analysis settings and results are filled in automatically;",
+          #          "please describe your study below."),
+          # 
           tags$details(open = "open", tags$summary(strong("1. Contributor")),
                        textInput("ps_name",        "Name"),
                        textInput("ps_affiliation", "Affiliation"),
@@ -2795,14 +2804,24 @@ server <- function(input, output, session) {
     }), fill = TRUE)
     DT::datatable(out, rownames = FALSE, options = list(dom = "t", paging = FALSE))
   })
-  
-  output$ps_download_ui <- renderUI({
-    if (is.null(tryCatch(multi_combo(), error = function(e) NULL)))
-      return(helpText("Run the Multi-optimum analysis (Tab 4) to enable the download."))
-    tagList(downloadButton("download_preset", "Download SCORE preset (.zip)"),
-            helpText("The .zip contains the preset (.json) and the figures of Tabs 2-4.",
-                     "To share it, submit the .zip on GitHub (Issues > 'Submit a SCORE preset') or send it by e-mail."))
-  })
+  tagList(downloadButton("download_preset", "Download SCORE preset (.zip)"),
+          helpText("The .zip contains the preset (.json) and the figures of Tabs 2-4."))
+  # tagList(downloadButton("download_preset", "Download SCORE preset (.zip)"),
+  #         helpText("The .zip contains the preset (.json) and the figures of Tabs 2-4."),
+  #         helpText("To share it, submit the .zip on ",
+  #                  tags$a(href = "https://github.com/Vogelwarte/bioacoustic-tools/issues/new/choose",
+  #                         target = "_blank", "GitHub"),
+  #                  " (Issues > 'Submit a SCORE preset') or send it by e-mail to ",
+  #                  tags$a(href = "mailto:amandine.serrurier@vogelwarte.ch", "amandine.serrurier@vogelwarte.ch"),
+  #                  "."))
+  # 
+  # output$ps_download_ui <- renderUI({
+  #   if (is.null(tryCatch(multi_combo(), error = function(e) NULL)))
+  #     return(helpText("Run the Multi-optimum analysis (Tab 4) to enable the download."))
+  #   tagList(downloadButton("download_preset", "Download SCORE preset (.zip)"),
+  #           helpText("The .zip contains the preset (.json) and the figures of Tabs 2-4.",
+  #                    "To share it, submit the .zip on GitHub (Issues > 'Submit a SCORE preset') or send it by e-mail."))
+  # })
   
   # Figures of the app, saved in the preset .zip (skipped if the tab was not run)
   preset_plots <- function() {

@@ -1,20 +1,43 @@
----
+# SCORE – Sampling Coverage Optimiser for Recording Effort
 
-# SCORE - Sampling Coverage Optimizer for Recording Effort
+SCORE is an R/Shiny application that helps you choose a recording schedule for passive acoustic monitoring. It uses detections from an automated classifier such as BirdNET to simulate how alternative schedules would have performed on your own data, and shows how much species richness you keep for a given recording effort.
 
-This repository hosts Shiny web applications for analyzing and visualizing bird detection results from BirdNET. **SCORE** is a Shiny application designed to evaluate and optimize passive acoustic sampling designs from BirdNET detections.
+With SCORE you can:
 
-The app uses an existing BirdNET dataset to simulate how different recording schedules would perform on the same data. It helps users compare sampling effort and species richness under alternative recording schedules. The goal is to support practical decisions on recording protocols while retaining a high proportion of species richness.
+- test **duty cycles** (e.g. 1 min every 5 min) and **daily recording windows** (timing, duration, one or two windows per day);
+- combine both into complete schedules and find the most efficient ones on a **richness–effort plot** with a Pareto frontier;
+- see **which species are missed** when recording effort is reduced;
+- check whether the **daily and seasonal activity** of a target species is still captured;
+- estimate the **battery autonomy** of common recorders for a selected schedule;
+- **export and share** your results as a standardised preset in an open [preset library](presets_library).
 
-The application is intended to be used with a pilot BirdNET detection dataset of a few recording days or longer and for one or several recorders. In "Example datasets" folder are three Birdnet Output, one in the alpine region of switzerland for 5 days, One for three days in Burkina Faso, and one with Scops Owl detections in Valais - CH for 5 months.
+<!-- TODO: replace with the final Figure 3 (scheme_workflow_v10) exported as PNG -->
+<img src="www/workflow.png" alt="SCORE workflow" width="1000"/>
 
-## Usage
+------------------------------------------------------------------------
 
-### Requirements
+## Before you start: pilot data
 
+SCORE selects schedules from the data you give it, so the result is only as good as your pilot dataset. Based on our validation (see the associated manuscript):
+
+- **Use at least one week of recordings.** Schedules selected on 1-day pilots retained on average 78% of the daily richness on the rest of the season, against 87% after 14-day pilots.
+- **Include recorders in the main habitat types** of your study area.
+- **Cover the period of main interest.** Species composition and vocal activity change over the season; a schedule selected in June may perform less well in August.
+- **A few days are enough only if your target species are reliably present and vocally active** during the pilot.
+- **Results apply to all recorders pooled.** A schedule that retains 90% of the richness of all recorders together retains less at a single recorder.
+- **Performance on the pilot is an upper bound.** chedules are selected and evaluated on the same pilot data. Applied to new days or other recorders, the same schedule will usually perform less well. We therefore recommend setting a target slightly above the richness you want to keep.
+
+No pilot data? You can use an existing dataset from a similar habitat, season and species assemblage, or start from a schedule in the [preset library](presets_library).
+
+------------------------------------------------------------------------
+
+## Installation and launch
+
+SCORE was developed with R 4.5.1. Install the required packages:
+
+<!-- TODO: check that this list matches the packages loaded in SCORE.R (e.g. jsonlite / zip for the Share results tab) -->
 
 ``` r
-# Install required packages
 install.packages(c(
   "shiny", "shinythemes", "data.table", "lubridate",
   "ggplot2", "suncalc", "dplyr", "DT", "scico",
@@ -22,253 +45,197 @@ install.packages(c(
 ))
 ```
 
-To run the App, clone the repository and use the following command in R:
+Clone the repository, then run:
 
 ``` r
 shiny::runApp("path/to/SCORE.R")
 ```
 
-or open the `SCORE.R` file in RStudio and click "Run App".
+or open `SCORE.R` in RStudio and click **Run App**. The functions in `R/Functions` are sourced automatically.
 
-The SCORE app is also avaialble online at <https://vogelwarte.shinyapps.io/SCORE_online> , however we do not recommend to analyse your dataset with the online App as the computation time is **strongly** affected and the weight of input dataset might be **limited**.
+An online version is available at <https://vogelwarte.shinyapps.io/SCORE_online>. It is convenient for a first look, but computation is much slower and the size of input files is limited, so we recommend running SCORE locally for real analyses.
 
-### Common Functions
+### Example datasets
 
-The necessary functions are located in the `R/Functions` folder. They will be sourced automatically when running the App.
+The `Example datasets` folder contains three BirdNET outputs used in the manuscript:
 
-## Input format
+<!-- TODO: check durations and file names -->
 
-The app accepts **BirdNET selection table** in **Raven format** output. Files can be `.csv`, `.txt`, or packed into a `.zip` archive containing multiple selection tables. Multiple files are combined automatically.
+| Dataset | Location | Period | Use in the manuscript |
+|------------------|------------------|------------------|------------------|
+| Alpine | Swiss Alps, 2 sites | 1–7 June 2023 (pilot) | Duty cycle, Multi-optimum |
+| Sudanian savanna | Burkina Faso, 17 recorders | 3 days, Dec 2025–Jan 2026 | Time window, Multi-optimum |
+| Eurasian Scops Owl | Valais, Switzerland | April–September 2025 | Target species activity |
 
-**Required columns** (BirdNET Raven format defaults, auto-standardised with `make.names()`):
+------------------------------------------------------------------------
 
-> **Example**\
-> Add also the non standardised name (like Begin.Time..s.) in the table.
+## Input data
 
-| Column           | Description                                      |
-|------------------|--------------------------------------------------|
-| `Begin.Path`     | Full path to the source audio file               |
-| `Common.Name`    | Species name                                     |
-| `Confidence`     | BirdNET confidence score (0–1)                   |
-| `Begin.Time..s.` | Detection offset within the audio file (seconds) |
+SCORE reads **BirdNET selection tables (Raven format)** as `.csv` or `.txt` files, or several tables packed in a `.zip` archive. Multiple files are merged automatically. Tables from other classifiers can be used if they contain the columns below.
 
-**Coordinate file** (optional, for recorder-specific coordinates): `.csv`, `.txt`, or `.xlsx` with columns `recorder`, `latitude`, `longitude` (WGS84). The `recorder` values must match exactly the names extracted during path parsing. For example:
+| BirdNET column | Read by SCORE as | Content |
+|------------------|------------------|------------------|
+| `Begin Path` | `Begin.Path` | Path or name of the audio file, from which date and time are read |
+| `Common Name` | `Common.Name` | Species name |
+| `Confidence` | `Confidence` | Confidence score (0–1) |
+| `Begin Time (s)` | `Begin.Time..s.` | Detection offset within the audio file (seconds) |
+
+**Date and time in file names.** By default, SCORE reads the pattern `YYYYMMDD_HHMMSS` (e.g. `Site_20230502_210202.wav`). Other recorder formats can be selected in the Import tab, detected automatically or defined manually. A preview shows how your file names are read.
+
+**Coordinates (optional file).** For recorder-specific coordinates, provide a `.csv`, `.txt` or `.xlsx` file with the columns `recorder`, `latitude` and `longitude` (WGS 84, decimal degrees). Recorder names must match exactly the names extracted during path parsing.
 
 | recorder | latitude | longitude |
 |----------|----------|-----------|
 | A        | 47.2090  | 8.1428    |
 | B        | 46.2119  | 8.1397    |
 
-## General workflow
+**Species list (optional file).** To restrict the analysis to a community (e.g. Red List species), upload a `.xlsx`, `.xls` or `.csv` file with a column named `species`, one species per row. Other columns are ignored.
 
-**The complete userguide can also be found on the User Guide Tab directly in the App.**
+------------------------------------------------------------------------
 
-1.  Import and prepare the BirdNET dataset.
+## Workflow
 
-2.  Define coordinates and timezone.
+1. **Import data** – load detections, set date format, coordinates and time zone, filter.
+2. **Duty cycle** – test how intermittent recording affects richness.
+3. **Time window** – test when and how long to record each day.
+4. **Multi-optimum** – combine duty cycles and windows, compare all schedules.
+5. **Target species activity** – check the activity pattern of focal species.
+6. **Share results** – export a preset and submit it to the library.
 
-3.  Apply the desired filters.
+In every tab, result tables can be downloaded, and figures can be saved as images or returned to R as `ggplot`/`plotly` objects with the **Return object** buttons. Returned objects appear in your global environment after closing the app. A detailed user guide is also available in the **User guide** tab of the app.
 
-4.  Explore candidate duty-cycle designs.
+------------------------------------------------------------------------
 
-5.  Explore candidate recording windows.
+## 1. Import data
 
-6.  Compare complete sampling designs in the multi-optimum analysis.
+Prepare the detection dataset used in all following tabs.
 
-7.  Optionally, visualise activity of one or several target species under different recording schedules.
+1. Browse one or several BirdNET files and click **Import and preview**.
+2. Check the **date–time format** of your file names and the **time zone** of your recorders.
+3. *Optional:* use **path parsing** to extract site or recorder names from the file path (e.g. `V1 = site`), then click **Parse path**.
+4. Apply filters: date range, confidence score, site, recorder, species. The **species list selector** imports a list of focal species from a file.
+5. Provide coordinates: one pair for the whole dataset, or a file with recorder-specific coordinates. Coordinates and time zone are used to calculate dawn, sunrise, sunset and dusk.
 
-**In each Tab, you can download data table associated with analysis and each ggplot object separatly using the `ruturn object` buttons. They will appear in the global environement after closing the app.**
+> **Note**
+>
+> - Without path parsing, one pair of coordinates is used for the whole dataset. This is fine when all recorders are in the same area, but less accurate when they are far apart.
+> - With path parsing, provide a coordinate file whose recorder names match the parsed names.
 
-<img src="www/big_workflow.jpg" alt="Workflow illustration" width="1200"/>
+<img src="www/TAB1.png" alt="Import data tab" width="1000"/>
 
-
-## Features
-
-## 1. Data import
-
-### Purpose of the tab
-
--   Import and prepare the BirdNET detection dataset used in all downstream analyses.
--   BirdNET output is formatted to calculate the timestamp of each detection and to standardise column names.
--   Assign site or recorder labels via path parsing.
--   Filter by date, confidence score, species, recorder, or site.
--   Assign coordinates and timezone to the recording location.
-
-### How to proceed
-
-1.  Browse one or several BirdNET files.
-
-2.  Click **`IMPORT AND PREVIEW`**.
-
-3.  Optional: use the path preview to identify where site and recorder names are stored in the file path. Assign the position of your information (e.g. `V1 = site`).
-
-4.  Select the corresponding path columns and click **`Parse path`**.
-
-5.  Apply the desired filters. The **`species list selector`** can be used to select a specific bird community from an external species list. Users can upload an Excel or CSV file containing the species to keep in the analysis.The file must contain a column named exactly `species`. This column should contain the species names, with one species per row. The file may contain additional columns, but these will be ignored by the application.Accepted file formats are `.xlsx`, `.xls`, and `.csv`.
-
-6.  Assign one pair of coordinates for the whole dataset, or upload recorder-specific coordinates. Recorder-specific coordinates must be in a `csv`, `txt`, or `xlsx` file, and the location name must exactly match the name defined during path parsing.
-
-7.  Select the timezone. Coordinates and timezone are used to calculate solar events (`dawn`, `sunrise`, `sunset`, `dusk`).
-
-    <div>
-
-    > **Important**\
-    >
-    > -   If path parsing is not applied, the same coordinates are used for the whole dataset. This is suitable when all recordings come from the same area, but it may reduce the accuracy of solar-event calculations if recorders are far apart.
-    >
-    > -   <div>
-    >
-    >     If path parsing is applied, recorder- or site-specific coordinates must be provided in a multiple-coordinate file. Conversely, if path parsing is not applied, a single pair of coordinates must be used for the whole dataset.
-    >
-    >     </div>
-
-    </div>
-
-<img src="www/TAB1.png" alt="TAB1" width="1200"/>
+------------------------------------------------------------------------
 
 ## 2. Duty cycle
 
-### What is a duty cycle?
+A duty cycle records for a fixed time at regular intervals, for example 1 min every 5 min. This tab shows how richness changes as recording becomes sparser.
 
--   In bioacoustics, a duty cycle is a recording schedule in which the recorder does not run continuously but records at regular intervals — for example 1 min every 5 min, or 10 min every 30 min.
+**Main settings**
 
-### Purpose of the tab
+- **Recording window:** start and end events (`dawn`, `sunrise`, `sunset`, `dusk`), with optional shifts, a fixed duration or a second daily window. Tick **24h recording** for continuous recorders.
+- **Min / Max period** and **Step (min):** the cycle lengths to test.
+- **Duty duration (min):** recording time within each cycle.
+- **Bootstrap:** number of replicates. Days are resampled with replacement.
 
--   Evaluate how species richness changes under different duty-cycle schedules within the same fixed daily recording window.
--   The user defines a range of duty-cycle values to test, from a minimum to a maximum period.
--   Compare duty-cycle designs by visualising richness retention and recording effort.
--   Identify which species are most likely to be missed under reduced effort.
+> **Example:** `Min = 1`, `Max = 30`, `Step = 5`, `Duty duration = 1` tests 1/1, 1/6, 1/11 … up to 1/26 min.
 
-### User inputs
+**Outputs**
 
--   **`Recording window` (left preview):** select a start and end event for the recording window (`dawn`, `sunrise`, `sunset`, `dusk`). Tick `24h recording` if your recorder runs all day.
--   **`Extend before / after`:** shift the window earlier or later relative to the selected solar events.
--   **`Fixed duration`:** if used, the window ends after a fixed number of hours rather than at the end event.
--   **`Second daily window`:** optionally add a second recording window with its own settings.
--   **`Min / Max period (min)`:** the smallest and largest recording interval to test.
--   **`Step (min)`:** the increment between tested period values.
--   **`Duty duration (min)`:** the duration of each individual recording block within a period.
--   **`Bootstrap`:** number of bootstrap replicates used to assess variability across survey days.
--   **`Show average + CI`:** overlay the mean richness-effort curve and its 95% bootstrap confidence band.
+- **Richness–effort curve:** mean daily richness of each duty cycle relative to the highest-effort design, for each bootstrap replicate, with the mean and its 95% interval.
+- **Species omission heatmap:** how often each species is missed under each duty cycle. Species most often missed are at the top.
 
-> **Example**\
-> with `Min = 1`, `Max = 30`, `Step = 5`, `Duty duration = 1`, the app tests: `1 min/1 min`, `1 min/6 min`, `1 min/11 min` … up to `1 min/30 min`.
+> **How many bootstrap replicates?** Start with a moderate number (e.g. 100) and increase it until the curve and its interval no longer change. More replicates reduce simulation noise but do not add information: the bootstrap only resamples your pilot days. With 3 days there are only 10 distinct bootstrap samples, with 7 days 1,716.
 
-### Main calculations
+<img src="www/TAB2.png" alt="Duty cycle tab" width="1000"/>
 
--   For each duty-cycle schedule, the app simulates subsampling of the detection data.
--   At every bootstrap iteration, survey days are resampled with replacement and richness is recalculated.
--   Richness is expressed as mean daily richness and standardised to 100% within each replicate.
--   Species detected under each schedule are compared with those from the reference (continuous) schedule in the same replicate.
--   A species is counted as missed if it appears in the reference but not in the tested schedule.
-
-### Outputs
-
--   **`Richness-effort curve`:** shows how relative richness changes with recording effort. Each curve is one bootstrap replicate; the blue band shows the mean ± 95% CI.
-
--   **`Missed-species heatmap`:** shows how often each species goes undetected at each duty-cycle setting compared to continuous recording.
-
-<img src="www/TAB2.png" alt="TAB2" width="1200"/>
+------------------------------------------------------------------------
 
 ## 3. Time window
 
-### Purpose of the tab
+This tab tests when and for how long to record each day, assuming continuous recording within the window.
 
--   Evaluate how species richness changes when the recording window is shifted in time and varied in duration.
--   Identify which part of the day or night is most efficient for detecting species.
--   Compare one-window and two-window designs.
+**Main settings**
 
-### User inputs
+- **Reference time:** a daylight event (`dawn`, `sunrise`, `sunset`, `dusk`) or a **fixed clock time**, for recorders that cannot follow sunrise and sunset.
+- **Min / Max offset** and **Start time step:** start times to test relative to the reference time (`Min offset` must be smaller than `Max offset`).
+- **Min / Max duration** and **Duration step:** window durations to test.
+- **Window 2:** optional second window with its own settings.
+- **Keep top combined windows:** for each duration, only the best `N` windows of Window 1 and Window 2 are combined (default: 3). Lower values make the analysis and the plots faster; higher values explore more combinations.
 
--   **`Reference event`:** the anchor for all tested windows (e.g. `dawn`, `sunrise`, or a fixed clock time).
--   **`Min / Max offset`:** range of start times to test relative to the reference event.
--   **`Start time step`:** increment between tested start offsets.
--   **`Min / Max duration`:** range of recording window durations to test.
--   **`Duration step`:** increment between tested durations.
--   **`Window 2`:** optionally add a second window with its own reference event, offset range, and duration range.
--   **`Show optimal frontier`:** highlight the best-performing design for each duration on the heatmap.
--   Note: if `Min offset` is greater than `Max offset` the analysis will return an error. Ensure `Min offset < Max offset`.
--   **`Keep top combined windows`:** limits the number of two-window combinations tested. For each recording duration, the app keeps only the best `N` candidates for `Window 1` and `Window 2`, then combines them.
+> **Example:** 12 start times × 12 durations give 144 windows. With a similar second window, testing all pairs would give 144 × 144 = 20,736 combinations. With `Keep top = 3`, only 3 × 3 combinations per duration are kept.
 
-> **Example**\
-> with `12` start offsets × `12` durations gives `144` candidate windows, and with a second similar window, combination gives `144 × 144 = 20 736` possible two-window combinations. Lower values of **`Keep top combined windows`** reduce computation time in the **Time window** and **Multi optimum** tabs, and make the interactive `ggplotly` plots lighter and easier to navigate. Higher values increase computation time, but test more combinations.
+**Outputs**
 
-### Main calculations
+- A heatmap of richness across start times and durations for each window, with the best start time for each duration marked.
+- With two windows, a richness–effort plot of single and combined windows.
 
--   A grid of candidate schedules is built from all tested start offsets and durations. The number and parameters of candidate schedules are summarised in the `Design preview` table.
--   For each date, the app simulates subsampling under all candidate schedules and counts distinct species detected.
--   If a schedule crosses midnight, detections from the adjacent day are included.
--   Mean daily richness is standardised to 100% (`= the Window 1 design with the highest mean richness`).
--   If both windows are used, the app also evaluates all pairwise combinations. Combined richness is the union of species detected in both windows, and 100% corresponds to the best combined design.
+<!-- TODO: check what 100% refers to in the current version (continuous 24 hr recording, as in the manuscript?) -->
 
-### Output plots
+> **Note:** if tested windows extend beyond the hours actually recorded in your dataset, richness will be underestimated. Windows crossing midnight include detections from the next day.
 
--   `Window 1` only: a heatmap of richness across start offsets and durations.
--   `Window 2` active: a second heatmap for `Window 2` and a scatter plot of combined two-window richness versus total effort.
+<img src="www/TAB3.png" alt="Time window tab" width="1000"/>
 
-> **Important** - This tab identifies efficient recording windows, not duty-cycle designs. - If tested windows extend beyond the real recording coverage of the dataset, richness may be underestimated. - When both windows are active, the number of candidate combined designs grows as the product of all `Window 1` and `Window 2` candidates.
+------------------------------------------------------------------------
 
-<img src="R/www/TAB3.png" alt="TAB3" width="1200"/>
+## 4. Multi-optimum
 
-## 4. Multi optimum
+This is the decision step. Every duty cycle from Tab 2 is combined with every window design from Tab 3, and all resulting schedules are compared. Run Tabs 2 and 3 first; no extra settings are needed.
 
-### Purpose
+**Outputs**
 
--   Combine Duty cycle and Time window results into complete sampling designs (`daily window + duty cycle`).
--   Compare all candidate combinations in terms of richness retention and effort.
--   Identify the Pareto-optimal design: highest richness for a given effort.
+- **Richness–effort plot:** one point per schedule, with the **Pareto frontier** in red, i.e. the schedules that keep the most species for a given effort.
+- **Click on a point** to see its recording windows, duty cycle and the **estimated battery autonomy** of common recorders (Wildlife Acoustics SM Micro 2, SM Mini 2, SM4, SM5; Open Acoustic Devices AudioMoth). Optionally, enter a deployment length to get the number of battery sets needed.
+- **Download table:** all schedules with effort, retained richness, detected species and battery autonomy.
 
-### Before running this tab
+Battery autonomy is the nominal battery life reported by manufacturers divided by the daily recording time. Real autonomy is shorter at low temperatures, higher sample rates or with more channels.
 
--   The Duty cycle and Time window computations must be run first.
--   No additional user input is required; candidate schedules are taken from Tabs 2 and 3.
+> **Choosing a schedule:** a simple rule is to take the schedule with the least recording effort among those retaining your target richness (e.g. 90%). As performance on new days is usually lower, choose a target slightly above what you need. The optimisation criterion is mean daily richness, not cumulative seasonal richness.
 
-### Main calculations
-
--   For each candidate time window × duty-cycle combination, the app builds a final schedule by keeping only the duty-cycle blocks that fall inside the selected window(s).
--   Richness is recalculated on these combined schedules.
--   Relative richness is scaled to the maximum richness found across all tested designs.
-
-### Outputs
-
--   **`Multi-optimum plot`:** all tested combinations in the effort–richness space. Recorder battery life equivalents are shown in the tooltip of Pareto-optimal points.
--   **`Pareto frontier`:** highlighted in red — the set of designs that retain the highest richness for a given recording effort.
-
-> **Important** - This tab is the final decision-support step of the application. - The optimisation criterion is mean daily richness, not cumulative seasonal richness.
-
-<img src="www/TAB4.png" alt="TAB4" width="1200"/>
+<img src="www/TAB4.png" alt="Multi-optimum tab" width="1000"/>
 
 ------------------------------------------------------------------------
 
 ## 5. Target species activity
 
-### Purpose of the tab
+This tab shows whether the daily and seasonal activity of one or several focal species is still visible under reduced duty cycles.
 
--   Visualise the temporal distribution of detections for one or several focal species.
--   Assess how different subsampling regimes interact with the timing of species activity.
+- Select the target species, the duty cycles to test and the size of time bins.
+- Detections are counted in bins of time of day × date for each duty cycle and shown as heatmaps with the same scale.
+- Sparser schedules make the heatmaps paler and more fragmented. Check whether the main activity periods, the first detections and the end of the season remain visible.
 
-### User inputs
+This tab is descriptive: it does not select an optimal schedule.
 
--   Select one or several target species.
--   Choose a range of duty-cycle periods to test (same parameters as Tab 2).
--   Choose the time resolution at which detections are aggregated for display.
-
-### Main calculations
-
--   For each tested duty-cycle period, the app simulates subsampling of the focal species detections.
--   Detections falling into successive time bins across dates are counted.
-
-### Outputs
-
--   **`Animated heatmap`:** shows how apparent activity patterns change under different subsampling regimes.
-
-> **Important** - This tab is descriptive rather than optimising. - It visualises temporal activity patterns but does not identify optimal richness-effort trade-offs.
-
-<img src="www/TAB5.png" alt="TAB5" width="1200"/>
+<img src="www/TAB5.png" alt="Target species activity tab" width="1000"/>
 
 ------------------------------------------------------------------------
 
-## Acknowledgments
+## 6. Share results
+
+This tab exports your analysis as a **SCORE preset**: a `.zip` file with a standardised JSON file and the figures of Tabs 2–4. A preset contains:
+
+- the settings of the analysis;
+- the recommended schedules, with the species detected and their omission rate;
+- the daily activity of each species relative to sunrise;
+- short metadata: study objective, taxa, country, habitat, period, elevation and, optionally, rounded coordinates.
+
+<!-- TODO: add the link to the issue template and the contact e-mail -->
+
+**Submit your preset** through the [GitHub issue template](../../issues/new/choose) or by e-mail to amandine.serrurier@vogelwarte.ch. After checking, it is added to the **[preset library](presets_library)**, where each preset is displayed. The library currently contains the case studies of the manuscript. As it grows, it will help users without pilot data find schedules tested in similar habitats and seasons.
+
+------------------------------------------------------------------------
+
+## Limitations
+
+- SCORE works on classifier detections, not on true species presence. Results depend on the performance of the classifier for each species and on the confidence threshold used. Species-specific thresholds can be set before running SCORE.
+- Schedules are optimised for the pilot data. See [Before you start](#before-you-start-pilot-data) for recommendations.
+- SCORE was developed for birds and BirdNET, but works with any classifier output in the required format and other vocal taxa (bats, amphibians, orthopterans, mammals...).
+
+------------------------------------------------------------------------
+
+## Contact and contributions
+
+Questions, bugs and suggestions are welcome as [GitHub issues](../../issues).
+
+## Acknowledgements
 
 This application is designed to work with output from [BirdNET](https://github.com/kahst/BirdNET-Analyzer), a powerful AI-based bird sound identification system developed by the K. Lisa Yang Center for Conservation Bioacoustics at the Cornell Lab of Ornithology.
 
