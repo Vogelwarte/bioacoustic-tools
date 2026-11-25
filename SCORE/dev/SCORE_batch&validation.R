@@ -22,9 +22,13 @@
 # (schedule rows + block_in_window() + compute_richness()) and stops if any
 # value differs. So the speed-up cannot change the results silently.
 #
-# Three chapters, which can be run separately (switches in section 0a):
+# Four chapters, which can be run separately (switches in section 0a):
 #   CHAPTER A  Temporal pilots: select on each pilot (start date x length) and
-#              save the run (then validate with validate_pilots.R)
+#              save the run
+#   CHAPTER V  Temporal validation of the CHAPTER A runs (was validate_pilots.R):
+#              each selected schedule is applied to the other days of the season
+#              (later days, all other days, blocks of N days), relative to
+#              continuous 24-h recording on the same days
 #   CHAPTER B  Spatial validation: on the same days, select on a subset of the
 #              recorders (training) and evaluate the selected schedule on the
 #              other recorders (test), relative to continuous 24-h recording
@@ -32,15 +36,32 @@
 #              (.zip with the .json and the figures), identical to the one of the
 #              app tab "6. Share results" (same code: preset_functions.R)
 #
+# Selection rule (setting threshold_ref): the selected schedule is the one with the
+# least effort among those retaining >= threshold % of the mean daily richness of
+#   "24h"  : continuous recording (all input data)  <- used in the manuscript
+#   "best" : the best schedule tested (rule of the app, Tab 4)
+#
 # Not included: Tab 5 (target species), which is not used for the pilots.
 # =============================================================================
 
 ## ---- 0. SETTINGS (edit here) ------------------------------------------------
 
 ## 0a. What to run -------------------------------------------------------------
-run_temporal <- FALSE     # CHAPTER A: temporal pilots
-run_spatial  <- FALSE     # CHAPTER B: spatial validation
-run_presets  <- TRUE      # CHAPTER C: SCORE presets (.zip, as in the app)
+run_temporal <- TRUE     # CHAPTER A: temporal pilots
+run_validation <- TRUE    # CHAPTER V: temporal validation of the CHAPTER A runs (after A)
+run_spatial  <- TRUE      # CHAPTER B: spatial validation
+run_presets  <- FALSE      # CHAPTER C: SCORE presets (.zip, as in the app)
+
+## 0a'. Re-use runs already computed (no new batch) ---------------------------
+# TRUE  = Tabs 2-4 are NOT recomputed: the schedule is re-selected (rule threshold_ref)
+#         in the candidate tables of runs saved earlier (tables/multi_optimum_all_candidates.csv).
+#         Tabs 2-4 do not depend on the selection rule, so the results are identical to a new
+#         batch, in minutes instead of hours. CHAPTER A writes only the new best_schedule.csv;
+#         CHAPTER B evaluates the re-selected schedules on the test recorders.
+# FALSE = full batch (Tabs 2-4 recomputed), as before.
+reselect_from_saved_runs <- TRUE
+saved_runs_dir    <- "/Users/amandine.serrurier/Documents/SCORE_runs/batch_runs/PVPs"            # 12 temporal pilots (old rule)
+saved_spatial_dir <- "/Users/amandine.serrurier/Documents/SCORE_runs/spatial_validation/richnessrelativetobestschedul"  # S_* folders (GROUP, RANDOM, LOO)
 
 ## 0b. CHAPTER A: pilot start dates x pilot lengths (12 pilots as planned) -----
 pilot_starts  <- c("2023-05-12", "2023-06-01", "2023-07-01")
@@ -48,11 +69,19 @@ pilot_lengths <- c(1, 3, 7, 14)
 # To run a custom list instead, give a table, e.g.:
 # pilots_custom <- data.frame(start = c("2023-06-01", "2023-08-01"), length = c(7, 3))
 pilots_custom <- NULL
+# pilots_custom <- data.frame(start = "2025-12-31", length = 3)   # burkina faso settings
+
+## 0b'. CHAPTER V: temporal validation settings ---------------------------------
+val_season_start <- "2023-05-12"     # season used to evaluate the pilot schedules
+val_season_end   <- "2023-09-14"
+val_block_days   <- 14               # length of the seasonal test blocks
+val_anchors      <- c("solar", "fixed")   # "solar" = windows follow sunrise/sunset (MAIN RESULT);
+                                          # "fixed" = windows fixed at the mean clock times of the pilot
 
 ## 0c. CHAPTER B: spatial validation --------------------------------------------
 spatial_start   <- "2023-06-01"     # same days for training and test recorders
 spatial_end     <- "2023-06-07"
-spatial_splits  <-  c("group", "random")
+spatial_splits  <-  c("group", "random", "loo")
 #   "group"  = leave-one-group-out: select on one group (e.g. site), test on the others
 #   "random" = random splits: n_train recorders for selection, the others for testing
 #   "loo"    = leave-one-out: select on all recorders but one, test on that one
@@ -118,24 +147,32 @@ SCORE_VERSION <- "1.1.0"
 
 ## 0d. Files ------------------------------------------------------------------
 score_dir  <-  "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE"   # folder with functions.R
-data_files <- "/Users/amandine.serrurier/Documents/traning_data_complete_bn_2024_GG/BurkinaGM_2025-12/all_data_filtered_BF_1225.txt"
-runs_dir         <- "/Users/amandine.serrurier/Documents/SCORE_runs/batch_runs"   # CHAPTER A, one sub-folder per run
-spatial_runs_dir <- "/Users/amandine.serrurier/Documents/SCORE_runs/spatial_runs" # CHAPTER B
+# --- Alpine dataset (validation for the manuscript) ---
+data_files <- "/Users/amandine.serrurier/Documents/traning_data_complete_bn_2024_GG/PVP_2023_24h/GON_GRE_2023.csv"
+runs_dir         <- "/Users/amandine.serrurier/Documents/SCORE_runs/batch_runs/PVPs_24h"   # CHAPTER A (+ input of CHAPTER V), one sub-folder per run
+spatial_runs_dir <- "/Users/amandine.serrurier/Documents/SCORE_runs/spatial_validation/richnesscomparedto24h_MS"   # CHAPTER B
+# --- Burkina Faso (previous settings) ---
+# data_files <- "/Users/amandine.serrurier/Documents/traning_data_complete_bn_2024_GG/BurkinaGM_2025-12/all_data_filtered_BF_1225.txt"
+# runs_dir   <- "/Users/amandine.serrurier/Documents/SCORE_runs/batch_runs/Burkina2025"
 presets_out_dir  <- "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE/presets_library"
 library_presets_dir <- "~/Library/Mobile Documents/com~apple~CloudDocs/Documents/VoWa/shiny_App_raref/bioacoustic-tools/SCORE/presets_library/presets"  # NULL = ne rien copier# CHAPTER C: one .zip per preset
+# CHAPTER V: outputs of the temporal validation (tables + figures A-D)
+validation_out_dir <- "/Users/amandine.serrurier/Documents/SCORE_runs/temporal_validation/richnesscomparedto24h_MS"
+# TIP: when you change threshold_ref, use NEW folders for runs_dir and spatial_runs_dir
+# (e.g. .../batch_runs_24h and .../spatial_runs_24h), so the old runs are kept and not mixed.
 skip_existing_runs <- TRUE      # TRUE = a selection (or preset .zip) already saved is not recomputed
 
 ## 0e. Tab 1: import, filters, coordinates (same meaning as in the app) -------
 s <- list(
-  timezone          = "Africa/Ouagadougou",
+  timezone          = "Europe/Zurich",        # Burkina: "Africa/Ouagadougou"
   min_conf          = 0,
   species_file      = NULL,   
-  exclude_recorders = NULL,
+  exclude_recorders = c("RUB6-ROLLE"),       # Burkina: NULL
   site_col          = NULL,
   rec_col           = NULL,
   coord_mode        = "single",
-  single_lat        = 12.25,    
-  single_lon        = -0.63,    
+  single_lat        = 46.19,                 # Burkina: 12.25
+  single_lon        = 8.13,                  # Burkina: -0.63
 
 
 ## 0f. Tab 2: duty cycle ----------------------------------------------------
@@ -163,7 +200,8 @@ s <- list(
   show_frontier     = TRUE,
 
 ## 0h. Tab 4 and saving -----------------------------------------------------
-  threshold         = 90,       # best schedule = least effort with richness_pct >= threshold
+  threshold         = 90,       # selected schedule = least effort with retained richness >= threshold
+  threshold_ref     = "24h",    # "24h" = % of continuous recording (manuscript); "best" = % of best schedule tested (app)
   near_optimal_pct  = 5,        # also save schedules within +5 % of the best effort
   n_verify          = 25,       # candidates re-computed with the app code path in each run
   seed              = 1,        # random seed (bootstrap, verification sample)
@@ -230,6 +268,7 @@ rm(chk)
 
 dtA <- raw[, .(species = Common.Name, conf = Confidence, date = fdate, minute_of_day,
                filename, Begin.Path)]
+n_raw_detections <- nrow(raw)
 rm(raw, u); invisible(gc())
 dtA[, recorder_file := sub("_\\d{8}_\\d{6}.*$", "", filename)]
 if (length(s$exclude_recorders)) dtA <- dtA[!recorder_file %in% s$exclude_recorders]
@@ -683,8 +722,18 @@ select_and_save <- function(dt, run_id, d, index_file, extra = list(), return_al
   res[, effort_reduction_pct := 100 - effort_pct_24h]
   res[, effort_pct_max := 100 * effort / max(effort)]
   res[, richness_pct_24h := 100 * richness / ref24]
-  best <- res[richness_pct >= s$threshold][order(effort, -richness_pct)][1]
-  near <- res[richness_pct >= s$threshold & effort <= (1 + s$near_optimal_pct / 100) * best$effort][order(effort, -richness_pct)]
+  # Selection: least effort among the schedules reaching the threshold (ties: highest richness)
+  sel_col <- if (identical(s$threshold_ref, "best")) "richness_pct" else "richness_pct_24h"
+  res[, sel_pct := get(sel_col)]
+  best <- res[sel_pct >= s$threshold][order(effort, -sel_pct)][1]
+  if (is.na(best$effort)) {
+    msg("  NO schedule reaches ", s$threshold, " % (", sel_col, "; max = ", round(max(res$sel_pct), 1),
+        " %) for ", run_id, ": run not saved. Widen the window grid or lower the threshold.")
+    res[, sel_pct := NULL]
+    return(NULL)
+  }
+  near <- res[sel_pct >= s$threshold & effort <= (1 + s$near_optimal_pct / 100) * best$effort][order(effort, -sel_pct)]
+  res[, sel_pct := NULL]; best[, sel_pct := NULL]; near[, sel_pct := NULL]
 
   # Verification against the app code path
   vi  <- unique(c(sample.int(nrow(res), min(s$n_verify, nrow(res))),
@@ -735,13 +784,45 @@ select_and_save <- function(dt, run_id, d, index_file, extra = list(), return_al
   save_plot(plot_optimum(res), file.path(d, "plots"), "ggplot_optimum")
 
   idx <- cbind(data.table(run_id = run_id, first_date = min(pilot_days), last_date = max(pilot_days),
-                          n_days = n_days, threshold = s$threshold), best)
+                          n_days = n_days, threshold = s$threshold, threshold_ref = s$threshold_ref), best)
   idx[, names(idx) := lapply(.SD, as.character)]
   old <- if (file.exists(index_file)) fread(index_file, colClasses = "character") else NULL
   if (!is.null(old)) old <- old[run_id != idx$run_id]          # a re-run replaces its old line
   fwrite(rbind(old, idx, fill = TRUE), index_file)
   msg("  Saved in ", d, " (", round(as.numeric(difftime(Sys.time(), t_run, units = "mins")), 1), " min)")
   if (return_all) return(list(best = best, t2 = t2, grid = grid, res = res, sol_all = sol_all))
+  best
+}
+
+# Re-select the schedule in a run saved earlier (no recomputation of Tabs 2-4).
+# Writes best_schedule.csv, near_optimal_schedules.csv and parameters.csv in new_dir;
+# returns the selected row (NULL if the threshold is not reached).
+reselect_run <- function(old_dir, new_dir, index_file) {
+  res <- fread(file.path(old_dir, "tables", "multi_optimum_all_candidates.csv"))
+  sel_col <- if (identical(s$threshold_ref, "best")) "richness_pct" else "richness_pct_24h"
+  res[, sel_pct := get(sel_col)]
+  best <- res[sel_pct >= s$threshold][order(effort, -sel_pct)][1]
+  if (is.na(best$effort)) {
+    msg("  NO schedule reaches ", s$threshold, " % (", sel_col, ") in ", basename(old_dir)); return(NULL) }
+  near <- res[sel_pct >= s$threshold & effort <= (1 + s$near_optimal_pct / 100) * best$effort][order(effort, -sel_pct)]
+  best[, sel_pct := NULL]; near[, sel_pct := NULL]
+  dir.create(new_dir, recursive = TRUE, showWarnings = FALSE)
+  p <- fread(file.path(old_dir, "parameters.csv"), colClasses = "character")
+  p <- p[!parameter %in% c("threshold", "threshold_ref", "reselected_from")]
+  p <- rbind(p, data.table(parameter = c("threshold", "threshold_ref", "reselected_from"),
+                           value = c(s$threshold, s$threshold_ref, old_dir)))
+  fwrite(p, file.path(new_dir, "parameters.csv"))
+  fwrite(best, file.path(new_dir, "best_schedule.csv"))
+  fwrite(near, file.path(new_dir, "near_optimal_schedules.csv"))
+  pv <- setNames(as.list(p$value), p$parameter)
+  idx <- cbind(data.table(run_id = basename(new_dir), first_date = pv$first_date, last_date = pv$last_date,
+                          n_days = pv$n_days, threshold = s$threshold, threshold_ref = s$threshold_ref), best)
+  idx[, names(idx) := lapply(.SD, as.character)]
+  old <- if (file.exists(index_file)) fread(index_file, colClasses = "character") else NULL
+  if (!is.null(old)) old <- old[run_id != idx$run_id]
+  fwrite(rbind(old, idx, fill = TRUE), index_file)
+  msg("  ", basename(old_dir), ": re-selected 1/", best$duty_period, " ", best$window_type,
+      " | effort ", round(best$effort_pct_24h, 1), " % | richness ", round(best$richness_pct_24h, 1), " % of 24 h")
   best
 }
 
@@ -765,7 +846,15 @@ evaluate_schedule <- function(dt, best) {
 }
 
 ## ---- 7. CHAPTER A: temporal pilots -------------------------------------------------
-if (run_temporal) {
+if (run_temporal && reselect_from_saved_runs) {
+  msg("######## CHAPTER A: re-selection in saved pilot runs (no new batch) ########")
+  dir.create(runs_dir, recursive = TRUE, showWarnings = FALSE)
+  old_dirs <- list.dirs(saved_runs_dir, recursive = FALSE)
+  old_dirs <- old_dirs[file.exists(file.path(old_dirs, "tables", "multi_optimum_all_candidates.csv"))]
+  if (!length(old_dirs)) stop("No saved run with tables/multi_optimum_all_candidates.csv in ", saved_runs_dir)
+  for (od in old_dirs) reselect_run(od, file.path(runs_dir, basename(od)), file.path(runs_dir, "index.csv"))
+  msg("Chapter A finished (", length(old_dirs), " runs re-selected).")
+} else if (run_temporal) {
   msg("######## CHAPTER A: temporal pilots ########")
   dir.create(runs_dir, recursive = TRUE, showWarnings = FALSE)
   pilots <- if (!is.null(pilots_custom)) as.data.table(pilots_custom) else
@@ -782,8 +871,226 @@ if (run_temporal) {
     if (nrow(dt) == 0) { msg("No data for ", pl$run_id); next }
     select_and_save(dt, pl$run_id, d, file.path(runs_dir, "index.csv"))
   }
-  msg("Chapter A finished. Next: validate_pilots.R with runs_dir = ", runs_dir)
+  msg("Chapter A finished.")
 }
+
+## ---- 7b. CHAPTER V: temporal validation of the CHAPTER A runs ------------------------
+# (was validate_pilots.R; same computations and outputs, but uses the detections already
+#  imported above, so the data, filters and settings are exactly those of the runs)
+if (run_validation) local({
+  msg("######## CHAPTER V: temporal validation ########")
+  if (s$coord_mode != "single") stop("CHAPTER V needs coord_mode = 'single'")
+  out_dir <- validation_out_dir
+  dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+  t0 <- Sys.time()
+
+  ## 1. Detections (pooled per day; date = date of the file start, as the app)
+  species_levels <- sort(unique(dtA$species))
+  D <- unique(dtA[, .(date = as.Date(date), minute = as.integer(minute_of_day),
+                      sp = match(species, species_levels))])
+  setkey(D, date, minute)
+  D <- D[date >= as.Date(val_season_start) & date <= as.Date(val_season_end)]
+  season_days <- sort(unique(D$date))
+  msg(format(nrow(D), big.mark = ","), " unique date-minute-species records, ",
+      length(season_days), " days, ", length(species_levels), " species")
+  REF_day <- D[, .(ref = uniqueN(sp)), keyby = date]          # continuous 24-h reference
+
+  ## 2. Solar table (same function and rounding as the app)
+  sun <- as.data.table(getSunlightTimes(date = seq(min(season_days) - 1L, max(season_days), by = "day"),
+                                        lat = s$single_lat, lon = s$single_lon,
+                                        keep = c("dawn", "sunrise", "sunset", "dusk"), tz = s$timezone))
+  sun[, date := as.Date(date)]
+  for (ev in c("dawn", "sunrise", "sunset", "dusk"))
+    sun[[paste0(ev, "_min")]] <- as.integer(hour(sun[[ev]]) * 60 + minute(sun[[ev]]))
+  ref_minutes <- function(event, days) {
+    if (event %in% c("dawn", "sunrise", "sunset", "dusk")) sun[data.table(date = days), on = "date"][[paste0(event, "_min")]]
+    else rep(as.integer(sub(":.*", "", event)) * 60L + as.integer(sub(".*:", "", event)), length(days))
+  }
+
+  ## 3. Read the CHAPTER A runs
+  run_dirs <- list.dirs(runs_dir, recursive = FALSE)
+  run_dirs <- run_dirs[file.exists(file.path(run_dirs, "best_schedule.csv")) &
+                       file.exists(file.path(run_dirs, "parameters.csv"))]
+  if (!length(run_dirs)) stop("No run found in runs_dir (run CHAPTER A first): ", runs_dir)
+  runs <- rbindlist(lapply(run_dirs, function(d) {
+    p <- fread(file.path(d, "parameters.csv"), colClasses = "character")
+    p <- setNames(as.list(p$value), p$parameter)
+    b <- fread(file.path(d, "best_schedule.csv"))
+    num <- function(v) if (is.null(v) || length(v) == 0 || is.na(v) || v == "") NA_real_ else as.numeric(v)
+    data.table(run_id = basename(d), first = as.Date(p$first_date), last = as.Date(p$last_date),
+               n_days = as.integer(p$n_days), window_type = b$window_type,
+               ev1 = p$grid_event, off1 = num(b$start1_hour), dur1 = num(b$dur1_h),
+               ev2 = p$grid_event2, off2 = num(b$start2_hour), dur2 = num(b$dur2_h),
+               period = as.numeric(b$duty_period), duty = as.numeric(p$duty_duration),
+               app_effort = as.numeric(b$effort), app_richness = as.numeric(b$richness),
+               threshold_ref = if (is.null(p$threshold_ref)) "best" else p$threshold_ref,
+               params_signature = paste(p[setdiff(names(p), c("first_date", "last_date", "n_days", "run_date",
+                 "units", "n_species_in_pilot", "bootstrap_replicates_used", "richness_24h_mean_daily",
+                 "n_candidates", "verification_max_diff", "reselected_from"))], collapse = "|"))
+  }))
+  setorder(runs, first, n_days)
+  if (uniqueN(runs$params_signature) > 1) warning("Runs do not all use the same settings (see parameters.csv of each run).")
+  if (uniqueN(runs$threshold_ref) > 1) warning("Runs mix threshold_ref values: use one runs_dir per rule.")
+  msg(nrow(runs), " pilot runs found (selection rule: ", paste(unique(runs$threshold_ref), collapse = ", "), ")")
+
+  ## 4. Build and evaluate a schedule
+  build_schedule <- function(r, days, anchor) {
+    base <- create_sun_duty_schedule(sun_table = sun[1, .(date, dawn, sunrise, sunset, dusk)],
+                                     period = r$period, duty_duration = r$duty, record_24h = TRUE)
+    blocks <- unique(base[, .(start_min, end_min)])
+    S <- CJ(date = days, b = seq_len(nrow(blocks)))
+    S[, `:=`(start_min = blocks$start_min[b], end_min = blocks$end_min[b])]
+    pilot_days <- seq(r$first, r$last, by = "day")
+    ref_for <- function(ev) switch(anchor,
+      solar = ref_minutes(ev, S$date),
+      fixed = rep(as.integer(round(mean(ref_minutes(ev, pilot_days)))), nrow(S)))
+    use1 <- r$window_type %in% c("W1", "Combined"); use2 <- r$window_type %in% c("W2", "Combined")
+    if (use1) { rr <- ref_for(r$ev1); S[, `:=`(w1s = rr + r$off1 * 60, w1e = rr + (r$off1 + r$dur1) * 60)] }
+    if (use2) { rr <- ref_for(r$ev2); S[, `:=`(w2s = rr + r$off2 * 60, w2e = rr + (r$off2 + r$dur2) * 60)] }
+    S[, keep := {
+      k <- rep(FALSE, .N)
+      if (use1) k <- k | block_in_window(start_min, end_min, w1s[1], w1e[1])
+      if (use2) k <- k | block_in_window(start_min, end_min, w2s[1], w2e[1])
+      k }, by = date]
+    S <- S[keep == TRUE]
+    effort <- S[, .(effort = sum(end_min - start_min + 1)), keyby = date]
+    mins <- if (all(S$end_min == S$start_min)) S[, .(date, minute = start_min)] else
+      S[, .(minute = start_min:end_min), by = .(date, start_min)][, .(date, minute)]
+    list(minutes = unique(mins), effort = effort)
+  }
+  evaluate <- function(sch, days) {
+    if (length(days) == 0) return(NULL)
+    Dd  <- D[date %in% days]
+    hit <- Dd[sch$minutes[date %in% days], on = .(date, minute), nomatch = 0L]
+    dd  <- data.table(date = days)
+    rd  <- hit[, .(rich = uniqueN(sp)), keyby = date][dd, on = "date"]; rd[is.na(rich), rich := 0L]
+    ref <- REF_day[dd, on = "date"][is.na(ref), ref := 0L]
+    eff <- sch$effort[dd, on = "date"][is.na(effort), effort := 0]
+    sp_sched <- unique(hit$sp); sp_ref <- unique(Dd$sp)
+    list(metrics = data.table(
+      n_days = length(days), mean_rich_sched = mean(rd$rich), mean_rich_24h = mean(ref$ref),
+      daily_richness_pct_24h = 100 * mean(rd$rich) / mean(ref$ref),
+      n_species_sched = length(sp_sched), n_species_24h = length(sp_ref),
+      total_species_pct_24h = 100 * length(sp_sched) / length(sp_ref),
+      effort_pct_24h = 100 * sum(eff$effort) / (length(days) * 1440)),
+      sp_sched = sp_sched, sp_ref = sp_ref)
+  }
+
+  ## 5. Loop over runs and anchors
+  summary_rows <- list(); block_rows <- list(); missed_rows <- list(); check_rows <- list()
+  anchors <- unique(c("solar", val_anchors))
+  blocks_of <- function(days) as.integer(as.numeric(days - as.Date(val_season_start)) %/% val_block_days) + 1L
+  for (i in seq_len(nrow(runs))) {
+    r <- runs[i]
+    pilot_days <- season_days[season_days >= r$first & season_days <= r$last]
+    after_days <- season_days[season_days > r$last]
+    other_days <- season_days[season_days < r$first | season_days > r$last]
+    for (anc in anchors) {
+      sch <- build_schedule(r, season_days, anc)
+      ins <- evaluate(sch, pilot_days)
+      if (anc == "solar") check_rows[[length(check_rows) + 1]] <- data.table(      # reproduction check
+        run_id = r$run_id, app_richness = r$app_richness, script_richness = ins$metrics$mean_rich_sched,
+        app_effort = r$app_effort,
+        script_effort = sum(sch$effort[data.table(date = pilot_days), on = "date"]$effort, na.rm = TRUE))
+      for (set_name in c("pilot_in_sample", "after_pilot", "all_other_days")) {
+        days <- switch(set_name, pilot_in_sample = pilot_days, after_pilot = after_days, all_other_days = other_days)
+        ev <- if (set_name == "pilot_in_sample") ins else evaluate(sch, days)
+        if (is.null(ev)) next
+        summary_rows[[length(summary_rows) + 1]] <- cbind(
+          r[, .(run_id, pilot_start = first, pilot_end = last, pilot_length = n_days, window_type,
+                off1, dur1, off2, dur2, period, threshold_ref)],
+          anchor = anc, day_set = set_name, ev$metrics)
+      }
+      for (bk in unique(blocks_of(other_days))) {                                  # seasonal blocks
+        days <- other_days[blocks_of(other_days) == bk]
+        ev <- evaluate(sch, days)
+        block_rows[[length(block_rows) + 1]] <- cbind(
+          r[, .(run_id, pilot_start = first, pilot_length = n_days)], anchor = anc,
+          block = bk, block_start = min(days), block_end = max(days),
+          position = ifelse(min(days) > r$last, "after_pilot", "before_pilot"),
+          weeks_after_pilot_end = ifelse(min(days) > r$last, as.numeric(mean(days) - r$last) / 7, NA_real_),
+          ev$metrics)
+      }
+      if (anc == "solar" && length(after_days)) {                                  # species missed after the pilot
+        ev <- evaluate(sch, after_days)
+        missed <- setdiff(ev$sp_ref, ev$sp_sched)
+        in_pilot <- unique(D[date %in% pilot_days]$sp)
+        if (length(missed)) missed_rows[[length(missed_rows) + 1]] <- data.table(
+          run_id = r$run_id, pilot_start = r$first, pilot_length = r$n_days,
+          species = species_levels[missed], detected_in_pilot_24h = missed %in% in_pilot,
+          n_days_detected_24h_after = sapply(missed, function(x) uniqueN(D[date %in% after_days & sp == x]$date)))
+      }
+    }
+    msg("Run ", i, "/", nrow(runs), " done: ", r$run_id)
+  }
+  summary_dt <- rbindlist(summary_rows); blocks_dt <- rbindlist(block_rows)
+  missed_dt  <- rbindlist(missed_rows);  check_dt  <- rbindlist(check_rows)
+  check_dt[, `:=`(richness_diff = script_richness - app_richness, effort_diff = script_effort - app_effort)]
+  if (max(abs(c(check_dt$richness_diff, check_dt$effort_diff))) > 1e-6)
+    warning("Reproduction check: some runs differ from the selection (see check_reproduction_vs_app.csv)")
+
+  ## 6. Save numbers and settings
+  fwrite(summary_dt, file.path(out_dir, "validation_summary.csv"))
+  fwrite(blocks_dt,  file.path(out_dir, "validation_by_block.csv"))
+  fwrite(missed_dt,  file.path(out_dir, "validation_missed_species.csv"))
+  fwrite(check_dt,   file.path(out_dir, "check_reproduction_vs_app.csv"))
+  settings <- data.table(
+    setting = c("runs_dir", "season_start", "season_end", "block_days", "anchors", "threshold", "threshold_ref",
+                "data_files", "species_file", "exclude_recorders", "min_conf", "lat", "lon", "timezone",
+                "run_date", "n_runs", "runs", "n_detections_raw", "n_detections_kept", "n_species",
+                "recorders", "n_season_days", "R_version"),
+    value = c(runs_dir, val_season_start, val_season_end, val_block_days, paste(anchors, collapse = ", "),
+              s$threshold, paste(unique(runs$threshold_ref), collapse = ", "), paste(data_files, collapse = "; "),
+              if (is.null(s$species_file)) "none" else s$species_file, paste(s$exclude_recorders, collapse = ", "),
+              s$min_conf, s$single_lat, s$single_lon, s$timezone, format(Sys.time()), nrow(runs),
+              paste(runs$run_id, collapse = ", "), n_raw_detections, nrow(dtA), length(species_levels),
+              paste(sort(unique(dtA$unit)), collapse = ", "), length(season_days), R.version.string))
+  fwrite(settings, file.path(out_dir, "validation_settings.csv"))
+
+  ## 7. Figures (same as validate_pilots.R)
+  save_fig <- function(p, name, w = 8, h = 5) {
+    ggsave(file.path(out_dir, paste0(name, ".png")), p, width = w, height = h, dpi = 300, bg = "white")
+    saveRDS(p, file.path(out_dir, paste0(name, ".rds")))
+  }
+  lab_levels <- format(sort(unique(runs$first)), "%d %b")
+  start_lab  <- function(d) factor(format(d, "%d %b"), levels = lab_levels)
+  main <- summary_dt[anchor == "solar" & day_set %in% c("pilot_in_sample", "after_pilot")]
+  main[, day_set := factor(day_set, c("pilot_in_sample", "after_pilot"),
+                           c("In-sample (pilot days)", "Out-of-sample (later days)"))]
+  main[, pilot_start := start_lab(pilot_start)]
+  pA <- ggplot(main, aes(pilot_length, daily_richness_pct_24h, colour = day_set)) +
+    geom_line() + geom_point(size = 2.5) +
+    scale_x_continuous(breaks = sort(unique(main$pilot_length))) + facet_wrap(~ pilot_start, nrow = 1) +
+    labs(x = "Pilot length (days)", y = "Mean daily richness retained\n(% of continuous 24-h recording)", colour = NULL) +
+    theme_minimal() + theme(legend.position = "bottom")
+  save_fig(pA, "fig_A_in_vs_out_of_sample", w = 10)
+  pB <- ggplot(blocks_dt[anchor == "solar" & position == "after_pilot"],
+               aes(weeks_after_pilot_end, daily_richness_pct_24h, colour = factor(pilot_length))) +
+    geom_line() + geom_point() + facet_wrap(~ start_lab(pilot_start), nrow = 1) +
+    labs(x = "Weeks after the end of the pilot", y = "Mean daily richness retained (% of 24 h)",
+         colour = "Pilot length (d)") + theme_minimal()
+  save_fig(pB, "fig_B_transferability_over_season", w = 10)
+  pC <- ggplot(summary_dt[day_set == "after_pilot"], aes(factor(pilot_length), daily_richness_pct_24h, colour = anchor)) +
+    geom_point(position = position_dodge(width = 0.5), size = 2) + facet_wrap(~ start_lab(pilot_start), nrow = 1) +
+    labs(x = "Pilot length (days)", y = "Out-of-sample richness retained (% of 24 h)", colour = "Windows") + theme_minimal()
+  save_fig(pC, "fig_C_solar_vs_fixed_windows", w = 10)
+  if (nrow(missed_dt)) {
+    mt <- missed_dt[, .(n_runs = .N, share_absent_from_pilot = mean(!detected_in_pilot_24h)), by = .(species, pilot_length)]
+    pD <- ggplot(mt, aes(factor(pilot_length), reorder(species, n_runs), fill = n_runs)) +
+      geom_tile() + labs(x = "Pilot length (days)", y = NULL, fill = "Runs where\nspecies missed") + theme_minimal()
+    save_fig(pD, "fig_D_missed_species", w = 7, h = max(4, 0.18 * uniqueN(mt$species)))
+  }
+
+  ## 8. Console summary
+  cat("\n=== Reproduction check (should be ~0) ===\n"); print(check_dt)
+  cat("\n=== Main results (solar windows) ===\n")
+  main_tab <- dcast(summary_dt[anchor == "solar"], run_id + pilot_start + pilot_length ~ day_set,
+                    value.var = "daily_richness_pct_24h")
+  main_tab <- merge(main_tab, summary_dt[anchor == "solar" & day_set == "pilot_in_sample", .(run_id, effort_pct_24h)], by = "run_id")
+  setcolorder(main_tab, c("run_id", "pilot_start", "pilot_length", "effort_pct_24h", "pilot_in_sample"))
+  print(main_tab[order(pilot_start, pilot_length)], digits = 3)
+  msg("Chapter V finished in ", round(as.numeric(difftime(Sys.time(), t0, units = "secs"))), " s. Outputs in ", out_dir)
+})
 
 ## ---- 8. CHAPTER B: spatial validation ---------------------------------------------
 if (run_spatial) {
@@ -796,12 +1103,13 @@ if (run_spatial) {
       paste(units, collapse = ", "))
 
   # Splits (training units -> the other units are the test set)
+  splits_to_make <- if (reselect_from_saved_runs) character(0) else spatial_splits   # re-selection: splits read below
   splits <- list()
-  if ("group" %in% spatial_splits) for (g in unique(groups))
+  if ("group" %in% splits_to_make) for (g in unique(groups))
     splits[[length(splits) + 1]] <- list(type = "group", id = paste0("S_group_", g), train = units[groups == g])
-  if ("loo" %in% spatial_splits) for (u in units)
+  if ("loo" %in% splits_to_make) for (u in units)
     splits[[length(splits) + 1]] <- list(type = "loo", id = paste0("S_loo_", u), train = setdiff(units, u))
-  if ("random" %in% spatial_splits) {
+  if ("random" %in% splits_to_make) {
     stopifnot(n_train < length(units))
     set.seed(s$seed); seen <- character(0); i <- 0
     while (i < n_random_splits) {
@@ -810,6 +1118,17 @@ if (run_spatial) {
       seen <- c(seen, key); i <- i + 1
       splits[[length(splits) + 1]] <- list(type = "random", id = sprintf("S_random%02d", i), train = tr)
     }
+  }
+  if (reselect_from_saved_runs) {        # same splits as the saved runs (read from their parameters.csv)
+    sdirs <- list.dirs(saved_spatial_dir, recursive = TRUE)
+    sdirs <- sdirs[grepl("^S_", basename(sdirs)) &
+                   file.exists(file.path(sdirs, "tables", "multi_optimum_all_candidates.csv"))]
+    if (!length(sdirs)) stop("No saved split (S_* folder) in ", saved_spatial_dir)
+    splits <- lapply(sdirs, function(sd) {
+      p <- fread(file.path(sd, "parameters.csv"), colClasses = "character"); p <- setNames(as.list(p$value), p$parameter)
+      if (as.Date(p$first_date) != as.Date(spatial_start) || as.Date(p$last_date) != as.Date(spatial_end))
+        stop("Saved split ", basename(sd), " uses other days than spatial_start / spatial_end")
+      list(type = p$split_type, id = basename(sd), train = strsplit(p$train_units, ", ")[[1]], src = sd) })
   }
   fwrite(rbindlist(lapply(splits, function(x) data.table(run_id = x$id, split_type = x$type,
          train_units = paste(x$train, collapse = ", "), test_units = paste(setdiff(units, x$train), collapse = ", ")))),
@@ -821,10 +1140,13 @@ if (run_spatial) {
     test <- setdiff(units, x$train); d <- file.path(spatial_runs_dir, x$id)
     msg("=== ", x$id, ": train ", length(x$train), " recorders, test ", length(test))
     dtr <- dS[unit %in% x$train]; dte <- dS[unit %in% test]
-    best <- if (skip_existing_runs && file.exists(file.path(d, "best_schedule.csv"))) {
+    best <- if (reselect_from_saved_runs) {
+      reselect_run(x$src, d, file.path(spatial_runs_dir, "index.csv"))
+    } else if (skip_existing_runs && file.exists(file.path(d, "best_schedule.csv"))) {
       msg("  selection already saved, re-using it"); fread(file.path(d, "best_schedule.csv"))
     } else select_and_save(dtr, x$id, d, file.path(spatial_runs_dir, "index.csv"),
                            extra = list(split_type = x$type, train_units = x$train, test_units = test))
+    if (is.null(best)) next                      # threshold not reached on the training recorders
     ins <- evaluate_schedule(dtr, best)          # in-sample (training recorders)
     oos <- evaluate_schedule(dte, best)          # out-of-sample (test recorders)
     out[[length(out) + 1]] <- data.table(
@@ -881,6 +1203,7 @@ if (run_presets) {
 
     run <- select_and_save(dt, meta$preset_id, file.path(presets_out_dir, meta$preset_id),
                            file.path(presets_out_dir, "index.csv"), return_all = TRUE)
+    if (is.null(run)) next
 
     settings <- list(
       grid_event = s$grid_event, grid_event2 = s$grid_event2, use_window2_grid = s$use_window2_grid,
@@ -909,7 +1232,8 @@ if (run_presets) {
 
     # check: the 90 % schedule of the preset is the best schedule of the run (same rule)
     r90 <- Filter(function(z) z$target_pct == s$threshold, preset$results$recommended_schedules)
-    if (length(r90) && isTRUE(r90[[1]]$reached) && abs(r90[[1]]$mean_daily_richness - round(run$best$richness, 2)) > 0.01)
+    # (only meaningful with threshold_ref = "best": the presets use the app rule, % of best schedule tested)
+    if (identical(s$threshold_ref, "best") && length(r90) && isTRUE(r90[[1]]$reached) && abs(r90[[1]]$mean_daily_richness - round(run$best$richness, 2)) > 0.01)
       stop("Preset and run disagree on the ", s$threshold, " % schedule for ", meta$preset_id)
 
     n_rd <- uniqueN(dt[, .(recorder, date)])

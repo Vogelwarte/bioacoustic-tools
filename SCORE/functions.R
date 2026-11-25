@@ -470,3 +470,94 @@ compute_richness <- function(dt, schedule,
   return(resultat)
 }
 
+
+
+# =============================================================================
+# File-name timestamps: user-defined format and time zone
+# (reviewer comment L152). Paste at the END of functions.R.
+# Default = current behaviour (YYYYMMDD_HHMMSS, read in the study time zone).
+# Needs: lubridate
+# =============================================================================
+
+DEFAULT_FN_FORMAT <- "%Y%m%d_%H%M%S"
+
+# Formats offered in the app (value = strptime format)
+FILENAME_TIME_FORMATS <- c(
+  "YYYYMMDD_HHMMSS (default; Wildlife Acoustics, AudioMoth, Swift)" = "%Y%m%d_%H%M%S",
+  "YYYYMMDDTHHMMSS+hhmm (ISO 8601 with UTC offset, e.g. Frontier Labs BAR-LT)" = "%Y%m%dT%H%M%S%z",
+  "YYYYMMDDTHHMMSS (ISO 8601, no offset)" = "%Y%m%dT%H%M%S",
+  "YYYY-MM-DD_HH-MM-SS"                   = "%Y-%m-%d_%H-%M-%S",
+  "YYMMDD_HHMMSS"                         = "%y%m%d_%H%M%S",
+  "Auto-detect"                           = "auto",
+  "Custom format"                         = "custom")
+
+# strptime format -> regular expression used to find the timestamp in a file name
+format_to_regex <- function(fmt) {
+  codes <- c(Y = "\\d{4}", y = "\\d{2}", m = "\\d{2}", d = "\\d{2}", j = "\\d{3}",
+             H = "\\d{2}", M = "\\d{2}", S = "\\d{2}", z = "[+-]\\d{4}")
+  parts <- regmatches(fmt, gregexpr("%[A-Za-z]|[^%]+", fmt))[[1]]
+  rx <- vapply(parts, function(p) {
+    if (startsWith(p, "%")) {
+      code <- substr(p, 2, 2)
+      if (!code %in% names(codes)) stop("Unsupported code in file-name format: ", p,
+                                        " (use %Y %y %m %d %j %H %M %S %z)")
+      codes[[code]]
+    } else gsub("([][{}()+*^$|\\\\?.])", "\\\\\\1", p)        # literal text
+  }, "")
+  paste(rx, collapse = "")
+}
+
+# Auto-detect: the known format that recognises the most file names
+detect_fn_format <- function(filename) {
+  known <- setdiff(FILENAME_TIME_FORMATS, c("auto", "custom"))
+  uf <- unique(filename)
+  n_ok <- vapply(known, function(f)
+    sum(grepl(paste0("(?<!\\d)", format_to_regex(f), "(?!\\d)"), uf, perl = TRUE)), 0)
+  if (max(n_ok) == 0) DEFAULT_FN_FORMAT else unname(known[which.max(n_ok)])
+}
+
+# Format actually used, from the app inputs
+resolve_fn_format <- function(choice, custom = NULL, filename = NULL) {
+  if (is.null(choice) || !nzchar(choice)) return(DEFAULT_FN_FORMAT)
+  if (choice == "auto")   return(detect_fn_format(filename))
+  if (choice == "custom") return(if (is.null(custom) || !nzchar(trimws(custom))) DEFAULT_FN_FORMAT else trimws(custom))
+  choice
+}
+
+# Reads the start time of each file from its name.
+#   filename : file names (without path)
+#   fmt      : strptime format, e.g. "%Y%m%d_%H%M%S"
+#   tz_files : time zone of the times written in the file names ("same" = study time zone)
+#   tz_study : study time zone (all outputs are expressed in it)
+# Returns a data.frame aligned with filename:
+#   text  = timestamp found in the name (NA = file not recognised)
+#   start = file start time (POSIXct, study time zone)
+#   date  = date of the file start ("YYYY-MM-DD", study time zone)
+parse_file_timestamp <- function(filename, fmt = DEFAULT_FN_FORMAT, tz_files = "same", tz_study) {
+  if (is.null(tz_files) || !nzchar(tz_files) || tz_files == "same") tz_files <- tz_study
+  uf  <- unique(filename)
+  # other formats: the timestamp must not be part of a longer number
+  rx  <- if (fmt == DEFAULT_FN_FORMAT) format_to_regex(fmt) else paste0("(?<!\\d)", format_to_regex(fmt), "(?!\\d)")
+  m   <- regexpr(rx, uf, perl = TRUE)
+  txt <- rep(NA_character_, length(uf)); txt[m > 0] <- regmatches(uf, m)
+  
+  has_offset <- grepl("%z", fmt, fixed = TRUE)          # offset in the name: read as UTC instant
+  tz_parse   <- if (has_offset) "UTC" else tz_files
+  start <- if (fmt == DEFAULT_FN_FORMAT && !has_offset) {
+    lubridate::parse_date_time(txt, orders = "Ymd_HMS", tz = tz_parse, quiet = TRUE)   # = original app code
+  } else {
+    as.POSIXct(strptime(txt, format = fmt, tz = tz_parse))
+  }
+  if (tz_parse != tz_study) start <- lubridate::with_tz(start, tz_study)
+  
+  date <- format(start, "%Y-%m-%d")
+  # original behaviour kept for the default format: date taken from the text of the name
+  if (fmt == DEFAULT_FN_FORMAT && tz_files == tz_study) {
+    ok <- !is.na(txt)
+    date[ok] <- sub("^(\\d{4})(\\d{2})(\\d{2})_.*$", "\\1-\\2-\\3", txt[ok])
+  }
+  i <- match(filename, uf)
+  data.frame(text = txt[i], start = start[i], date = date[i], stringsAsFactors = FALSE)
+}
+
+

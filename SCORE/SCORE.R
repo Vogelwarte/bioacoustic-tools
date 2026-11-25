@@ -43,18 +43,31 @@ SCORE_VERSION <- "1.1.0"
 
 
 # Recorder battery specifications----
-
 battery_specs <- data.frame(
-  recorder     = c("SMMicro 2", "SMMini 2", "SMMini 2", "SM4", "SM5", "AudioMoth -v1.2.0"),
-  nb_battery   = c(4, 8, 6, 4, 11, 3),
-  battery_type = c("AA", "AA", "lithium", "4D alkaline", "lithium", "AA"),
-  duration_h   = c(280, 530, 1330, 310, 1710, 189)
+  recorder   = c("Song Meter Micro 2", "Song Meter Mini 2 AA", "Song Meter Mini 2 Li-ion",
+                 "Song Meter SM4", "Song Meter SM5", "Song Meter SM5", "AudioMoth"),
+  batteries  = c("4 x AA alkaline", "8 x AA alkaline", "6 x 18650 Li-ion",
+                 "4 x D alkaline", "4 x D alkaline", "11 x 18650 Li-ion", "3 x AA lithium"),
+  duration_h = c(280, 530, 1330, 510, 1160, 2220, 216),
+  settings   = c("24 kHz", "24 kHz", "24 kHz", "24 kHz, stereo", "24 kHz, 1 channel",
+                 "24 kHz, 1 channel", "48 kHz"),
+  source     = c("Wildlife Acoustics (product page)", "Wildlife Acoustics (product page)",
+                 "Wildlife Acoustics (product page)", "SM4 User Guide (2022)",
+                 "SM5 User Guide, Table 1", "SM5 User Guide, Table 1",
+                 "Hill et al. 2019, HardwareX"),
+  stringsAsFactors = FALSE
 )
-battery_specs$code <- paste0(
-  gsub(" ", "", battery_specs$recorder), "_",
-  battery_specs$nb_battery,
-  substr(battery_specs$battery_type, 1, 2)
-)
+# battery_specs <- data.frame(
+#   recorder     = c("SMMicro 2", "SMMini 2", "SMMini 2", "SM4", "SM5", "AudioMoth -v1.2.0"),
+#   nb_battery   = c(4, 8, 6, 4, 11, 3),
+#   battery_type = c("AA", "AA", "lithium", "4D alkaline", "lithium", "AA"),
+#   duration_h   = c(280, 530, 1330, 310, 1710, 189)
+# )
+# battery_specs$code <- paste0(
+#   gsub(" ", "", battery_specs$recorder), "_",
+#   battery_specs$nb_battery,
+#   substr(battery_specs$battery_type, 1, 2)
+# )
 
 
 # UI ----
@@ -108,7 +121,50 @@ ui <- fluidPage(
             accept  = c(".csv", ".txt", ".zip"),
             multiple = TRUE
           ),
+          
+          # tags$details(
+          #   tags$summary(strong("File name date/time format (optional)")),
+          #   selectInput("fn_time_format", "Date/time format in the file names",
+          #               choices = FILENAME_TIME_FORMATS, selected = "%Y%m%d_%H%M%S"),
+          #   conditionalPanel(
+          #     "input.fn_time_format == 'custom'",
+          #     textInput("fn_time_custom", "Custom format", value = "%Y%m%d_%H%M%S"),
+          #     helpText("Codes: %Y year (4 digits), %y year (2 digits), %m month, %d day, %j day of year,",
+          #              "%H hour, %M minute, %S second, %z UTC offset (e.g. +0200).",
+          #              "Other characters are matched as written.",
+          #              "Example: REC_2023-06-01_050000.wav -> %Y-%m-%d_%H%M%S")
+          #   ),
+          #   selectizeInput("fn_tz", "Time zone of the times in the file names",
+          #                  choices = c("Same as study time zone (below)" = "same", "UTC" = "UTC",
+          #                              setdiff(OlsonNames(), "UTC")),
+          #                  selected = "same",
+          #                  options = list(maxOptions = 1000)),
+          #   helpText("Check your recorder settings: AudioMoth names files in UTC by default,",
+          #            "Song Meters use the time set on the recorder. A wrong time zone shifts all",
+          #            "times relative to sunrise and sunset. Ignored if the format contains %z."),
+          #   uiOutput("fn_time_check")
+          # ),
+          br(),
           actionButton("load_data", "IMPORT AND PREVIEW"),
+          hr(),
+          h4("File name date/time format (optional)"),
+          uiOutput("fn_time_check"),
+          selectInput("fn_time_format", "Date/time format in the file names",
+                      choices = FILENAME_TIME_FORMATS, selected = "%Y%m%d_%H%M%S"),
+          conditionalPanel(
+            "input.fn_time_format == 'custom'",
+            textInput("fn_time_custom", "Custom format", value = "%Y%m%d_%H%M%S"),
+            helpText("Codes: %Y year (4 digits), %y year (2 digits), %m month, %d day, %j day of year,",
+                     "%H hour, %M minute, %S second, %z UTC offset (e.g. +0200).",
+                     "Other characters are matched as written.",
+                     "Example: REC_2023-06-01_050000.wav -> %Y-%m-%d_%H%M%S")
+          ),
+          selectizeInput("fn_tz", "Time zone of the times in the file names",
+                         choices = c("Same as study time zone" = "same", "UTC" = "UTC",
+                                     setdiff(OlsonNames(), "UTC")),
+                         selected = "same",
+                         options = list(maxOptions = 1000)),
+  
           
           hr(),
           
@@ -412,6 +468,22 @@ ui <- fluidPage(
           width = 12,
           plotlyOutput("plot_multi_optimum", height = "650px", width = "100%")
         )
+      ),
+      
+      fluidRow(
+        column(
+          width = 12,
+          h4("Battery autonomy of the selected schedule"),
+          helpText("Click on a point of the plot to see how long common recorders would run with this schedule."),
+          uiOutput("battery_schedule"),
+          numericInput("deploy_days", "Planned deployment (days, optional)", value = NA, min = 1, step = 1,
+                       width = "250px"),
+          tableOutput("battery_table"),
+          helpText("Nominal battery life for continuous recording with new batteries, from the manufacturers'",
+                   "documentation or published tests (settings in the table). Battery life is shorter at low",
+                   "temperature, at higher sample rates or with more channels, and the power used in standby",
+                   "between duty-cycle blocks is not included: values are upper bounds.")
+        )
       )
     ),
     
@@ -624,8 +696,10 @@ ui <- fluidPage(
                 tags$ol(
                   tags$li("In each Tab, you can download data table associated with analysis and ggplot object. They will appear
                           in the global environement after closing the app."),
-                  tags$li("In tabs refereing to recording effort, the effort of candidate schedule effort will be associated with battery life of some common recorders
-                          for wildlife ans associated battery set. Informations about battery life are found on the website of each recorder.")
+                  # tags$li("In tabs refereing to recording effort, the effort of candidate schedule effort will be associated with battery life of some common recorders
+                  #         for wildlife ans associated battery set. Informations about battery life are found on the website of each recorder.")
+                  tags$li("In Tab 4, click on a point of the plot to see the battery autonomy of this schedule",
+                          "for common recorders (nominal values from the manufacturers' documentation or published tests).")
                 )
               )
             ),
@@ -804,7 +878,7 @@ ui <- fluidPage(
           ),
           p(class = "guide-subtitle", "Outputs"),
           tags$ul(
-            tags$li(strong("Multi-optimum plot: "), "all tested combinations in the effort–richness space. Recorder battery life equivalents are shown in the tooltip of Pareto-optimal points."),
+            tags$li(strong("Multi-optimum plot: "), "all tested combinations in the effort–richness space. Click on a point to see the battery autonomy of the schedule in the table below the plot."),
             tags$li(strong("Pareto frontier: "), "highlighted in red — the set of designs that retain the highest richness for a given recording effort.")
           ),
           div(
@@ -961,6 +1035,13 @@ server <- function(input, output, session) {
                 context = "BirdNET selection table")
       
       dt[, filename := tools::file_path_sans_ext(basename(Begin.Path))]
+      ts <- tryCatch(parse_file_timestamp(dt$filename, fn_format(), input$fn_tz, input$timezone),
+                     error = function(e) e)
+      validate(need(!inherits(ts, "error"),
+                    paste("File name date/time format:", if (inherits(ts, "error")) conditionMessage(ts))))
+      validate(need(any(!is.na(ts$start)),
+                    "No file name matches the date/time format. Check 'File name date/time format' in Tab 1."))
+      dt[, `:=`(ts_text = ts$text, ts_start = ts$start, ts_date = ts$date)]
       
       incProgress(0.2, detail = "Extracting metadata")
       
@@ -969,15 +1050,13 @@ server <- function(input, output, session) {
           species            = Common.Name,
           conf               = Confidence,
           start              = as.numeric(Begin.Time..s.),
-          timestamp          = str_extract(filename, "\\d{8}_\\d{6}"),
-          timestamp_fm       = parse_date_time(timestamp, orders = "Ymd_HMS", tz = input$timezone),
+          timestamp          = ts_text,
+          timestamp_fm       = ts_start,
           timestamp_adjusted = timestamp_fm + seconds(start)
         ) %>%
         dplyr::filter(!is.na(timestamp)) %>%
         mutate(
-          date           = str_replace(timestamp,
-                                       "^(\\d{4})(\\d{2})(\\d{2})_(\\d{2})(\\d{2})(\\d{2})$",
-                                       "\\1-\\2-\\3"),
+          date           = ts_date,
           year           = year(timestamp_adjusted),
           time           = format(timestamp_adjusted, "%H:%M:%S"),
           start_file     = format(timestamp_fm,       "%H:%M:%S"),
@@ -988,12 +1067,69 @@ server <- function(input, output, session) {
         ) %>%
         select(species, site, recorder, filename, start,
                conf, date, year, start_file, timestamp, minute_of_day, Begin.Path)
+      # BIRDNET <- dt %>%
+      #   mutate(
+      #     species            = Common.Name,
+      #     conf               = Confidence,
+      #     start              = as.numeric(Begin.Time..s.),
+      #     timestamp          = str_extract(filename, "\\d{8}_\\d{6}"),
+      #     timestamp          = ts_text,
+      #     timestamp_fm       = ts_start
+      #     # timestamp_fm       = parse_date_time(timestamp, orders = "Ymd_HMS", tz = input$timezone),
+      #     # timestamp_adjusted = timestamp_fm + seconds(start)
+      #   ) %>%
+      #   dplyr::filter(!is.na(timestamp)) %>%
+      #   mutate(
+      #     date           = ts_date,
+      #     # date           = str_replace(timestamp,
+      #     #                              "^(\\d{4})(\\d{2})(\\d{2})_(\\d{2})(\\d{2})(\\d{2})$",
+      #     #                              "\\1-\\2-\\3"),
+      #     year           = year(timestamp_adjusted),
+      #     time           = format(timestamp_adjusted, "%H:%M:%S"),
+      #     start_file     = format(timestamp_fm,       "%H:%M:%S"),
+      #     timestamp      = format(timestamp_adjusted, "%Y-%m-%d %H:%M:%S"),
+      #     minute_of_day  = hour(timestamp_adjusted) * 60 + minute(timestamp_adjusted),
+      #     site           = "all",
+      #     recorder       = "global"
+      #   ) %>%
+      #   select(species, site, recorder, filename, start,
+      #          conf, date, year, start_file, timestamp, minute_of_day, Begin.Path)
       
       incProgress(0.8, detail = "Finalizing")
       as.data.table(BIRDNET)
     })
   })
+  ## File-name timestamp: format used and preview ----
+  fn_format <- reactive({
+    fn <- tryCatch(unique(tools::file_path_sans_ext(basename(bn_tables()$Begin.Path))),
+                   error = function(e) NULL)
+    resolve_fn_format(input$fn_time_format, input$fn_time_custom, fn)
+  })
   
+  output$fn_time_check <- renderUI({
+    fn <- tryCatch(unique(tools::file_path_sans_ext(basename(bn_tables()$Begin.Path))),
+                   error = function(e) NULL)
+    # if (is.null(fn)) return(helpText("Import data to check how file names are read."))
+    fmt <- fn_format()
+    ts <- tryCatch(parse_file_timestamp(fn, fmt, input$fn_tz, input$timezone),
+                   error = function(e) e)
+    if (inherits(ts, "error")) return(div(style = "color:#d9534f;", conditionMessage(ts)))
+    ok  <- !is.na(ts$start)
+    ex  <- head(which(ok), 5)
+    tagList(
+      div(style = if (all(ok)) "color:#3c763d;" else "color:#d9534f;",
+          strong(sprintf("%d of %d files read", sum(ok), length(fn))),
+          if (input$fn_time_format == "auto") paste0(" (detected format: ", fmt, ")")),
+      if (length(ex)) tags$table(class = "table table-condensed", style = "font-size:90%;",
+                                 tags$tr(tags$th("File"), tags$th("Start (study time zone)")),
+                                 lapply(ex, function(i) tags$tr(tags$td(fn[i]),
+                                                                tags$td(format(ts$start[i], "%Y-%m-%d %H:%M:%S %Z"))))),
+      if (any(!ok)) tagList(
+        strong("Not read (excluded from the analysis):"),
+        tags$ul(lapply(head(fn[!ok], 5), tags$li)),
+        if (sum(!ok) > 5) helpText(sprintf("... and %d more", sum(!ok) - 5)))
+    )
+  })
   ## Begin.Path preview ----
   output$beginpath_preview <- renderTable({
     req(bn_tables())
@@ -2378,6 +2514,9 @@ server <- function(input, output, session) {
               dur2_h             = w2_dur_h,
               duty_period        = attr(schedules[[p]], "period"),
               effort             = sum(sched_filt$end_min - sched_filt$start_min + 1L),
+              effort_day_min     = sum(sched_filt$end_min - sched_filt$start_min + 1L) /
+                max(1L, nrow(unique(sched_filt[, intersect(c("recorder", "date"), names(sched_filt)),
+                                               with = FALSE]))),
               richness           = richness_val,
               n_species_detected = n_species_detected
             )
@@ -2427,15 +2566,25 @@ server <- function(input, output, session) {
       g <- grid_results()
       fwrite(rbindlist(list(W1 = g$w1, W2 = g$w2, Combined = g$comb), idcol = "window_type", fill = TRUE), file)
     })
+  # output$dl_multi <- downloadHandler(
+  #   filename = function() paste0("SCORE_multi_optimum_", format(Sys.Date()), ".csv"),
+  #   content  = function(file) fwrite(multi_combo(), file))
   output$dl_multi <- downloadHandler(
     filename = function() paste0("SCORE_multi_optimum_", format(Sys.Date()), ".csv"),
-    content  = function(file) fwrite(multi_combo(), file))
-  
+    content  = function(file) {
+      x <- copy(multi_combo())
+      for (i in seq_len(nrow(battery_specs)))
+        x[, (paste0("autonomy_days_", gsub("[^A-Za-z0-9]+", "_", paste(battery_specs$recorder[i],
+                                                                       battery_specs$batteries[i])))) :=
+            floor(battery_specs$duration_h[i] / (effort_day_min / 60))]
+      fwrite(x, file)
+    })
   # TAB 4 plots----
   
   gg_optimum <- reactive({
     dt <- multi_combo()
     req(dt)
+    dt[, row_id := .I]
     message(Sys.time(), " multi optimum: building plot")
     
     ## Recompute Pareto dominance for the plot ----
@@ -2450,14 +2599,14 @@ server <- function(input, output, session) {
     dt[, pareto := !dominated]
     pareto_front <- dt[pareto == TRUE][order(effort)]
     
-    durations <- battery_specs$duration_h
-    codes     <- battery_specs$code
-    
-    ###tooltips ----
-    battery_tooltip <- function(eff_min) {
-      paste0("<br><br><b>Full battery sets needed:</b><br>",
-             paste0(codes, ": ", round((eff_min / 60) / durations, 2), collapse = "<br>"))
-    }
+    # durations <- battery_specs$duration_h
+    # codes     <- battery_specs$code
+    # 
+    # ###tooltips ----
+    # battery_tooltip <- function(eff_min) {
+    #   paste0("<br><br><b>Full battery sets needed:</b><br>",
+    #          paste0(codes, ": ", round((eff_min / 60) / durations, 2), collapse = "<br>"))
+    # }
     make_tooltip <- function(row, is_pareto = FALSE) {
       base <- paste0(
         if (is_pareto) "Local optimum<br>" else "",
@@ -2465,7 +2614,8 @@ server <- function(input, output, session) {
         "Mean daily richness: ", round(row$richness, 2), "<br>",
         "Species detected: ", row$n_species_detected, "<br>",
         "<b>Type:</b> ", row$window_type, "<br>",
-        "Effort: ", row$effort, " min — ", round(row$effort / 60, 2), " h<br>"
+        # "Effort: ", row$effort, " min — ", round(row$effort / 60, 2), " h<br>"
+        "Effort: ", round(row$effort_day_min / 60, 2), " h per day<br>"
       )
       
       w1_info <- if (!is.na(row$start1_hour))
@@ -2480,8 +2630,9 @@ server <- function(input, output, session) {
         base,
         if (!is.na(row$start1_hour)) w1_info else "",
         if (!is.na(row$start2_hour)) w2_info else "",
-        "Period: ", row$duty_period,
-        if (is_pareto) battery_tooltip(row$effort) else ""
+        "Period: ", row$duty_period, " min<br><i>Click to see battery autonomy</i>"
+        # "Period: ", row$duty_period,
+        # if (is_pareto) battery_tooltip(row$effort) else ""
       )
     }
    
@@ -2489,10 +2640,16 @@ server <- function(input, output, session) {
     pareto_front[, tooltip_pareto := mapply(make_tooltip, split(pareto_front, seq_len(nrow(pareto_front))), TRUE)]
     
     p <- ggplot(dt, aes(x = effort, y = richness_pct)) +
-      geom_point(aes(color = window_type, shape = window_type, text = tooltip),
+      # geom_point(aes(color = window_type, shape = window_type, text = tooltip),
+      #            alpha = 0.7, size = 2) +
+      # geom_line(data = pareto_front, aes(group = 1), color = "red", linewidth = 0.5) +
+      # geom_point(data = pareto_front, aes(text = tooltip_pareto), color = "red", size = 2, alpha = 0.7) +
+      
+      geom_point(aes(color = window_type, shape = window_type, text = tooltip, customdata = row_id),
                  alpha = 0.7, size = 2) +
       geom_line(data = pareto_front, aes(group = 1), color = "red", linewidth = 0.5) +
-      geom_point(data = pareto_front, aes(text = tooltip_pareto), color = "red", size = 2, alpha = 0.7) +
+      geom_point(data = pareto_front, aes(text = tooltip_pareto, customdata = row_id),
+                 color = "red", size = 2, alpha = 0.7) +
       scale_color_manual(values = c(W1 = "#1f78b4", W2 = "#6a3d9a", Combined = "#33a02c"),
                          name = "Window type") +
       scale_shape_manual(values = c(W1 = 16, W2 = 17, Combined = 18), name = "Window type") +
@@ -2503,8 +2660,43 @@ server <- function(input, output, session) {
     p
   })
   
-  plotly_optimum <- reactive({ ggplotly(gg_optimum(), tooltip = "text") })
+  # plotly_optimum <- reactive({ ggplotly(gg_optimum(), tooltip = "text") })
+  plotly_optimum <- reactive({
+    event_register(ggplotly(gg_optimum(), tooltip = "text", source = "multi"), "plotly_click")
+  })
   output$plot_multi_optimum <- renderPlotly({ plotly_optimum() })
+  clicked_schedule <- reactive({
+    ev <- event_data("plotly_click", source = "multi")
+    req(ev, !is.null(ev$customdata))
+    d <- multi_combo()
+    req("row_id" %in% names(d))
+    d[row_id == as.integer(ev$customdata[1])]
+  })
+  output$battery_schedule <- renderUI({
+    s <- clicked_schedule(); req(nrow(s) == 1)
+    w <- c(if (!is.na(s$start1_hour)) sprintf("window 1: start %s h, %s h", s$start1_hour, s$dur1_h),
+           if (!is.na(s$start2_hour)) sprintf("window 2: start %s h, %s h", s$start2_hour, s$dur2_h))
+    p(strong("Selected schedule: "), paste(w, collapse = "; "),
+      sprintf("; 1 min every %s min; %.1f h of recording per day", s$duty_period, s$effort_day_min / 60))
+  })
+  
+  output$battery_table <- renderTable({
+    s <- clicked_schedule(); req(nrow(s) == 1)
+    h_day <- s$effort_day_min / 60
+    req(h_day > 0)
+    days <- battery_specs$duration_h / h_day
+    out <- data.frame(
+      Recorder                    = battery_specs$recorder,
+      Batteries                   = battery_specs$batteries,
+      `Nominal battery life (h)`  = battery_specs$duration_h,
+      `Autonomy (days)`           = floor(days),
+      check.names = FALSE)
+    if (isTruthy(input$deploy_days))
+      out$`Battery sets for the deployment` <- ceiling(input$deploy_days / days)
+    out$Settings <- battery_specs$settings
+    out$Source   <- battery_specs$source
+    out
+  }, digits = 0)
   
   observeEvent(input$return_multi, {
     assign("plotly_optimum", plotly_optimum(), envir = .GlobalEnv)
